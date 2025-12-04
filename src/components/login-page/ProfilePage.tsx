@@ -55,13 +55,13 @@ export function ProfilePage({ user }: ProfilePageProps) {
   return (
     <div className="space-y-6">
       <div>
-        <h1>Hồ sơ cá nhân</h1>
+        <h1 className="text-primary text-3xl font-bold uppercase">Hồ sơ cá nhân</h1>
         <p className="text-muted-foreground">Quản lý thông tin cá nhân và cài đặt tài khoản</p>
       </div>
 
       <div className="grid md:grid-cols-3 gap-6">
         {/* Avatar Section */}
-        <Card>
+        <Card className="border-2">
           <CardContent className="pt-6">
             <div className="flex flex-col items-center">
               <div className="relative">
@@ -78,7 +78,7 @@ export function ProfilePage({ user }: ProfilePageProps) {
                   <Camera className="w-4 h-4" />
                 </Button>
               </div>
-              <h2 className="mt-4">{user.name}</h2>
+              <h2 className="mt-4 font-semibold text-primary text-xl">{user.name}</h2>
               <p className="text-muted-foreground">{getRoleLabel(user.role)}</p>
               {user.studentId && (
                 <p className="text-sm text-muted-foreground mt-1">Mã SV: {user.studentId}</p>
@@ -91,20 +91,20 @@ export function ProfilePage({ user }: ProfilePageProps) {
         </Card>
 
         {/* Main Info */}
-        <Card className="md:col-span-2">
+        <Card className="md:col-span-2 border-2">
           <CardHeader>
             <div className="flex items-center justify-between">
-              <CardTitle>Thông tin cá nhân</CardTitle>
+              <CardTitle className="text-primary text-xl font-bold uppercase">Thông tin cá nhân</CardTitle>
               {!isEditing ? (
-                <Button onClick={() => setIsEditing(true)} variant="outline">
+                <Button onClick={() => setIsEditing(true)} variant="outline" className="bg-primary text-white font-semibold border-2 border-primary">
                   Chỉnh sửa
                 </Button>
               ) : (
                 <div className="flex gap-2">
-                  <Button onClick={() => setIsEditing(false)} variant="outline">
+                  <Button onClick={() => setIsEditing(false)} variant="outline"  className="font-semibold border-primary text-primary">
                     Hủy
                   </Button>
-                  <Button onClick={handleSaveProfile} className="bg-primary">
+                  <Button onClick={handleSaveProfile} className="bg-primary text-white font-semibold border-2 border-primary">
                     <Save className="w-4 h-4 mr-2" />
                     Lưu
                   </Button>
@@ -115,14 +115,14 @@ export function ProfilePage({ user }: ProfilePageProps) {
           <CardContent>
             <Tabs defaultValue="info">
               <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="info">Thông tin</TabsTrigger>
-                <TabsTrigger value="security">Bảo mật</TabsTrigger>
+                <TabsTrigger value="info" className="text-primary font-semibold">Thông tin</TabsTrigger>
+                <TabsTrigger value="security" className="text-primary font-semibold">Bảo mật</TabsTrigger>
               </TabsList>
 
               <TabsContent value="info" className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label>Họ và tên</Label>
+                    <Label className="font-semibold">Họ và tên</Label>
                     {isEditing ? (
                       <Input
                         value={formData.name}
@@ -134,7 +134,7 @@ export function ProfilePage({ user }: ProfilePageProps) {
                   </div>
 
                   <div className="space-y-2">
-                    <Label>Email</Label>
+                    <Label className="font-semibold">Email</Label>
                     {isEditing ? (
                       <Input
                         type="email"
@@ -147,7 +147,7 @@ export function ProfilePage({ user }: ProfilePageProps) {
                   </div>
 
                   <div className="space-y-2">
-                    <Label>Số điện thoại</Label>
+                    <Label className="font-semibold">Số điện thoại</Label>
                     {isEditing ? (
                       <Input
                         value={formData.phone}
@@ -159,20 +159,20 @@ export function ProfilePage({ user }: ProfilePageProps) {
                   </div>
 
                   <div className="space-y-2">
-                    <Label>Vai trò</Label>
+                    <Label className="font-semibold">Vai trò</Label>
                     <p>{getRoleLabel(user.role)}</p>
                   </div>
 
                   {user.studentId && (
                     <div className="space-y-2">
-                      <Label>Mã sinh viên</Label>
+                      <Label className="font-semibold">Mã sinh viên</Label>
                       <p>{user.studentId}</p>
                     </div>
                   )}
 
                   {user.teacherId && (
                     <div className="space-y-2">
-                      <Label>Mã giảng viên</Label>
+                      <Label className="font-semibold">Mã giảng viên</Label>
                       <p>{user.teacherId}</p>
                     </div>
                   )}
@@ -182,7 +182,7 @@ export function ProfilePage({ user }: ProfilePageProps) {
               <TabsContent value="security" className="space-y-4">
                 <div className="space-y-4">
                   <div className="space-y-2">
-                    <Label>Mật khẩu hiện tại</Label>
+                    <Label className="font-semibold">Mật khẩu hiện tại</Label>
                     <Input
                       type="password"
                       placeholder="••••••••"
@@ -192,7 +192,7 @@ export function ProfilePage({ user }: ProfilePageProps) {
                   </div>
 
                   <div className="space-y-2">
-                    <Label>Mật khẩu mới</Label>
+                    <Label className="font-semibold">Mật khẩu mới</Label>
                     <Input
                       type="password"
                       placeholder="••••••••"
@@ -202,7 +202,7 @@ export function ProfilePage({ user }: ProfilePageProps) {
                   </div>
 
                   <div className="space-y-2">
-                    <Label>Xác nhận mật khẩu mới</Label>
+                    <Label className="font-semibold">Xác nhận mật khẩu mới</Label>
                     <Input
                       type="password"
                       placeholder="••••••••"
@@ -212,7 +212,7 @@ export function ProfilePage({ user }: ProfilePageProps) {
                   </div>
 
                   <Button onClick={handleChangePassword} className="bg-primary">
-                    Đổi mật khẩu
+                    <div className="uppercase font-semibold">Đổi mật khẩu</div>
                   </Button>
                 </div>
               </TabsContent>

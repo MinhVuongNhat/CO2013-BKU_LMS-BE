@@ -5,6 +5,8 @@ import { Label } from '../ui/label';
 import { BookOpen, ArrowLeft } from 'lucide-react';
 import { Alert, AlertDescription } from '../ui/alert';
 import logo from '../../assets/01_logobachkhoasang.png';
+import backgroundImage from '../../assets/background.png';
+
 interface ForgotPasswordPageProps {
   onNavigateToLogin: () => void;
 }
@@ -21,7 +23,7 @@ export function ForgotPasswordPage({ onNavigateToLogin }: ForgotPasswordPageProp
   const handleSendCode = (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    
+
     if (!email) {
       setError('Vui lòng nhập email');
       return;
@@ -35,7 +37,7 @@ export function ForgotPasswordPage({ onNavigateToLogin }: ForgotPasswordPageProp
   const handleVerifyCode = (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    
+
     if (!code) {
       setError('Vui lòng nhập mã xác nhận');
       return;
@@ -53,7 +55,7 @@ export function ForgotPasswordPage({ onNavigateToLogin }: ForgotPasswordPageProp
   const handleResetPassword = (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    
+
     if (!newPassword || !confirmPassword) {
       setError('Vui lòng nhập đầy đủ thông tin');
       return;
@@ -77,15 +79,20 @@ export function ForgotPasswordPage({ onNavigateToLogin }: ForgotPasswordPageProp
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
+    <div
+      className="min-h-screen flex items-center justify-center p-4 relative bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: `url(${backgroundImage})` }}
+    >
+      <div className="absolute inset-0 bg-black/10 backdrop-blur-sm"></div>
+
+      <div className="w-full max-w-md z-10">
         <div className="bg-white rounded-xl shadow-lg p-8">
           {/* Logo and Title */}
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center h-32 rounded-full mb-4">
-              <img src={logo} alt="Logo" className="h-32 mx-auto mb-4 rounded-full object-cover" />
+              <img src={logo} alt="Logo" className="h-32 mx-auto mb-2 rounded-full object-cover" />
             </div>
-            <h1 className="text-primary mb-2">Quên mật khẩu</h1>
+            <h1 className="text-primary mb-2 font-bold uppercase text-2xl">Quên mật khẩu</h1>
             <p className="text-muted-foreground">
               {step === 'email' && 'Nhập email để nhận mã xác nhận'}
               {step === 'code' && 'Nhập mã xác nhận'}
@@ -121,7 +128,7 @@ export function ForgotPasswordPage({ onNavigateToLogin }: ForgotPasswordPageProp
               </div>
 
               <Button type="submit" className="w-full bg-primary hover:bg-primary/90">
-                Gửi mã xác nhận
+                <div className="uppercase font-bold">Gửi mã xác nhận</div>
               </Button>
             </form>
           )}
@@ -145,7 +152,7 @@ export function ForgotPasswordPage({ onNavigateToLogin }: ForgotPasswordPageProp
               </div>
 
               <Button type="submit" className="w-full bg-primary hover:bg-primary/90">
-                Xác nhận
+                <div className="uppercase font-bold">Xác nhận</div>
               </Button>
             </form>
           )}
@@ -178,7 +185,7 @@ export function ForgotPasswordPage({ onNavigateToLogin }: ForgotPasswordPageProp
               </div>
 
               <Button type="submit" className="w-full bg-primary hover:bg-primary/90">
-                Đặt lại mật khẩu
+                <div className="uppercase font-bold">Đặt lại mật khẩu</div>
               </Button>
             </form>
           )}

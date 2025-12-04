@@ -153,7 +153,7 @@ export function RegisterPage({ onRegister, onNavigateToLogin }: RegisterPageProp
             </div>
 
             <Button type="submit" className="w-full bg-primary hover:bg-primary/90 uppercase">
-              Đăng ký
+              <div className="uppercase font-bold">Đăng ký</div>
             </Button>
           </form>
 

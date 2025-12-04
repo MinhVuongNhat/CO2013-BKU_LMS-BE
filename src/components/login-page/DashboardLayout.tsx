@@ -88,19 +88,18 @@ export function DashboardLayout({ user, children, currentPage, onNavigate, onLog
   return (
     <div className="h-screen flex overflow-hidden bg-gray-50">
       {/* Sidebar */}
-      <div className={`bg-white border-r border-gray-200 transition-all duration-300 ${sidebarOpen ? 'w-64' : 'w-0'} overflow-hidden`}>
+      <div className={`bg-white border-r border-gray-200 transition-all duration-300 ${sidebarOpen ? 'w-64' : 'w-0'} overflow-hidden `}>
         <div className="h-full flex flex-col">
           {/* Logo */}
           <div className="h-20 flex items-center px-6 border-b border-gray-100"> 
             <div className="flex items-center gap-3 w-full">
               {/* Logo ảnh - Giảm kích thước xuống cho cân đối */}
               <div className="flex items-center justify-center">
-                <img src={logo} alt="Logo" className="w-12 h-12 object-contain" />
+                <img src={logo} alt="Logo" className="w-[50px] h-[50px] object-contain" />
               </div>
               
-              {/* Chữ BKU-LMS - Thêm text-2xl để to lên */}
               <div className="flex flex-col justify-center">
-                <span className="text-primary font-bold text-2xl leading-none">
+                <span className="text-primary font-extrabold text-2xl leading-none">
                   BKU-LMS
                 </span>
               </div>
@@ -120,11 +119,11 @@ export function DashboardLayout({ user, children, currentPage, onNavigate, onLog
                   className={`w-full flex items-center gap-3 px-4 py-3 transition-colors ${
                     isActive
                       ? 'bg-blue-50 text-primary border-r-4 border-primary'
-                      : 'text-gray-700 hover:bg-gray-50'
+                      : 'text-gray-500 hover:bg-gray-30'
                   }`}
                 >
                   <Icon className="w-5 h-5" />
-                  <span>{item.label}</span>
+                  <span className="font-bold">{item.label}</span>
                 </button>
               );
             })}
@@ -139,7 +138,7 @@ export function DashboardLayout({ user, children, currentPage, onNavigate, onLog
                 </AvatarFallback>
               </Avatar>
               <div className="flex-1 min-w-0">
-                <div className="truncate">{user.name}</div>
+                <div className="font-semibold">{user.name}</div>
                 <div className="text-xs text-muted-foreground">{getRoleLabel(user.role)}</div>
               </div>
             </div>
@@ -149,7 +148,7 @@ export function DashboardLayout({ user, children, currentPage, onNavigate, onLog
               onClick={onLogout}
             >
               <LogOut className="w-4 h-4" />
-              Đăng xuất
+              <div className="font-bold">Đăng xuất</div>
             </Button>
           </div>
         </div>
@@ -208,7 +207,7 @@ export function DashboardLayout({ user, children, currentPage, onNavigate, onLog
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={onLogout} className="text-red-600">
                   <LogOut className="w-4 h-4 mr-2" />
-                  Đăng xuất
+                  <div className="font-bold">Đăng xuất</div>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
