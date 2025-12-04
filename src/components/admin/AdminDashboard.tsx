@@ -31,52 +31,52 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
   return (
     <div className="space-y-6">
       <div>
-        <h1>Tổng quan hệ thống</h1>
-        <p className="text-muted-foreground mt-1">Quản trị BK EduClass</p>
+        <h1 className="uppercase text-primary text-3xl font-bold">Tổng quan hệ thống</h1>
+        <p className="text-muted-foreground mt-1 italic">Quản trị BKU-LMS</p>
       </div>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card>
+        <Card className="border-2">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle>Người dùng</CardTitle>
-            <Users className="w-4 h-4 text-muted-foreground" />
+            <CardTitle className="text-primary font-bold">Người dùng</CardTitle>
+            <Users className="w-6 h-6 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-primary">{totalUsers}</div>
+            <div className="text-destructive text-3xl font-bold">{totalUsers}</div>
             <p className="text-xs text-muted-foreground mt-1">Tổng tài khoản</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border-2">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle>Lớp học</CardTitle>
-            <BookOpen className="w-4 h-4 text-muted-foreground" />
+            <CardTitle className="text-primary font-bold">Lớp học</CardTitle>
+            <BookOpen className="w-6 h-6 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-primary">{DEMO_COURSES.length}</div>
+            <div className="text-destructive text-3xl font-bold">{DEMO_COURSES.length}</div>
             <p className="text-xs text-muted-foreground mt-1">Đang hoạt động</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border-2">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle>Bài tập</CardTitle>
-            <FileText className="w-4 h-4 text-muted-foreground" />
+            <CardTitle className="text-primary font-bold">Bài tập</CardTitle>
+            <FileText className="w-6 h-6 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-primary">{DEMO_ASSIGNMENTS.length}</div>
+            <div className="text-destructive text-3xl font-bold">{DEMO_ASSIGNMENTS.length}</div>
             <p className="text-xs text-muted-foreground mt-1">Tổng số bài tập</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border-2">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle>Hoạt động</CardTitle>
-            <Activity className="w-4 h-4 text-muted-foreground" />
+            <CardTitle className="text-primary font-bold">Hoạt động</CardTitle>
+            <Activity className="w-6 h-6 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-primary">Active</div>
+            <div className="text-destructive text-3xl font-bold">Active</div>
             <p className="text-xs text-muted-foreground mt-1">Hệ thống ổn định</p>
           </CardContent>
         </Card>
@@ -84,9 +84,9 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
 
       {/* Charts */}
       <div className="grid md:grid-cols-2 gap-6">
-        <Card>
+        <Card className="border-2">
           <CardHeader>
-            <CardTitle>Phân bố người dùng theo vai trò</CardTitle>
+            <CardTitle className="text-primary font-bold">Phân bố người dùng theo vai trò</CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
@@ -95,15 +95,15 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
                 <XAxis dataKey="name" />
                 <YAxis />
                 <Tooltip />
-                <Bar dataKey="value" fill="#2F80ED" />
+                <Bar dataKey="value" fill="#9C050C" />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border-2">
           <CardHeader>
-            <CardTitle>Hoạt động theo tháng</CardTitle>
+            <CardTitle className="text-primary font-bold">Hoạt động theo tháng</CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
@@ -112,8 +112,8 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
                 <XAxis dataKey="month" />
                 <YAxis />
                 <Tooltip />
-                <Line type="monotone" dataKey="users" stroke="#2F80ED" name="Người dùng" />
-                <Line type="monotone" dataKey="courses" stroke="#27AE60" name="Lớp học" />
+                <Line type="monotone" dataKey="users" stroke="#9C050C" name="Người dùng" />
+                <Line type="monotone" dataKey="courses" stroke="#132D65" name="Lớp học" />
               </LineChart>
             </ResponsiveContainer>
           </CardContent>
@@ -121,9 +121,9 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
       </div>
 
       {/* Recent Activities */}
-      <Card>
+      <Card className="border-2">
         <CardHeader>
-          <CardTitle>Hoạt động gần đây</CardTitle>
+          <CardTitle className="text-primary font-bold">Hoạt động gần đây</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
@@ -134,10 +134,10 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
               { action: 'Tạo bài tập mới', user: 'Lê Văn Minh', time: '2 giờ trước' },
               { action: 'Chấm điểm bài tập', user: 'Trần Thị Hương', time: '3 giờ trước' }
             ].map((activity, index) => (
-              <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+              <div key={index} className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
                 <div>
-                  <div>{activity.action}</div>
-                  <div className="text-sm text-muted-foreground">{activity.user}</div>
+                  <div className="font-bold text-destructive">{activity.action}</div>
+                  <div className="text-sm text-primary">{activity.user}</div>
                 </div>
                 <div className="text-sm text-muted-foreground">{activity.time}</div>
               </div>
