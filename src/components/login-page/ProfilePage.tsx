@@ -66,7 +66,7 @@ export function ProfilePage({ user }: ProfilePageProps) {
             <div className="flex flex-col items-center">
               <div className="relative">
                 <Avatar className="w-32 h-32">
-                  <AvatarFallback className="bg-primary text-white text-3xl">
+                  <AvatarFallback className="bg-primary text-white text-3xl font-bold">
                     {getInitials(user.name)}
                   </AvatarFallback>
                 </Avatar>

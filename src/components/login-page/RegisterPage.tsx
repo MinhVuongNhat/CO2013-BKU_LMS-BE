@@ -64,7 +64,7 @@ export function RegisterPage({ onRegister, onNavigateToLogin }: RegisterPageProp
       <div className="absolute inset-0 bg-black/10 backdrop-blur-sm"></div>
 
       <div className="w-full max-w-md z-10">
-        <div className="bg-white rounded-xl shadow-lg p-8">
+        <div className="bg-white rounded-xl shadow-lg p-6">
           {/* Logo and Title */}
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center h-32 rounded-full mb-2">

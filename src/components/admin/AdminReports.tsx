@@ -14,9 +14,9 @@ export function AdminReports() {
   const admins = DEMO_USERS.filter(u => u.role === 'admin').length;
 
   const userRoleData = [
-    { name: 'Sinh viên', value: students, color: '#2F80ED' },
-    { name: 'Giảng viên', value: teachers, color: '#27AE60' },
-    { name: 'Quản trị', value: admins, color: '#E74C3C' }
+    { name: 'Sinh viên', value: students, color: '#032B91' },
+    { name: 'Giảng viên', value: teachers, color: '#132D65' },
+    { name: 'Quản trị', value: admins, color: '#9C050C' }
   ];
 
   const monthlyData = [
@@ -46,78 +46,78 @@ export function AdminReports() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1>Thống kê hệ thống</h1>
-          <p className="text-muted-foreground">Tổng quan và phân tích toàn hệ thống</p>
+          <h1 className="uppercase text-primary text-3xl font-bold">Thống kê hệ thống</h1>
+          <p className="text-muted-foreground mt-1 italic">Tổng quan và phân tích toàn hệ thống</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 bg-white">
           <Select value={timeRange} onValueChange={setTimeRange}>
             <SelectTrigger className="w-40">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent >
               <SelectItem value="1month">1 tháng</SelectItem>
               <SelectItem value="3months">3 tháng</SelectItem>
               <SelectItem value="6months">6 tháng</SelectItem>
               <SelectItem value="1year">1 năm</SelectItem>
             </SelectContent>
           </Select>
-          <Button variant="outline">Xuất báo cáo</Button>
+          <Button variant="outline" className=" bg-primary text-white font-bold">Xuất báo cáo</Button>
         </div>
       </div>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-        <Card>
+        <Card className="border-2">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle>Người dùng</CardTitle>
-            <Users className="w-4 h-4 text-muted-foreground" />
+            <CardTitle className="text-primary font-bold text-lg">Người dùng</CardTitle>
+            <Users className="w-6 h-6 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-primary">{DEMO_USERS.length}</div>
+            <div className="text-destructive text-3xl font-bold">{DEMO_USERS.length}</div>
             <p className="text-xs text-muted-foreground mt-1">Tổng tài khoản</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border-2">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle>Lớp học</CardTitle>
-            <BookOpen className="w-4 h-4 text-muted-foreground" />
+            <CardTitle className="text-primary font-bold text-lg">Lớp học</CardTitle>
+            <BookOpen className="w-6 h-6 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-primary">{DEMO_COURSES.length}</div>
+            <div className="text-destructive text-3xl font-bold">{DEMO_COURSES.length}</div>
             <p className="text-xs text-muted-foreground mt-1">Đang hoạt động</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border-2">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle>Bài tập</CardTitle>
-            <FileText className="w-4 h-4 text-muted-foreground" />
+            <CardTitle className="text-primary font-bold text-lg">Bài tập</CardTitle>
+            <FileText className="w-6 h-6 text-primary"/>
           </CardHeader>
           <CardContent>
-            <div className="text-primary">{DEMO_ASSIGNMENTS.length}</div>
+            <div className="text-destructive text-3xl font-bold">{DEMO_ASSIGNMENTS.length}</div>
             <p className="text-xs text-muted-foreground mt-1">Đã tạo</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border-2">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle>Tài liệu</CardTitle>
-            <FileText className="w-4 h-4 text-muted-foreground" />
+            <CardTitle className="text-primary font-bold text-lg">Tài liệu</CardTitle>
+            <FileText className="w-6 h-6 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-primary">{DEMO_DOCUMENTS.length}</div>
+            <div className="text-destructive text-3xl font-bold">{DEMO_DOCUMENTS.length}</div>
             <p className="text-xs text-muted-foreground mt-1">Đã upload</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border-2">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle>Hoạt động</CardTitle>
-            <Activity className="w-4 h-4 text-muted-foreground" />
+            <CardTitle className="text-primary font-bold text-lg">Hoạt động</CardTitle>
+            <Activity className="w-6 h-6 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-primary">98.5%</div>
+            <div className="text-destructive text-3xl font-bold">98.5%</div>
             <p className="text-xs text-muted-foreground mt-1">Uptime</p>
           </CardContent>
         </Card>
@@ -126,9 +126,9 @@ export function AdminReports() {
       {/* Charts */}
       <div className="grid md:grid-cols-2 gap-6">
         {/* User Distribution */}
-        <Card>
+        <Card className="border-2">
           <CardHeader>
-            <CardTitle>Phân bố người dùng</CardTitle>
+            <CardTitle className="text-primary font-bold text-lg">Phân bố người dùng</CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
@@ -154,9 +154,9 @@ export function AdminReports() {
         </Card>
 
         {/* Activity Stats */}
-        <Card>
+        <Card className="border-2">
           <CardHeader>
-            <CardTitle>Hoạt động trong tháng</CardTitle>
+            <CardTitle className="text-primary font-bold text-lg">Hoạt động trong tháng</CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
@@ -165,16 +165,16 @@ export function AdminReports() {
                 <XAxis type="number" />
                 <YAxis dataKey="name" type="category" width={100} />
                 <Tooltip />
-                <Bar dataKey="value" fill="#2F80ED" />
+                <Bar dataKey="value" fill="#032B91" />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
 
         {/* Growth Trend */}
-        <Card className="md:col-span-2">
+        <Card className="md:col-span-2 border-2">
           <CardHeader>
-            <CardTitle>Xu hướng tăng trưởng</CardTitle>
+            <CardTitle className="text-primary font-bold text-lg">Xu hướng tăng trưởng</CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
@@ -183,19 +183,19 @@ export function AdminReports() {
                 <XAxis dataKey="month" />
                 <YAxis />
                 <Tooltip />
-                <Line type="monotone" dataKey="users" stroke="#2F80ED" name="Người dùng" strokeWidth={2} />
-                <Line type="monotone" dataKey="courses" stroke="#27AE60" name="Lớp học" strokeWidth={2} />
+                <Line type="monotone" dataKey="users" stroke="##9C050C" name="Người dùng" strokeWidth={2} />
+                <Line type="monotone" dataKey="courses" stroke="#032B91" name="Lớp học" strokeWidth={2} />
                 <Line type="monotone" dataKey="assignments" stroke="#F59E0B" name="Bài tập" strokeWidth={2} />
-                <Line type="monotone" dataKey="documents" stroke="#8B5CF6" name="Tài liệu" strokeWidth={2} />
+                <Line type="monotone" dataKey="documents" stroke="#020817" name="Tài liệu" strokeWidth={2} />
               </LineChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
 
         {/* Course Performance */}
-        <Card className="md:col-span-2">
+        <Card className="md:col-span-2 border-2">
           <CardHeader>
-            <CardTitle>Hiệu quả lớp học</CardTitle>
+            <CardTitle className="text-primary font-bold text-lg">Hiệu quả lớp học</CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
@@ -204,8 +204,8 @@ export function AdminReports() {
                 <XAxis dataKey="name" />
                 <YAxis />
                 <Tooltip />
-                <Bar dataKey="students" fill="#2F80ED" name="Số sinh viên" />
-                <Bar dataKey="engagement" fill="#27AE60" name="Mức độ tham gia" />
+                <Bar dataKey="students" fill="#9C050C" name="Số sinh viên" />
+                <Bar dataKey="engagement" fill="#032B91" name="Mức độ tham gia" />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
@@ -213,10 +213,10 @@ export function AdminReports() {
       </div>
 
       {/* Summary Stats */}
-      <div className="grid md:grid-cols-3 gap-6">
-        <Card>
+      <div className="grid md:grid-cols-2 gap-6 ">
+        <Card className="border-2">
           <CardHeader>
-            <CardTitle>Tổng quan người dùng</CardTitle>
+            <CardTitle className="text-primary font-bold text-lg">Tổng quan người dùng</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
@@ -233,16 +233,16 @@ export function AdminReports() {
                 <span>{admins}</span>
               </div>
               <div className="flex justify-between pt-2 border-t">
-                <span>Tổng cộng</span>
-                <span className="text-primary">{DEMO_USERS.length}</span>
+                <span className="text-primary font-semibold">Tổng cộng</span>
+                <span className="text-destructive text-xl font-bold">{DEMO_USERS.length}</span>
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border-2">
           <CardHeader>
-            <CardTitle>Nội dung hệ thống</CardTitle>
+            <CardTitle className="text-primary font-bold text-lg">Nội dung hệ thống</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
@@ -259,8 +259,8 @@ export function AdminReports() {
                 <span>{DEMO_DOCUMENTS.length}</span>
               </div>
               <div className="flex justify-between pt-2 border-t">
-                <span>TB bài tập/lớp</span>
-                <span className="text-primary">
+                <span className="text-primary font-semibold">TB bài tập/lớp</span>
+                <span className="text-destructive text-xl font-bold">
                   {(DEMO_ASSIGNMENTS.length / DEMO_COURSES.length).toFixed(1)}
                 </span>
               </div>
@@ -268,9 +268,9 @@ export function AdminReports() {
           </CardContent>
         </Card>
 
-        <Card>
+        {/* <Card className="border-2">
           <CardHeader>
-            <CardTitle>Hiệu suất hệ thống</CardTitle>
+            <CardTitle className="text-primary font-bold text-lg">Hiệu suất hệ thống</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
@@ -287,12 +287,12 @@ export function AdminReports() {
                 <span className="text-green-600">92</span>
               </div>
               <div className="flex justify-between pt-2 border-t">
-                <span>Trạng thái</span>
-                <span className="text-green-600">Hoạt động tốt</span>
+                <span className="text-primary font-semibold">Trạng thái</span>
+                <span className="text-destructive text-xl font-bold">Hoạt động tốt</span>
               </div>
             </div>
           </CardContent>
-        </Card>
+        </Card> */}
       </div>
     </div>
   );
