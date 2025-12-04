@@ -120,7 +120,7 @@ export function UserManagement() {
         <div>
           <h1 className="uppercase text-primary text-3xl font-bold">Quản lý người dùng</h1>
           <p className="text-muted-foreground mt-1 italic">Quản lý tất cả tài khoản trong hệ thống</p>
-        </div>
+        </div> 
 
         <Dialog open={createDialogOpen} onOpenChange={setCreateDialogOpen}>
           <DialogTrigger asChild>
