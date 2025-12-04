@@ -19,44 +19,44 @@ export function AdminCourses() {
   return (
     <div className="space-y-6">
       <div>
-        <h1>Quản lý lớp học</h1>
-        <p className="text-muted-foreground">Xem và quản lý tất cả lớp học trong hệ thống</p>
+        <h1 className="uppercase text-primary text-3xl font-bold">Quản lý lớp học</h1>
+        <p className="text-muted-foreground mt-1 italic">Xem và quản lý tất cả lớp học trong hệ thống</p>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <Card>
+        <Card className="border-2 items-center hover:border-primary">
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm">Tổng lớp học</CardTitle>
+            <CardTitle className="text-primary font-bold">Tổng lớp học</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-primary">{DEMO_COURSES.length}</div>
+            <div className="text-destructive text-3xl font-bold">{DEMO_COURSES.length}</div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="border-2 items-center hover:border-primary">
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm">Đang hoạt động</CardTitle>
+            <CardTitle className="text-primary font-bold">Đang hoạt động</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-primary">{DEMO_COURSES.length}</div>
+            <div className="text-destructive text-3xl font-bold">{DEMO_COURSES.length}</div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="border-2 items-center hover:border-primary">
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm">Tổng sinh viên</CardTitle>
+            <CardTitle className="text-primary font-bold">Tổng sinh viên</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-primary">
+            <div className="text-destructive text-3xl font-bold">
               {DEMO_COURSES.reduce((sum, c) => sum + c.studentCount, 0)}
             </div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="border-2 items-center hover:border-primary">
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm">TB SV/lớp</CardTitle>
+            <CardTitle className="text-primary font-bold">TB SV/lớp</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-primary">
+            <div className="text-destructive text-3xl font-bold">
               {Math.round(DEMO_COURSES.reduce((sum, c) => sum + c.studentCount, 0) / DEMO_COURSES.length)}
             </div>
           </CardContent>
@@ -65,7 +65,7 @@ export function AdminCourses() {
 
       {/* Search */}
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-primary" />
         <Input
           placeholder="Tìm kiếm lớp học..."
           value={searchQuery}
@@ -75,39 +75,41 @@ export function AdminCourses() {
       </div>
 
       {/* Courses Table */}
-      <Card>
+      <Card className="border-2">
         <CardHeader>
-          <CardTitle>Danh sách lớp học ({filteredCourses.length})</CardTitle>
+          <CardTitle className="text-primary font-bold text-lg">Danh sách lớp học (Số lượng: {filteredCourses.length})</CardTitle>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
-              <TableRow>
-                <TableHead>Mã lớp</TableHead>
-                <TableHead>Tên lớp</TableHead>
-                <TableHead>Giảng viên</TableHead>
-                <TableHead>Học kỳ</TableHead>
-                <TableHead>Số SV</TableHead>
-                <TableHead>Mã đăng ký</TableHead>
-                <TableHead>Trạng thái</TableHead>
-                <TableHead className="text-right">Thao tác</TableHead>
+              <TableRow className="bg-primary">
+                <TableHead className="text-white font-bold ">Mã lớp</TableHead>
+                <TableHead className="text-white font-bold ">Tên lớp</TableHead>
+                <TableHead className="text-white font-bold ">Giảng viên</TableHead>
+                <TableHead className="text-white font-bold ">Học kỳ</TableHead>
+                <TableHead className="text-white font-bold ">Số SV</TableHead>
+                <TableHead className="text-white font-bold ">Mã đăng ký</TableHead>
+                <TableHead className="text-white font-bold ">Trạng thái</TableHead>
+                <TableHead className="text-right text-white font-bold">Thao tác</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredCourses.map(course => (
-                <TableRow key={course.id}>
-                  <TableCell>{course.code}</TableCell>
-                  <TableCell>{course.name}</TableCell>
-                  <TableCell>{course.teacherName}</TableCell>
+                <TableRow key={course.id}
+                  className="even:bg-blue-50 hover:bg-blue-100 transition-colors duration-200"
+                >
+                  <TableCell className="text-destructive font-bold">{course.code}</TableCell>
+                  <TableCell className="font-semibold italic">{course.name}</TableCell>
+                  <TableCell className="text-primary font-bold">{course.teacherName}</TableCell>
                   <TableCell>{course.semester}</TableCell>
                   <TableCell>
                     <div className="flex items-center gap-1">
-                      <Users className="w-4 h-4" />
-                      <span>{course.studentCount}</span>
+                      <Users className="w-4 h-4 text-destructive" />
+                      <span className="text-destructive font-bold">{course.studentCount}</span>
                     </div>
                   </TableCell>
                   <TableCell>
-                    <code className="text-xs bg-gray-100 px-2 py-1 rounded">{course.enrollmentCode}</code>
+                    <code className="text-sm rounded font-semibold">{course.enrollmentCode}</code>
                   </TableCell>
                   <TableCell>
                     <Badge variant="default">Hoạt động</Badge>
@@ -140,18 +142,18 @@ export function AdminCourses() {
 
       {/* Course Details */}
       <div className="grid md:grid-cols-2 gap-6">
-        <Card>
+        <Card className="border-2">
           <CardHeader>
-            <CardTitle>Lớp học theo giảng viên</CardTitle>
+            <CardTitle className="text-primary font-bold text-lg">Lớp học theo giảng viên</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
               {Array.from(new Set(DEMO_COURSES.map(c => c.teacherName))).map(teacher => {
                 const courses = DEMO_COURSES.filter(c => c.teacherName === teacher);
                 return (
-                  <div key={teacher} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <div key={teacher} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border-2 border-grey">
                     <div>
-                      <div>{teacher}</div>
+                      <div className="text-destructive font-bold">{teacher}</div>
                       <div className="text-sm text-muted-foreground">{courses.length} lớp học</div>
                     </div>
                     <Badge>{courses.reduce((sum, c) => sum + c.studentCount, 0)} SV</Badge>
@@ -162,18 +164,18 @@ export function AdminCourses() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border-2">
           <CardHeader>
-            <CardTitle>Lớp học theo học kỳ</CardTitle>
+            <CardTitle className="text-primary font-bold text-lg">Lớp học theo học kỳ</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent >
             <div className="space-y-3">
               {Array.from(new Set(DEMO_COURSES.map(c => c.semester))).map(semester => {
                 const courses = DEMO_COURSES.filter(c => c.semester === semester);
                 return (
-                  <div key={semester} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <div key={semester} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border-2 border-grey">
                     <div>
-                      <div>{semester}</div>
+                      <div className="text-destructive font-bold">{semester}</div>
                       <div className="text-sm text-muted-foreground">{courses.length} lớp học</div>
                     </div>
                     <Badge>{courses.reduce((sum, c) => sum + c.studentCount, 0)} SV</Badge>

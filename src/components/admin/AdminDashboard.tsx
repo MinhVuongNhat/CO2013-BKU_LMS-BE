@@ -37,7 +37,7 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="border-2">
+        <Card className="border-2 hover:border-primary">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-primary font-bold">Người dùng</CardTitle>
             <Users className="w-6 h-6 text-primary" />
@@ -48,7 +48,7 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
           </CardContent>
         </Card>
 
-        <Card className="border-2">
+        <Card className="border-2 hover:border-primary">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-primary font-bold">Lớp học</CardTitle>
             <BookOpen className="w-6 h-6 text-primary" />
@@ -59,7 +59,7 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
           </CardContent>
         </Card>
 
-        <Card className="border-2">
+        <Card className="border-2 hover:border-primary">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-primary font-bold">Bài tập</CardTitle>
             <FileText className="w-6 h-6 text-primary" />
@@ -70,7 +70,7 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
           </CardContent>
         </Card>
 
-        <Card className="border-2">
+        <Card className="border-2 hover:border-primary">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-primary font-bold">Hoạt động</CardTitle>
             <Activity className="w-6 h-6 text-primary" />
