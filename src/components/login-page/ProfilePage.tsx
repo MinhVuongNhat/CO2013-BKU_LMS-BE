@@ -225,25 +225,25 @@ export function ProfilePage({ user }: ProfilePageProps) {
       {user.role === 'student' && (
         <Card>
           <CardHeader>
-            <CardTitle>Thống kê học tập</CardTitle>
+            <CardTitle className="text-primary font-bold">Thống kê học tập</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="text-center p-4 bg-blue-50 rounded-lg">
-                <div className="text-primary mb-1">3</div>
-                <div className="text-sm text-muted-foreground">Lớp học</div>
+                <div className="text-destructive text-3xl font-bold">3</div>
+                <div className="text-primary font-bold">Lớp học</div>
               </div>
               <div className="text-center p-4 bg-green-50 rounded-lg">
-                <div className="text-primary mb-1">12</div>
-                <div className="text-sm text-muted-foreground">Bài tập đã nộp</div>
+                <div className="text-destructive text-3xl font-bold">12</div>
+                <div className="text-primary font-bold">Bài tập đã nộp</div>
               </div>
               <div className="text-center p-4 bg-purple-50 rounded-lg">
-                <div className="text-primary mb-1">85%</div>
-                <div className="text-sm text-muted-foreground">Tỷ lệ hoàn thành</div>
+                <div className="text-destructive text-3xl font-bold">85%</div>
+                <div className="text-primary font-bold">Tỷ lệ hoàn thành</div>
               </div>
               <div className="text-center p-4 bg-orange-50 rounded-lg">
-                <div className="text-primary mb-1">3.45</div>
-                <div className="text-sm text-muted-foreground">GPA</div>
+                <div className="text-destructive text-3xl font-bold">3.45</div>
+                <div className="text-primary font-bold">GPA</div>
               </div>
             </div>
           </CardContent>

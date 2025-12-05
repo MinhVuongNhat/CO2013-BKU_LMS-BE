@@ -15,12 +15,6 @@ import { StudentAssignments } from './components/student/StudentAssignments';
 import { StudentReports } from './components/student/StudentReports';
 import { StudentDocuments } from './components/student/StudentDocuments';
 import { StudentDiscussions } from "./components/student/StudentDiscussion";
-import { TeacherDashboard } from './components/teacher/TeacherDashboard';
-import { TeacherCourses } from './components/teacher/TeacherCourses';
-import { TeacherAssignments } from './components/teacher/TeacherAssignments';
-import { TeacherDocuments } from './components/teacher/TeacherDocuments';
-import { TeacherStudents } from './components/teacher/TeacherStudents';
-import { TeacherReports } from './components/teacher/TeacherReports';
 import { AdminDashboard } from './components/admin/AdminDashboard';
 import { UserManagement } from './components/admin/UserManagement';
 import { AdminCourses } from './components/admin/AdminCourses';
@@ -70,19 +64,6 @@ function AppContent() {
       'profile': <ProfilePage user={user} />,
     };
 
-    // Config cho Teacher
-    const teacherRoutes: Record<string, React.ReactNode> = {
-      'dashboard': <TeacherDashboard {...commonProps} />,
-      'courses': <TeacherCourses {...commonProps} />,
-      'course-detail': <CourseDetail courseId={pageData?.courseId} onNavigate={handleNavigate} />,
-      'assignments': <TeacherAssignments {...commonProps} />,
-      'documents': <TeacherDocuments user={user} />,
-      'students': <TeacherStudents user={user} />,
-      'discussions': <StudentDiscussions user={user} />,
-      'reports': <TeacherReports user={user} />,
-      'profile': <ProfilePage user={user} />,
-    };
-
     // Config cho Admin
     const adminRoutes: Record<string, React.ReactNode> = {
       'dashboard': <AdminDashboard onNavigate={handleNavigate} />,
@@ -95,7 +76,6 @@ function AppContent() {
 
     let currentRoutes = {};
     if (user.role === 'student') currentRoutes = studentRoutes;
-    else if (user.role === 'teacher') currentRoutes = teacherRoutes;
     else if (user.role === 'admin') currentRoutes = adminRoutes;
 
     return currentRoutes[currentPage as keyof typeof currentRoutes] || 
