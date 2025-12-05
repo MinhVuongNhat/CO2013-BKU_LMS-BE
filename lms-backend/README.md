@@ -274,3 +274,224 @@ http://localhost:3000/api
 ```
 
 ---
+
+## Danh sách API
+# 🔐 **1. Auth / User**
+
+> Module: `users`
+
+### ▶ **Get all users**
+
+`GET /users`
+
+### ▶ **Get user by ID**
+
+`GET /users/:id`
+**Params:** `id = UserID`
+
+### ▶ **Create user**
+
+`POST /users`
+**Body:**
+
+```json
+{
+  "UserID": "USR001",
+  "Fullname": "Minh",
+  "Role": "Student",
+  "Email": "abc@gmail.com",
+  "Phone": "0123456789",
+  "Address": "HN"
+}
+```
+
+### ▶ **Update user**
+
+`PATCH /users/:id`
+
+### ▶ **Delete user**
+
+`DELETE /users/:id`
+
+---
+
+# 📘 **2. Course**
+
+> Module: `courses`
+
+### ▶ **Get all courses**
+
+`GET /courses`
+
+### ▶ **Get course by ID**
+
+`GET /courses/:id`
+
+### ▶ **Create course**
+
+`POST /courses`
+
+### ▶ **Update course**
+
+`PATCH /courses/:id`
+
+### ▶ **Delete course**
+
+`DELETE /courses/:id`
+
+---
+
+# 🏫 **3. Class**
+
+> Module: `classes`
+
+### ▶ **Get all classes**
+
+`GET /classes`
+
+### ▶ **Get class by ID**
+
+`GET /classes/:id`
+
+### ▶ **Create class**
+
+`POST /classes`
+
+### ▶ **Update class**
+
+`PATCH /classes/:id`
+
+### ▶ **Delete class**
+
+`DELETE /classes/:id`
+
+---
+
+# 🧪 **4. Assessment (Kiểm tra, bài thi)**
+
+> Module: `assessments`
+
+### ▶ **Get all assessments**
+
+`GET /assessments`
+
+### ▶ **Get assessment by ID**
+
+`GET /assessments/:id`
+
+### ▶ **Create assessment**
+
+`POST /assessments`
+
+### ▶ **Update assessment**
+
+`PATCH /assessments/:id`
+
+### ▶ **Delete assessment**
+
+`DELETE /assessments/:id`
+
+---
+
+# 📝 **5. Grades (Điểm)**
+
+> Module: `grades`
+
+### ▶ **Get all grades**
+
+`GET /grades`
+
+### ▶ **Get grade by ID**
+
+`GET /grades/:id`
+
+### ▶ **Get all grades of a student**
+
+`GET /grades/student/:studentId`
+
+### ▶ **Create grade**
+
+`POST /grades`
+
+### ▶ **Update grade**
+
+`PATCH /grades/:id`
+
+### ▶ **Delete grade**
+
+`DELETE /grades/:id`
+
+---
+
+# 📅 **6. Attendance (Điểm danh)**
+
+> Module: `attendance`
+
+### ▶ **Get all attendance records**
+
+`GET /attendance`
+
+### ▶ **Get attendance by ID**
+
+`GET /attendance/:id`
+
+### ▶ **Get attendance of a student**
+
+`GET /attendance/student/:studentId`
+
+### ▶ **Create attendance record**
+
+`POST /attendance`
+
+### ▶ **Update attendance**
+
+`PATCH /attendance/:id`
+
+### ▶ **Delete attendance**
+
+`DELETE /attendance/:id`
+
+---
+
+# 📣 **7. Notifications**
+
+> Module: `notifications`
+
+### ▶ **Get all notifications**
+
+`GET /notifications`
+
+### ▶ **Get notification by ID**
+
+`GET /notifications/:id`
+
+### ▶ **Get notifications of a user**
+
+`GET /notifications/user/:userId`
+
+### ▶ **Create notification**
+
+`POST /notifications`
+
+### ▶ **Update notification**
+
+`PATCH /notifications/:id`
+
+### ▶ **Delete notification**
+
+`DELETE /notifications/:id`
+
+---
+
+# 🎯 Tóm tắt theo bảng
+
+| Module        | API                                                     |
+| ------------- | ------------------------------------------------------- |
+| Users         | GET all, GET by ID, POST, PATCH, DELETE                 |
+| Courses       | GET all, GET by ID, POST, PATCH, DELETE                 |
+| Classes       | GET all, GET by ID, POST, PATCH, DELETE                 |
+| Assessments   | GET all, GET by ID, POST, PATCH, DELETE                 |
+| Grades        | GET all, GET by ID, GET by student, POST, PATCH, DELETE |
+| Attendance    | GET all, GET by ID, GET by student, POST, PATCH, DELETE |
+| Notifications | GET all, GET by ID, GET by user, POST, PATCH, DELETE    |
+
