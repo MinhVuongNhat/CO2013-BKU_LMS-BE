@@ -1,7 +1,7 @@
 # 📘 BKU LMS Backend – Documentation
 Backend của hệ thống **BKU Learning Management System (LMS)** được phát triển bằng **NestJS** và sử dụng **MySQL** làm cơ sở dữ liệu.
 Dự án tuân theo kiến trúc module hoá, dễ mở rộng, có tích hợp kiểm thử kết nối DB và sử dụng JWT cho xác thực.
-
+Lưu ý BE: Còn thiếu Gọi hàm/thủ tục: Triển khai một tính năng có gọi đến hàm hoặc thủ tục lưu trữ (ví dụ: tính doanh thu hàng tháng).
 ---
 
 ## ✨ 1. Yêu cầu hệ thống
