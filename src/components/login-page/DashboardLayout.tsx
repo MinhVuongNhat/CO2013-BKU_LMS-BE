@@ -38,7 +38,7 @@ export function DashboardLayout({ user, children, currentPage, onNavigate, onLog
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const getMenuItems = () => {
-    if (user.role === 'student') {
+    if (user.role === 'Student') {
       return [
         { id: 'dashboard', label: 'Tổng quan', icon: BarChart3 },
         { id: 'courses', label: 'Lớp học của tôi', icon: BookOpen },
@@ -48,7 +48,7 @@ export function DashboardLayout({ user, children, currentPage, onNavigate, onLog
         { id: 'reports', label: 'Báo cáo học tập', icon: BarChart3 },
         { id: 'profile', label: 'Hồ sơ cá nhân', icon: UserCircle }
       ];
-    } else if (user.role === 'teacher') {
+    } else if (user.role === 'Instructor') {
       return [
         { id: 'dashboard', label: 'Tổng quan', icon: BarChart3 },
         { id: 'courses', label: 'Quản lý lớp học', icon: BookOpen },
@@ -72,9 +72,21 @@ export function DashboardLayout({ user, children, currentPage, onNavigate, onLog
 
   const menuItems = getMenuItems();
 
-  const getInitials = (name: string) => {
-    return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
-  };
+  function getInitials(user: any) {
+    if (!user) return "";
+
+    const first = user.FirstName || "";
+    const last = user.LastName || "";
+    const full = `${first} ${last}`.trim();
+
+    if (!full) return "";
+
+    return full
+      .split(" ")
+      .map(w => w[0])
+      .join("")
+      .toUpperCase();
+  }
 
   const getRoleLabel = (role: string) => {
     const labels: { [key: string]: string } = {
@@ -134,7 +146,7 @@ export function DashboardLayout({ user, children, currentPage, onNavigate, onLog
             <div className="flex items-center gap-3">
               <Avatar>
                 <AvatarFallback className="bg-primary text-white">
-                  {getInitials(user.name)}
+                  {getInitials(user)}
                 </AvatarFallback>
               </Avatar>
               <div className="flex-1 min-w-0">
@@ -183,7 +195,7 @@ export function DashboardLayout({ user, children, currentPage, onNavigate, onLog
                 <Button className="gap-3 relative rounded-sm p-2">
                   <Avatar className="w-9 h-9">
                     <AvatarFallback className="bg-white text-primary font-bold">
-                      {getInitials(user.name)}
+                      {getInitials(user)}
                     </AvatarFallback>
                   </Avatar>
                   <div className="text-left hidden md:block">

@@ -9,9 +9,9 @@ interface AdminDashboardProps {
 
 export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
   const totalUsers = DEMO_USERS.length;
-  const students = DEMO_USERS.filter(u => u.role === 'student').length;
-  const teachers = DEMO_USERS.filter(u => u.role === 'teacher').length;
-  const admins = DEMO_USERS.filter(u => u.role === 'admin').length;
+  const students = DEMO_USERS.filter(u => u.role === 'Student').length;
+  const teachers = DEMO_USERS.filter(u => u.role === 'Instructor').length;
+  const admins = DEMO_USERS.filter(u => u.role === 'Admin').length;
 
   const userRoleData = [
     { name: 'Sinh viên', value: students, color: '#2F80ED' },

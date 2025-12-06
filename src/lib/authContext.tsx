@@ -1,47 +1,39 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
-import { User, DEMO_USERS } from './mockData';
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
 interface AuthContextType {
-  user: User | null;
-  login: (email: string, password: string) => boolean;
+  user: any;
+  login: (userData: any) => void;
   logout: () => void;
-  register: (email: string, password: string, name: string, role: 'student' | 'teacher') => boolean;
+  register: (data: any) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<any>(null);
 
-  const login = (email: string, password: string): boolean => {
-    const foundUser = DEMO_USERS.find(
-      (u) => u.email === email && u.password === password
-    );
-    
-    if (foundUser) {
-      setUser(foundUser);
-      return true;
+  // Load user từ localStorage nếu có
+  useEffect(() => {
+    const savedUser = localStorage.getItem("user");
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
     }
-    return false;
+  }, []);
+
+  const login = (userData: any) => {
+    setUser(userData);
+    localStorage.setItem("user", JSON.stringify(userData));
   };
 
   const logout = () => {
     setUser(null);
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
   };
 
-  const register = (email: string, password: string, name: string, role: 'student' | 'teacher'): boolean => {
-    // Mock registration - in real app would call API
-    const newUser: User = {
-      id: `${role}-${Date.now()}`,
-      email,
-      password,
-      name,
-      role
-    };
-    
-    // In a real app, we would add this to database
-    setUser(newUser);
-    return true;
+  const register = (data: any) => {
+    setUser(data);
+    localStorage.setItem("user", JSON.stringify(data));
   };
 
   return (
@@ -53,8 +45,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 export function useAuth() {
   const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
+  if (!context) throw new Error("useAuth must be used within AuthProvider");
   return context;
 }

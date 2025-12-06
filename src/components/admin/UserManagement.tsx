@@ -22,7 +22,7 @@ export function UserManagement() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    role: 'student' as 'admin' | 'teacher' | 'student',
+    role: 'Student' as 'Admin' | 'Instructor' | 'Student',
     password: '',
     phone: '',
     studentId: '',
@@ -58,13 +58,13 @@ export function UserManagement() {
       password: formData.password,
       role: formData.role,
       phone: formData.phone || undefined,
-      studentId: formData.role === 'student' ? formData.studentId || `SV${Date.now()}` : undefined,
-      teacherId: formData.role === 'teacher' ? formData.teacherId || `GV${Date.now()}` : undefined
+      studentId: formData.role === 'Student' ? formData.studentId || `SV${Date.now()}` : undefined,
+      teacherId: formData.role === 'Instructor' ? formData.teacherId || `GV${Date.now()}` : undefined
     };
 
     setUsers([...users, newUser]);
     setCreateDialogOpen(false);
-    setFormData({ name: '', email: '', role: 'student', password: '', phone: '', studentId: '', teacherId: '' });
+    setFormData({ name: '', email: '', role: 'Student', password: '', phone: '', studentId: '', teacherId: '' });
     toast.success('Tạo người dùng thành công!');
   };
 
@@ -161,13 +161,13 @@ export function UserManagement() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="student">Sinh viên</SelectItem>
-                    <SelectItem value="teacher">Giảng viên</SelectItem>
-                    <SelectItem value="admin">Quản trị viên</SelectItem>
+                    <SelectItem value="Student">Sinh viên</SelectItem>
+                    <SelectItem value="Instructor">Giảng viên</SelectItem>
+                    <SelectItem value="Admin">Quản trị viên</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
-              {formData.role === 'student' && (
+              {formData.role === 'Instructor' && (
                 <div className="space-y-2">
                   <Label>Mã sinh viên</Label>
                   <Input
@@ -177,7 +177,7 @@ export function UserManagement() {
                   />
                 </div>
               )}
-              {formData.role === 'teacher' && (
+              {formData.role === 'Instructor' && (
                 <div className="space-y-2">
                   <Label>Mã giảng viên</Label>
                   <Input
