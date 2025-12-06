@@ -210,17 +210,17 @@ CREATE TABLE StudentStatus (
 -- Insert data
 -- 1. Departments
 INSERT INTO Department(DeptID, DeptName, Description, Contact) VALUES
-('DEP001','Mechanical Engineering','Khoa Cơ khí','me-faculty@hcmut.edu.vn'),
-('DEP002','Materials Technology','Khoa Công nghệ Vật liệu','mt-faculty@hcmut.edu.vn'),
-('DEP003','Electrical and Electronic Engineering','Khoa Điện - Điện tử','ee-faculty@hcmut.edu.vn'),
-('DEP004','Applied Sciences','Khoa Khoa học ứng dụng','as-faculty@hcmut.edu.vn'),
-('DEP005','Computer Science and Engineering','Khoa Khoa học và Kỹ thuật Máy tính','cs-faculty@hcmut.edu.vn'),
-('DEP006','Geological and Petroleum Engineering','Khoa Kỹ thuật Địa chất và Dầu khí','gp-faculty@hcmut.edu.vn'),
-('DEP007','Transport Engineering','Khoa Kỹ thuật Giao thông','te-faculty@hcmut.edu.vn'),
-('DEP008','Chemical Engineering','Khoa Kỹ thuật Hóa học','chemical-faculty@hcmut.edu.vn'),
-('DEP009','Civil Engineering','Khoa Kỹ thuật Xây dựng','civil-faculty@hcmut.edu.vn'),
-('DEP010','Environment and Resources','Khoa Môi trường và Tài nguyên','er-faculty@hcmut.edu.vn'),
-('DEP011','Industrial Management','Khoa Quản lý Công nghiệp','im-faculty@hcmut.edu.vn');
+('DEP001','Mechanical Engineering','Mechanical engineering is the study of physical machines and mechanisms that may involve force and movement.','me-faculty@hcmut.edu.vn'),
+('DEP002','Materials Technology','Materials Technology science is an interdisciplinary field of researching and discovering materials.','mt-faculty@hcmut.edu.vn'),
+('DEP003','Electrical and Electronic Engineering','Electrical engineering is an engineering discipline concerned with the study, design, and application of equipment, devices, and systems that use electricity, electronics, and electromagnetism.','ee-faculty@hcmut.edu.vn'),
+('DEP004','Applied Sciences','Applied science is the application of the scientific method and scientific knowledge to attain practical goals.','as-faculty@hcmut.edu.vn'),
+('DEP005','Computer Science and Engineering','Computer Science and Engineering (CSE) is an academic subject comprising approaches of computer science and computer engineering.','cs-faculty@hcmut.edu.vn'),
+('DEP006','Geological and Petroleum Engineering','Geological engineering is a discipline of engineering concerned with the application of geological science and engineering principles to fields, such as civil engineering, mining, environmental engineering, and forestry, among others. Petroleum engineering is a field of engineering concerned with the activities related to the production of hydrocarbons, which can be either crude oil or natural gas or both.','gp-faculty@hcmut.edu.vn'),
+('DEP007','Transport Engineering','Transportation engineering or transport engineering is the application of technology and scientific principles to the planning, functional design, operation and management of facilities for any mode of transportation to provide for the safe, efficient, rapid, comfortable, convenient, economical, and environmentally compatible movement of people and goods transport.','te-faculty@hcmut.edu.vn'),
+('DEP008','Chemical Engineering','Chemical engineering is an engineering field which deals with the study of the operation and design of chemical plants as well as methods of improving production. Chemical engineers develop economical commercial processes to convert raw materials into useful products.','chemical-faculty@hcmut.edu.vn'),
+('DEP009','Civil Engineering','Civil engineering is a professional engineering discipline that deals with the design, construction, and maintenance of the physical and naturally built environment, including public works such as roads, bridges, canals, dams, airports, sewage systems, pipelines, structural components of buildings, and railways.','civil-faculty@hcmut.edu.vn'),
+('DEP010','Environment and Resources','Environmental resource management or environmental management is the management of the interaction and impact of human societies on the environment.','er-faculty@hcmut.edu.vn'),
+('DEP011','Industrial Management','Industrial management is a branch of engineering which facilitates the creation of management systems and integrates the diverse engineering processes. Industrial Management deals with industrial design, construction, management, and application of scientific and engineering principles to improve the entire industrial infrastructure and industrial processes.','im-faculty@hcmut.edu.vn');
 
 -- 2. Users
 INSERT INTO `User`(UserID, LastName, FirstName, Email, Phone, Address, Age, DoB) VALUES
@@ -309,42 +309,42 @@ INSERT INTO UserAccount(AccountID, UserID, Email, PasswordHash, Role) VALUES
 
 -- 6. Courses
 INSERT INTO Course(CourseID, Name, Description, Credit, Duration, DeptID) VALUES
-('CRS001','Introduction to Programming','Lập trình cơ bản C/Python',3,45,'DEP005'),
-('CRS002','Data Structures & Algorithms','Cấu trúc dữ liệu và giải thuật',4,60,'DEP005'),
-('CRS003','Linear Algebra','Đại số tuyến tính',3,45,'DEP004'),
-('CRS004','Principles of Management','Nguyên lý quản trị học',3,45,'DEP011'),
-('CRS005','English for Engineering','Tiếng Anh kỹ thuật',2,30,'DEP004'),
-('CRS006','Thermodynamics','Nhiệt động lực học',4,60,'DEP001'),
-('CRS007','Material Science','Khoa học vật liệu',3,45,'DEP002'),
-('CRS008','Circuit Theory','Lý thuyết mạch điện',4,60,'DEP003'),
-('CRS009','Environmental Chemistry','Hóa học môi trường',3,45,'DEP010'),
-('CRS010','Structural Analysis','Phân tích kết cấu',4,60,'DEP009'),
-('CRS011','Transport Planning','Quy hoạch giao thông',3,45,'DEP007'),
-('CRS012','Organic Chemistry','Hóa học hữu cơ',4,60,'DEP008'),
-('CRS013','Database Systems','Hệ quản trị cơ sở dữ liệu',3,45,'DEP005'),
-('CRS014','Machine Learning Basics','Nhập môn học máy',3,45,'DEP005'),
-('CRS015','Fluid Mechanics','Cơ học chất lỏng',4,60,'DEP001'),
-('CRS016','Project Management','Quản lý dự án',3,45,'DEP011'),
-('CRS017','Water Resource Engineering','Kỹ thuật tài nguyên nước',3,45,'DEP010'),
-('CRS018','Construction Management','Quản lý xây dựng',3,45,'DEP009');
+('CRS001','Introduction to Programming','Lap trinh co ban C/Python',3,45,'DEP005'),
+('CRS002','Data Structures & Algorithms','Cau truc du lieu va giai thuat',4,60,'DEP005'),
+('CRS003','Linear Algebra','Dai so tuyen tinh',3,45,'DEP004'),
+('CRS004','Principles of Management','Nguyen ly quan tri hoc',3,45,'DEP011'),
+('CRS005','English for Engineering','Tieng Anh ky thuat',2,30,'DEP004'),
+('CRS006','Thermodynamics','Nhiet dong luc hoc',4,60,'DEP001'),
+('CRS007','Material Science','Khoa hoc vat lieu',3,45,'DEP002'),
+('CRS008','Circuit Theory','Ly thuyet mach dien',4,60,'DEP003'),
+('CRS009','Environmental Chemistry','Hoa hoc moi truong',3,45,'DEP010'),
+('CRS010','Structural Analysis','Phan tich ket cau',4,60,'DEP009'),
+('CRS011','Transport Planning','Quy hoach giao thong',3,45,'DEP007'),
+('CRS012','Organic Chemistry','Hoa hoc huu co',4,60,'DEP008'),
+('CRS013','Database Systems','He quan tri co so du lieu',3,45,'DEP005'),
+('CRS014','Machine Learning Basics','Nhap mon hoc may',3,45,'DEP005'),
+('CRS015','Fluid Mechanics','Co hoc chat long',4,60,'DEP001'),
+('CRS016','Project Management','Quan ly du an',3,45,'DEP011'),
+('CRS017','Water Resource Engineering','Ky thuat tai nguyen nuoc',3,45,'DEP010'),
+('CRS018','Construction Management','Quan ly xay dung',3,45,'DEP009');
 
 -- 7. Modules
 INSERT INTO Module(ModuleID, Name, Description, Duration, CourseID) VALUES
-('MOD001','Syntax & Variables','Cú pháp và biến trong C/Python',10,'CRS001'),
-('MOD002','Control Flow & Loops','Câu lệnh rẽ nhánh và vòng lặp',12,'CRS001'),
-('MOD003','Functions & OOP','Hàm và lập trình hướng đối tượng',15,'CRS001'),
-('MOD004','Arrays & Linked Lists','Mảng và danh sách liên kết',15,'CRS002'),
-('MOD005','Stacks, Queues, Trees','Ngăn xếp, hàng đợi, cây',20,'CRS002'),
-('MOD006','Graph Algorithms','Thuật toán đồ thị',15,'CRS002'),
-('MOD007','Vector & Matrix','Vector và ma trận',12,'CRS003'),
-('MOD008','Eigenvalues','Giá trị riêng và vector riêng',15,'CRS003'),
-('MOD009','Leadership Theories','Các lý thuyết lãnh đạo',10,'CRS004'),
-('MOD010','Team Building','Xây dựng đội nhóm',12,'CRS004'),
-('MOD011','Academic Writing','Viết báo cáo học thuật',15,'CRS005'),
-('MOD012','Presentation Skills','Kỹ năng thuyết trình',10,'CRS005'),
-('MOD013','Heat & Energy','Nhiệt và năng lượng',18,'CRS006'),
-('MOD014','Material Properties','Tính chất vật liệu',15,'CRS007'),
-('MOD015','Kirchhoff Laws','Định luật Kirchhoff',20,'CRS008');
+('MOD001','Syntax & Variables','Cu phap và bien trong C/Python',10,'CRS001'),
+('MOD002','Control Flow & Loops','Cau lenh re nhanh va vong lap',12,'CRS001'),
+('MOD003','Functions & OOP','Ham va lap trinh huong doi tuong',15,'CRS001'),
+('MOD004','Arrays & Linked Lists','Mang va danh sach lien ket',15,'CRS002'),
+('MOD005','Stacks, Queues, Trees','Ngan xep, hang doi, cay',20,'CRS002'),
+('MOD006','Graph Algorithms','Thuat toan do thi',15,'CRS002'),
+('MOD007','Vector & Matrix','Vector va ma tran',12,'CRS003'),
+('MOD008','Eigenvalues','Gia tri rieng va vector rieng',15,'CRS003'),
+('MOD009','Leadership Theories','Cac ly thuyet lanh dao',10,'CRS004'),
+('MOD010','Team Building','Xay dung doi nhom',12,'CRS004'),
+('MOD011','Academic Writing','Viet bao cao hoc thuat',15,'CRS005'),
+('MOD012','Presentation Skills','Ky nang thuyet trinh',10,'CRS005'),
+('MOD013','Heat & Energy','Nhiet va nang luong',18,'CRS006'),
+('MOD014','Material Properties','Tinh chat vat lieu',15,'CRS007'),
+('MOD015','Kirchhoff Laws','Dinh luat Kirchhoff',20,'CRS008');
 
 -- 8. Content
 INSERT INTO Content(ContentID, Title, Type, URL, Size, UploadDate, CourseID) VALUES
@@ -358,13 +358,13 @@ INSERT INTO Content(ContentID, Title, Type, URL, Size, UploadDate, CourseID) VAL
 
 -- 9. Assessments
 INSERT INTO Assessment(AssessID, Title, Description, Deadline, MaxScore, CourseID) VALUES
-('ASG001','Lab 01 - Hello World','Nộp file .c hoặc .py','2025-09-15',10,'CRS001'),
-('ASG002','Assignment 1 - Loops & Arrays','Bài tập mảng và vòng lặp','2025-09-25',20,'CRS001'),
-('ASG003','Midterm Exam','Đóng kín - 90 phút','2025-10-20',100,'CRS002'),
-('ASG004','Final Project - Sorting Visualizer','Nhóm 2-3 người','2025-12-10',100,'CRS002'),
-('ASG005','Quiz 1 - Vectors','Quiz 15 phút trên lớp','2025-09-18',20,'CRS003'),
-('ASG006','Group Project - Business Plan','Nhóm 4 người','2025-11-20',100,'CRS004'),
-('ASG007','IELTS Writing Sample','Bài luận 250 từ','2025-10-30',30,'CRS005');
+('ASG001','Lab 01 - Hello World','Nop file .c hoac .py','2025-09-15',10,'CRS001'),
+('ASG002','Assignment 1 - Loops & Arrays','Bai tap mang va vong lap','2025-09-25',20,'CRS001'),
+('ASG003','Midterm Exam','Dong kin - 90 phut','2025-10-20',100,'CRS002'),
+('ASG004','Final Project - Sorting Visualizer','Nhom 2-3 nguoi','2025-12-10',100,'CRS002'),
+('ASG005','Quiz 1 - Vectors','Quiz 15 phut tren lop','2025-09-18',20,'CRS003'),
+('ASG006','Group Project - Business Plan','Nhom 4 nguoi','2025-11-20',100,'CRS004'),
+('ASG007','IELTS Writing Sample','Bai luan 250 tu','2025-10-30',30,'CRS005');
 
 -- 10. Enrollments
 INSERT INTO Enrollment(EnrollID, StudentID, CourseID, Status, Semester, GradeFinal, Schedule, InstructorID) VALUES
@@ -409,18 +409,18 @@ INSERT INTO Grade(GradeID, StudentID, AssessID, Score, GradeLetter, DateRecorded
 
 -- 12. Feedback
 INSERT INTO Feedback(FeedbackID, Rating, Content, Date, StudentID, InstructorID, CourseID) VALUES
-('FDB001',5,'Thầy dạy rất nhiệt tình, ví dụ thực tế','2025-10-15','USR011','USR004','CRS001'),
-('FDB002',4,'Bài tập hơi khó nhưng học được nhiều','2025-10-22','USR022','USR005','CRS002'),
-('FDB003',5,'Chị hướng dẫn rất tận tình','2025-11-20','USR015','USR007','CRS004'),
-('FDB004',3,'Cần up slide lên sớm hơn','2025-09-10','USR013','USR005','CRS010'),
-('FDB005',5,'Tiếng Anh cải thiện rõ rệt','2025-10-31','USR020','USR008','CRS005');
+('FDB001',5,'Thay day rat nhiet tinh, vi du thuc te','2025-10-15','USR011','USR004','CRS001'),
+('FDB002',4,'Bai tap hoi kho nhung hoc duoc nhieu','2025-10-22','USR022','USR005','CRS002'),
+('FDB003',5,'Chi huong dan rat tan tinh','2025-11-20','USR015','USR007','CRS004'),
+('FDB004',3,'Can up slide len som hon','2025-09-10','USR013','USR005','CRS010'),
+('FDB005',5,'Tieng Anh cai thien ro ret','2025-10-31','USR020','USR008','CRS005');
 
 -- 13. Forum & Forum_User
 INSERT INTO Forum(ForumID, Topic, Date) VALUES
-('FOR001','Hỏi đáp CRS001 - Lập trình cơ bản','2025-08-10'),
-('FOR002','Project nhóm CRS002','2025-09-01'),
-('FOR003','Hỏi bài tập CRS011 - Giao thông','2025-09-15'),
-('FOR004','Chia sẻ tài liệu tiếng Anh','2025-08-20');
+('FOR001','Hoi dap CRS001 - Lap trinh co ban','2025-08-10'),
+('FOR002','Project nhom CRS002','2025-09-01'),
+('FOR003','Hoi bai tap CRS011 - Giao thông','2025-09-15'),
+('FOR004','Chia se tai lieu tieng Anh','2025-08-20');
 
 INSERT INTO Forum_User(ForumID, UserID) VALUES
 ('FOR001','USR011'),('FOR001','USR021'),('FOR001','USR004'),
@@ -429,25 +429,25 @@ INSERT INTO Forum_User(ForumID, UserID) VALUES
 
 -- 14. Messages
 INSERT INTO Message(MessageID, SenderID, ReceiverID, Content, Date, Status) VALUES
-('MSG001','USR004','USR011','Em gửi file lab 01 muộn 1 ngày ạ, em xin lỗi thầy rất nhiều.','2025-09-16 20:15:00','Read'),
-('MSG002','USR011','USR004','Dạ em gửi rồi ạ, cảm ơn thầy!','2025-09-16 20:30:00','Read'),
-('MSG003','USR005','USR022','Nhóm em chưa có ý tưởng project, mong thầy gợi ý giúp.','2025-11-01 09:10:00','Unread'),
-('MSG004','USR015','USR011','Tối nay 22h-24h sẽ có một bài kiểm tra.','2025-11-20 17:00:00','Read'),
-('MSG005','USR020','USR025','Mời bạn tham gia vào nhóm btl, liên hệ mình qua sđt.','2025-11-20 17:00:00','Read');
+('MSG001','USR004','USR011','Em gui file lab 01 muon 1 ngay ạ, em xin loi thay rat nhieu.','2025-09-16 20:15:00','Read'),
+('MSG002','USR011','USR004','Da em gui roi a, cam on thay!','2025-09-16 20:30:00','Read'),
+('MSG003','USR005','USR022','Nhom em chua co y tuong project, mong thay goi y giup.','2025-11-01 09:10:00','Unread'),
+('MSG004','USR015','USR011','Toi nay 22h-24h se co mot bai kiem tra.','2025-11-20 17:00:00','Read'),
+('MSG005','USR020','USR025','Moi ban tham gia vao nhom btl, lien he minh qua sdt.','2025-11-20 17:00:00','Read');
 
 -- 15. Notifications
 INSERT INTO Notification(NotifID, Type, Content, Date, Status, UserID) VALUES
-('NTF001','Grade','Điểm Lab 01 đã được chấm','2025-09-27 10:00:00','Seen','USR011'),
-('NTF002','Deadline','Còn 3 ngày để nộp Final Project CRS002','2025-12-07 08:00:00','Unseen','USR022'),
-('NTF003','Announcement','Lịch thi học kỳ sẽ công bố vào 2025-12-10','2025-12-01 09:00:00','Unseen','USR011'),
-('NTF004','System','Hệ thống sẽ bảo trì vào 23/11/2025 từ 22h','2025-11-20 17:00:00','Seen','USR001');
+('NTF001','Grade','Diem Lab 01 da duoc cham','2025-09-27 10:00:00','Seen','USR011'),
+('NTF002','Deadline','Con 3 ngay de nop Final Project CRS002','2025-12-07 08:00:00','Unseen','USR022'),
+('NTF003','Announcement','Lich thi hoc ky se cong bo vao 2025-12-10','2025-12-01 09:00:00','Unseen','USR011'),
+('NTF004','System','He thong se bao tri vao 23/11/2025 tu 22h','2025-11-20 17:00:00','Seen','USR001');
 
 -- 16. Announcements
 INSERT INTO Announcement(AnnounceID, Title, Content, Date, AdminID) VALUES
-('ANC001','Đăng ký học kỳ 2025S2','Mở đăng ký từ 10-20/12/2025','2025-11-25','USR001'),
-('ANC002','Học bổng VinUni 2026','Nộp hồ sơ trước 31/12/2025','2025-11-15','USR002'),
-('ANC003','Lịch nghỉ Tết 2026','Từ 25/01 - 05/02/2026','2025-12-20','USR001'),
-('ANC004','Khai giảng AI Lab mới','Tầng 3 nhà B5, mở cửa 24/7','2025-09-05','USR002');
+('ANC001','Dang ky hoc ky 2025S2','Mo dang ky từ 10-20/12/2025','2025-11-25','USR001'),
+('ANC002','Hoc bong Belarus 2026','Nop ho so truoc 31/12/2025','2025-11-15','USR002'),
+('ANC003','Lich nghi Tet 2026','Tu 25/01 - 05/02/2026','2025-12-20','USR001'),
+('ANC004','Khai giang AI Lab moi','Tang 3 toa H6, mo cua tu 5h den 20h','2025-09-05','USR002');
 
 -- 17. StudentStatus
 INSERT INTO StudentStatus(StatusID, Type, EffectiveDate, StudentID) VALUES
@@ -487,12 +487,12 @@ DELIMITER $$
 CREATE FUNCTION GetAcademicRanking(p_GPA DECIMAL(4,2)) RETURNS VARCHAR(20)
 DETERMINISTIC
 BEGIN
-    IF p_GPA >= 9.0 THEN RETURN 'Xuất sắc';
-    ELSEIF p_GPA >= 8.0 THEN RETURN 'Giỏi';
-    ELSEIF p_GPA >= 7.0 THEN RETURN 'Khá';
-    ELSEIF p_GPA >= 5.5 THEN RETURN 'Trung bình';
-    ELSEIF p_GPA >= 4.0 THEN RETURN 'Yếu';
-    ELSE RETURN 'Kém';
+    IF p_GPA >= 9.0 THEN RETURN 'Xuat sac';
+    ELSEIF p_GPA >= 8.0 THEN RETURN 'Gioi';
+    ELSEIF p_GPA >= 7.0 THEN RETURN 'Kha';
+    ELSEIF p_GPA >= 5.5 THEN RETURN 'Trung binh';
+    ELSEIF p_GPA >= 4.0 THEN RETURN 'Yeu';
+    ELSE RETURN 'Kem';
     END IF;
 END$$
 DELIMITER ;
@@ -546,7 +546,7 @@ BEGIN
     DECLARE full_name VARCHAR(100);
     SELECT CONCAT(FirstName, ' ', LastName) INTO full_name
     FROM `User` WHERE UserID = p_UserID;
-    RETURN COALESCE(full_name, 'Không tìm thấy');
+    RETURN COALESCE(full_name, 'Khong tim thay');
 END$$
 DELIMITER ;
 
@@ -656,7 +656,7 @@ BEGIN
         VALUES (
             CONCAT('NTF', LPAD((SELECT COUNT(*)+1 FROM Notification), 5, '0')),
             'Deadline',
-            CONCAT('Nhắc nhở: Bài "', v_Title, '" môn ', v_CourseName, ' sắp đến hạn: ', DATE_FORMAT(v_Deadline, '%d/%m/%Y')),
+            CONCAT('Nhac nho: Bai "', v_Title, '" môn ', v_CourseName, ' sap den han: ', DATE_FORMAT(v_Deadline, '%d/%m/%Y')),
             v_StudentID
         );
     END LOOP;
@@ -673,7 +673,7 @@ BEGIN
         GetFullName(s.StudentID) AS HoTen,
         st.Major,
         GetStudentGPA(s.StudentID, p_Semester) AS GPA,
-        'Cảnh cáo học vụ' AS TrangThai
+        'Canh cao hoc vu' AS TrangThai
     FROM Student st
     JOIN Enrollment e ON st.StudentID = e.StudentID
     WHERE e.Semester = p_Semester
@@ -967,7 +967,7 @@ BEGIN
     
     IF total_credits > 30 THEN
         SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Sinh viên không được đăng ký quá 30 tín chỉ trong một học kỳ!';
+        SET MESSAGE_TEXT = 'Sinh vien khong duoc dang ky qua 30 tin chi trong mot hoc ky!';
     END IF;
 END$$
 DELIMITER ;
@@ -982,7 +982,7 @@ BEGIN
     VALUES (
         CONCAT('NTF', LPAD((SELECT COUNT(*)+1 FROM Notification), 5, '0')),
         'Grade',
-        CONCAT('Bạn đã có điểm mới: ', NEW.Score, '/10'),
+        CONCAT('Ban da co diem moi: ', NEW.Score, '/10'),
         NEW.StudentID
     );
 END$$
@@ -996,7 +996,7 @@ FOR EACH ROW
 BEGIN
     IF EXISTS (SELECT 1 FROM Enrollment WHERE CourseID = OLD.CourseID) THEN
         SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Không thể xóa môn học đã có sinh viên ghi danh!';
+        SET MESSAGE_TEXT = 'Khong the xoa mon hoc da co sinh vien ghi danh!';
     END IF;
 END$$
 DELIMITER ;
