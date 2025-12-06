@@ -10,9 +10,7 @@ export class StudentService {
     private readonly pool: Pool,
   ) {}
 
-  // --------------------------
   // Create using stored procedure
-  // --------------------------
   async createUsingProcedure(dto: CreateStudentDto) {
     const sql = `CALL AddNewStudent(?, ?, ?, ?)`;
 
@@ -26,9 +24,6 @@ export class StudentService {
     return { message: 'Student created via stored procedure' };
   }
 
-  // --------------------------
-  // Basic CRUD
-  // --------------------------
   async create(dto: CreateStudentDto) {
     const sql = `
       INSERT INTO Student (StudentID, EnrollmentYear, Major, DeptID)
@@ -92,13 +87,11 @@ export class StudentService {
     return { message: `Student ${id} deleted successfully` };
   }
 
-  // --------------------------
-  // Get students by department (stored procedure)
-  // --------------------------
+  // Get students by department using stored procedure
   async getByDepartment(deptId: string) {
     const sql = `CALL GetStudentsByDepartment(?)`;
 
     const [resultSets] = await this.pool.execute(sql, [deptId]);
-    return resultSets[0]; // MySQL returns nested arrays for procedures
+    return resultSets[0];
   }
 }

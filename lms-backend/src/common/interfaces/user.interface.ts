@@ -1,10 +1,10 @@
 export interface IUser {
-  userId: string;         // Mã UserID hoặc StudentID/InstructorID/AdminID
+  userId: string;
   email: string;
   firstName: string;
   lastName: string;
 
-  // role dùng cho RBAC (RolesGuard)
+  // RolesGuard
   role: 'admin' | 'instructor' | 'student' | 'system-admin' | 'sManager';
 
   // Optional fields

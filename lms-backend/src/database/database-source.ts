@@ -9,6 +9,6 @@ export const AppDataSource = new DataSource({
   database: 'lms',
   synchronize: false,
   logging: false,
-  entities: [],  // tạm để trống
+  entities: [],
   migrations: [],
 });
