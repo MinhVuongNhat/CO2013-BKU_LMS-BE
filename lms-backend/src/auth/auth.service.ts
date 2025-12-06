@@ -6,8 +6,8 @@ import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class AuthService {
   private readonly validUsers = [
-    { id: 'USR001', email: 'sManager@hcmut.edu.vn', password: '123456', role: 'Admin' }, // sManager
-    // Add more for demo
+    { id: 'USR000', email: 'sManager@hcmut.edu.vn', password: '123456', role: 'Admin' }, // sManager
+    // Thêm tài khoản cho demo
   ];
 
   constructor(

@@ -261,237 +261,81 @@ chore: update package
 
 ## 🧪 10. Kiểm thử API nhanh
 
-Sau khi server chạy:
+### Gọi API bằng VSCode REST Client Extension
+#### Bước 1: Cài extension "REST Client"
+#### Bước 2: Tạo file requests.http
+GET http://localhost:3000/
+Nhấn "Send Request".
 
-```bash
-curl http://localhost:3000
-```
-
-Hoặc mở Swagger (nếu team bổ sung sau):
-
-```
-http://localhost:3000/api
-```
+### Hoặc gọi API bằng curl trong Terminal
+curl http://localhost:3000/
 
 ---
 
 ## Danh sách API
-# 🔐 **1. Auth / User**
-
-> Module: `users`
-
-### ▶ **Get all users**
-
-`GET /users`
-
-### ▶ **Get user by ID**
-
-`GET /users/:id`
-**Params:** `id = UserID`
-
-### ▶ **Create user**
-
-`POST /users`
-**Body:**
-
-```json
-{
-  "UserID": "USR001",
-  "Fullname": "Minh",
-  "Role": "Student",
-  "Email": "abc@gmail.com",
-  "Phone": "0123456789",
-  "Address": "HN"
-}
-```
-
-### ▶ **Update user**
-
-`PATCH /users/:id`
-
-### ▶ **Delete user**
-
-`DELETE /users/:id`
-
----
-
-# 📘 **2. Course**
-
-> Module: `courses`
-
-### ▶ **Get all courses**
-
-`GET /courses`
-
-### ▶ **Get course by ID**
-
-`GET /courses/:id`
-
-### ▶ **Create course**
-
-`POST /courses`
-
-### ▶ **Update course**
-
-`PATCH /courses/:id`
-
-### ▶ **Delete course**
-
-`DELETE /courses/:id`
-
----
-
-# 🏫 **3. Class**
-
-> Module: `classes`
-
-### ▶ **Get all classes**
-
-`GET /classes`
-
-### ▶ **Get class by ID**
-
-`GET /classes/:id`
-
-### ▶ **Create class**
-
-`POST /classes`
-
-### ▶ **Update class**
-
-`PATCH /classes/:id`
-
-### ▶ **Delete class**
-
-`DELETE /classes/:id`
-
----
-
-# 🧪 **4. Assessment (Kiểm tra, bài thi)**
-
-> Module: `assessments`
-
-### ▶ **Get all assessments**
-
-`GET /assessments`
-
-### ▶ **Get assessment by ID**
-
-`GET /assessments/:id`
-
-### ▶ **Create assessment**
-
-`POST /assessments`
-
-### ▶ **Update assessment**
-
-`PATCH /assessments/:id`
-
-### ▶ **Delete assessment**
-
-`DELETE /assessments/:id`
-
----
-
-# 📝 **5. Grades (Điểm)**
-
-> Module: `grades`
-
-### ▶ **Get all grades**
-
-`GET /grades`
-
-### ▶ **Get grade by ID**
-
-`GET /grades/:id`
-
-### ▶ **Get all grades of a student**
-
-`GET /grades/student/:studentId`
-
-### ▶ **Create grade**
-
-`POST /grades`
-
-### ▶ **Update grade**
-
-`PATCH /grades/:id`
-
-### ▶ **Delete grade**
-
-`DELETE /grades/:id`
-
----
-
-# 📅 **6. Attendance (Điểm danh)**
-
-> Module: `attendance`
-
-### ▶ **Get all attendance records**
-
-`GET /attendance`
-
-### ▶ **Get attendance by ID**
-
-`GET /attendance/:id`
-
-### ▶ **Get attendance of a student**
-
-`GET /attendance/student/:studentId`
-
-### ▶ **Create attendance record**
-
-`POST /attendance`
-
-### ▶ **Update attendance**
-
-`PATCH /attendance/:id`
-
-### ▶ **Delete attendance**
-
-`DELETE /attendance/:id`
-
----
-
-# 📣 **7. Notifications**
-
-> Module: `notifications`
-
-### ▶ **Get all notifications**
-
-`GET /notifications`
-
-### ▶ **Get notification by ID**
-
-`GET /notifications/:id`
-
-### ▶ **Get notifications of a user**
-
-`GET /notifications/user/:userId`
-
-### ▶ **Create notification**
-
-`POST /notifications`
-
-### ▶ **Update notification**
-
-`PATCH /notifications/:id`
-
-### ▶ **Delete notification**
-
-`DELETE /notifications/:id`
-
----
-
-# 🎯 Tóm tắt theo bảng
-
-| Module        | API                                                     |
-| ------------- | ------------------------------------------------------- |
-| Users         | GET all, GET by ID, POST, PATCH, DELETE                 |
-| Courses       | GET all, GET by ID, POST, PATCH, DELETE                 |
-| Classes       | GET all, GET by ID, POST, PATCH, DELETE                 |
-| Assessments   | GET all, GET by ID, POST, PATCH, DELETE                 |
-| Grades        | GET all, GET by ID, GET by student, POST, PATCH, DELETE |
-| Attendance    | GET all, GET by ID, GET by student, POST, PATCH, DELETE |
-| Notifications | GET all, GET by ID, GET by user, POST, PATCH, DELETE    |
-
+### 🔐 Auth / Users Module
+| API                   | Mô tả                            |
+| --------------------- | -------------------------------- |
+| GET /users            | Lấy danh sách tất cả người dùng  |
+| GET /users/:id        | Lấy thông tin người dùng theo ID |
+| POST /users           | Tạo người dùng mới               |
+| PATCH /users/:id      | Cập nhật thông tin người dùng    |
+| DELETE /users/:id     | Xóa người dùng                   |
+
+### 📘 Courses Module
+| API                     | Mô tả                          |
+| ----------------------- | ------------------------------ |
+| GET /courses            | Lấy danh sách tất cả khóa học  |
+| GET /courses/:id        | Lấy thông tin khóa học theo ID |
+| POST /courses           | Tạo khóa học mới               |
+| PATCH /courses/:id      | Cập nhật khóa học              |
+| DELETE /courses/:id     | Xóa khóa học                   |
+
+### 🏫 Classes Module
+| API                     | Mô tả                         |
+| ----------------------- | ----------------------------- |
+| GET /classes            | Lấy danh sách tất cả lớp học  |
+| GET /classes/:id        | Lấy thông tin lớp học theo ID |
+| POST /classes           | Tạo lớp học mới               |
+| PATCH /classes/:id      | Cập nhật lớp học              |
+| DELETE /classes/:id     | Xóa lớp học                   |
+
+### 🧪 Assessments Module
+| API                         | Mô tả                      |
+| --------------------------- | -------------------------- |
+| GET /assessments            | Lấy danh sách bài kiểm tra |
+| GET /assessments/:id        | Lấy bài kiểm tra theo ID   |
+| POST /assessments           | Tạo bài kiểm tra mới       |
+| PATCH /assessments/:id      | Cập nhật bài kiểm tra      |
+| DELETE /assessments/:id     | Xóa bài kiểm tra           |
+
+### 📝 Grades Module
+| API                                | Mô tả                             |
+| ---------------------------------- | --------------------------------- |
+| GET /grades                        | Lấy danh sách điểm                |
+| GET /grades/:id                    | Lấy điểm theo ID                  |
+| GET /grades/student/:studentId     | Lấy toàn bộ điểm của một học sinh |
+| POST /grades                       | Tạo điểm mới                      |
+| PATCH /grades/:id                  | Cập nhật điểm                     |
+| DELETE /grades/:id                 | Xóa điểm                          |
+
+### 🔔 Notifications Module
+| API                                 | Mô tả                        |
+| ----------------------------------- | ---------------------------- |
+| GET /notifications                  | Lấy danh sách thông báo      |
+| GET /notifications/:id              | Lấy thông báo theo ID        |
+| GET /notifications/user/:userId     | Lấy thông báo của người dùng |
+| POST /notifications                 | Tạo thông báo                |
+| PATCH /notifications/:id            | Cập nhật thông báo           |
+| DELETE /notifications/:id           | Xóa thông báo                |
+
+
+### 🚀 Reports Module
+| API                                           | Mô tả                                      |
+| --------------------------------------------- | ------------------------------------------ |
+| GET /reports/gpa/:studentId/:semester         | Tính GPA + xếp loại (FUNCTION)             |
+| GET /reports/credits/:studentId               | Lấy tổng tín chỉ hoàn thành (FUNCTION)     |
+| GET /reports/department/:deptId/:semester     | Danh sách sinh viên theo khoa (PROCEDURE)  |
+| GET /reports/instructor/:instructorId         | Thống kê lớp giảng viên (PROCEDURE)        |
+| GET /reports/warnings/:semester               | Sinh viên cảnh cáo học vụ (PROCEDURE)      |
+| GET /reports/notifications/deadlines/send     | Gửi tự động thông báo deadline (PROCEDURE) |
