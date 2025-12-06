@@ -8,7 +8,9 @@ import { AuthModule } from './auth/auth.module';
 import { CourseModule } from './courses/courses.module';
 import { GradeModule } from './grades/grades.module';
 import { StudentModule } from './students/students.module';
+import { EnrollmentModule } from './enrollment/enrollment.module';
 import { NotificationModule } from './notifications/notifications.module';
+import { StatisticsModule } from './statistics/statistics.module';
 
 @Module({
   imports: [
@@ -17,7 +19,9 @@ import { NotificationModule } from './notifications/notifications.module';
     CourseModule,
     GradeModule,
     StudentModule,
+    EnrollmentModule,
     NotificationModule,
+    StatisticsModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),

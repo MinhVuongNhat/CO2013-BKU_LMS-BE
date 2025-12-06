@@ -13,9 +13,6 @@ export class CourseService {
     private readonly pool: Pool,
   ) {}
 
-  // ============================
-  // GET /courses?search&sort&page&limit
-  // ============================
   async findAll(query: any) {
     const {
       search = '',
@@ -41,9 +38,6 @@ export class CourseService {
     return rows;
   }
 
-  // ============================
-  // GET /courses/:id (chi tiết + instructor + số SV)
-  // ============================
   async findOne(id: string) {
     const [rows] = await this.pool.query(
       `
@@ -70,9 +64,6 @@ export class CourseService {
     return rows[0];
   }
 
-  // ============================
-  // POST /courses
-  // ============================
   async create(dto: CreateCourseDto): Promise<Course> {
     await this.pool.query(
       `
@@ -93,9 +84,6 @@ export class CourseService {
     return dto;
   }
 
-  // ============================
-  // PUT /courses/:id
-  // ============================
   async update(id: string, dto: UpdateCourseDto) {
     const [result] = await this.pool.query(
       `
@@ -117,9 +105,6 @@ export class CourseService {
     return { message: 'Course updated successfully' };
   }
 
-  // ============================
-  // DELETE /courses/:id
-  // ============================
   async remove(id: string) {
     try {
       await this.pool.query(`DELETE FROM Course WHERE CourseID = ?`, [id]);

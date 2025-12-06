@@ -144,8 +144,7 @@ lms-backend/
 │   │   ├── auth.module.ts
 │   │   ├── auth.service.ts
 │   │   ├── dto/
-│   │   │   ├── login.dto.ts
-│   │   │   └── register.dto.ts
+│   │   │   └── login.dto.ts
 │   │   └── strategies/
 │   │       └── jwt.strategy.ts
 │   ├── common/
@@ -188,6 +187,9 @@ lms-backend/
 │   │   ├── notification.controller.ts
 │   │   ├── notification.module.ts
 │   │   ├── notification.service.ts
+│   │   ├── dto/
+│   │   │   ├── create-notification.dto
+│   │   │   └── update-notification.dto
 │   │   └── entities/
 │   │       └── notification.entity.ts
 │   ├── database/
@@ -196,7 +198,8 @@ lms-backend/
 │   │   └── seeds/
 │   │       └── lms-seed.sql
 │   └── test/
-│       └── app.e2e-spec.ts
+│       ├── app.e2e-spec.ts
+│       └── jest-e2e.json
 └── dist/ (generated)
 ```
 
@@ -291,14 +294,14 @@ curl http://localhost:3000/
 | PATCH /courses/:id      | Cập nhật khóa học              |
 | DELETE /courses/:id     | Xóa khóa học                   |
 
-### 🏫 Classes Module
-| API                     | Mô tả                         |
-| ----------------------- | ----------------------------- |
-| GET /classes            | Lấy danh sách tất cả lớp học  |
-| GET /classes/:id        | Lấy thông tin lớp học theo ID |
-| POST /classes           | Tạo lớp học mới               |
-| PATCH /classes/:id      | Cập nhật lớp học              |
-| DELETE /classes/:id     | Xóa lớp học                   |
+### 📘 Enrollment (Class Management)
+| API                                             | Mô tả                                                   |
+| ----------------------------| ------------------------------------------------------- |
+| GET /enrollments            | Lấy toàn bộ danh sách lớp học                           |
+| GET /enrollments/:id        | Lấy chi tiết một lớp học (kèm StudentName + CourseName) |
+| POST /enrollments           | Tạo một lớp học mới (Enrollment)                        |
+| PUT /enrollments/:id        | Cập nhật thông tin lớp học                              |
+| DELETE /enrollments/:id     | Xóa lớp học                                             |
 
 ### 🧪 Assessments Module
 | API                         | Mô tả                      |
@@ -339,3 +342,12 @@ curl http://localhost:3000/
 | GET /reports/instructor/:instructorId         | Thống kê lớp giảng viên (PROCEDURE)        |
 | GET /reports/warnings/:semester               | Sinh viên cảnh cáo học vụ (PROCEDURE)      |
 | GET /reports/notifications/deadlines/send     | Gửi tự động thông báo deadline (PROCEDURE) |
+
+### 🚀 Module: Statistics (hoặc Reports/Dashboard)
+| API                          | Mô tả                                 |
+| ---------------------------- | ------------------------------------- |
+| GET /stats/total-users       | Tổng số tài khoản (UserAccount)       |
+| GET /stats/total-classes     | Tổng số lớp học                       |
+| GET /stats/total-courses     | Tổng số môn học                       |
+| GET /stats/total-assignments | Tổng bài kiểm tra (Assessment)        |
+| GET /stats/overview          | Gộp tất cả số liệu ở trên (Dashboard) |
