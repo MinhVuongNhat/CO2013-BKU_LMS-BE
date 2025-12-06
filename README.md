@@ -285,7 +285,14 @@ curl http://localhost:3000/
 | PATCH /students/:id      | Cập nhật thông tin người dùng    |
 | DELETE /students/:id     | Xóa người dùng                   |
 
-### Students
+### 🔐 User Module
+| API                 | Mô tả                    |
+| ------------------- | ------------------------ |
+| GET /user           | Lấy danh sách người dùng |
+| GET /user/:id       | Lấy thông tin 1 user     |
+| POST /user          | Tạo user mới             |
+| PATCH /user/:id     | Cập nhật user            |
+| DELETE /user/:id    | Xóa user                 |
 
 ### 📘 Courses Module
 | API                     | Mô tả                          |

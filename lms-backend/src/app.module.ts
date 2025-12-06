@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { CourseModule } from './courses/courses.module';
 import { GradeModule } from './grades/grades.module';
 import { StudentModule } from './students/students.module';
+import { UserModule } from './user/user.module';
 import { EnrollmentModule } from './enrollment/enrollment.module';
 import { NotificationModule } from './notifications/notifications.module';
 import { StatisticsModule } from './statistics/statistics.module';
@@ -19,6 +20,7 @@ import { StatisticsModule } from './statistics/statistics.module';
     CourseModule,
     GradeModule,
     StudentModule,
+    UserModule,
     EnrollmentModule,
     NotificationModule,
     StatisticsModule,
