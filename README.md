@@ -276,14 +276,16 @@ curl http://localhost:3000/
 ---
 
 ## Danh sách API
-### 🔐 Auth / Users Module
-| API                   | Mô tả                            |
-| --------------------- | -------------------------------- |
-| GET /users            | Lấy danh sách tất cả người dùng  |
-| GET /users/:id        | Lấy thông tin người dùng theo ID |
-| POST /users           | Tạo người dùng mới               |
-| PATCH /users/:id      | Cập nhật thông tin người dùng    |
-| DELETE /users/:id     | Xóa người dùng                   |
+### 🔐 Student Module
+| API                      | Mô tả                            |
+| ------------------------ | -------------------------------- |
+| GET /students            | Lấy danh sách tất cả người dùng  |
+| GET /students/:id        | Lấy thông tin người dùng theo ID |
+| POST /students           | Tạo người dùng mới               |
+| PATCH /students/:id      | Cập nhật thông tin người dùng    |
+| DELETE /students/:id     | Xóa người dùng                   |
+
+### Students
 
 ### 📘 Courses Module
 | API                     | Mô tả                          |
