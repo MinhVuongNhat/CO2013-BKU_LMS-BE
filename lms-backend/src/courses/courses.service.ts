@@ -43,15 +43,12 @@ export class CourseService {
       `
       SELECT 
         c.*,
-        CONCAT(u.FirstName, ' ', u.LastName) AS InstructorName,
         (
           SELECT COUNT(*)
           FROM Enrollment e
           WHERE e.CourseID = c.CourseID
         ) AS StudentCount
       FROM Course c
-      LEFT JOIN Instructor i ON c.InstructorID = i.InstructorID
-      LEFT JOIN User u ON i.InstructorID = u.UserID
       WHERE c.CourseID = ?
       `,
       [id],
@@ -67,7 +64,7 @@ export class CourseService {
   async create(dto: CreateCourseDto): Promise<Course> {
     await this.pool.query(
       `
-      INSERT INTO Course (CourseID, Name, Description, Credit, Duration, DeptID, InstructorID)
+      INSERT INTO Course (CourseID, Name, Description, Credit, Duration, DeptID)
       VALUES (?, ?, ?, ?, ?, ?, ?)
       `,
       [
@@ -77,7 +74,6 @@ export class CourseService {
         dto.Credit,
         dto.Duration,
         dto.DeptID || null,
-        dto.InstructorID || null,
       ],
     );
 
@@ -88,7 +84,7 @@ export class CourseService {
     const [result] = await this.pool.query(
       `
       UPDATE Course
-      SET Name = ?, Description = ?, Credit = ?, Duration = ?, DeptID = ?, InstructorID = ?
+      SET Name = ?, Description = ?, Credit = ?, Duration = ?, DeptID = ?
       WHERE CourseID = ?
       `,
       [
@@ -97,7 +93,6 @@ export class CourseService {
         dto.Credit,
         dto.Duration,
         dto.DeptID,
-        dto.InstructorID,
         id,
       ],
     );

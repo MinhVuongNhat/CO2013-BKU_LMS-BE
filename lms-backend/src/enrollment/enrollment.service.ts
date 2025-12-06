@@ -27,15 +27,32 @@ export class EnrollmentService {
       SELECT 
         e.*,
         CONCAT(s.FirstName, ' ', s.LastName) AS StudentName,
-        c.Name AS CourseName
+        c.Name AS CourseName,
+        CONCAT(ins.FirstName, ' ', ins.LastName) AS InstructorName
       FROM Enrollment e
       LEFT JOIN User s ON e.StudentID = s.UserID
       LEFT JOIN Course c ON e.CourseID = c.CourseID
-      WHERE e.StudentID LIKE ? OR e.CourseID LIKE ?
+      LEFT JOIN User ins ON e.InstructorID = ins.UserID
+      WHERE 
+        e.EnrollID LIKE ? 
+        OR e.StudentID LIKE ?
+        OR e.CourseID LIKE ?
+        OR s.FirstName LIKE ?
+        OR s.LastName LIKE ?
+        OR c.Name LIKE ?
       ORDER BY ${sort} ${order}
       LIMIT ? OFFSET ?
       `,
-      [`%${search}%`, `%${search}%`, Number(limit), Number(offset)],
+      [
+        `%${search}%`,
+        `%${search}%`,
+        `%${search}%`,
+        `%${search}%`,
+        `%${search}%`,
+        `%${search}%`,
+        Number(limit),
+        Number(offset),
+      ],
     );
 
     return rows;
@@ -47,10 +64,12 @@ export class EnrollmentService {
       SELECT 
         e.*,
         CONCAT(s.FirstName, ' ', s.LastName) AS StudentName,
-        c.Name AS CourseName
+        c.Name AS CourseName,
+        CONCAT(ins.FirstName, ' ', ins.LastName) AS InstructorName
       FROM Enrollment e
       LEFT JOIN User s ON e.StudentID = s.UserID
       LEFT JOIN Course c ON e.CourseID = c.CourseID
+      LEFT JOIN User ins ON e.InstructorID = ins.UserID
       WHERE e.EnrollID = ?
       `,
       [id],
@@ -67,7 +86,7 @@ export class EnrollmentService {
     await this.pool.query(
       `
       INSERT INTO Enrollment 
-        (EnrollID, StudentID, CourseID, Status, Semester, GradeFinal, Schedule)
+        (EnrollID, StudentID, CourseID, Status, Semester, GradeFinal, Schedule, InstructorID)
       VALUES (?, ?, ?, ?, ?, ?, ?)
       `,
       [
@@ -78,6 +97,7 @@ export class EnrollmentService {
         dto.Semester,
         dto.GradeFinal ?? null,
         dto.Schedule ?? null,
+        dto.InstructorID,
       ],
     );
 

@@ -1,4 +1,5 @@
 import { IsNotEmpty, IsOptional, IsEnum, IsString, Length, IsNumber } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateEnrollmentDto {
   @IsString()
@@ -28,4 +29,9 @@ export class CreateEnrollmentDto {
   @IsString()
   @IsOptional()
   Schedule?: string;
+
+  @ApiProperty({ example: 'TEA00001' })
+  @IsOptional()
+  @IsString()
+  InstructorID?: string;
 }

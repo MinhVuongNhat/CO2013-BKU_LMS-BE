@@ -64,7 +64,6 @@ CREATE TABLE UserAccount (
         ON DELETE CASCADE
 );
 
-
 -- 6. Course
 CREATE TABLE Course (
     CourseID CHAR(8) PRIMARY KEY,
@@ -73,9 +72,7 @@ CREATE TABLE Course (
     Credit INT CHECK (Credit BETWEEN 1 AND 10),
     Duration INT CHECK (Duration > 0), -- duration in hours
     DeptID CHAR(6),
-    InstructorID CHAR(8),
-    FOREIGN KEY (DeptID) REFERENCES Department(DeptID),
-    FOREIGN KEY (InstructorID) REFERENCES Instructor(InstructorID)
+    FOREIGN KEY (DeptID) REFERENCES Department(DeptID)
 ) ENGINE=InnoDB;
 
 -- 7. Module
@@ -109,8 +106,10 @@ CREATE TABLE Enrollment (
     Semester VARCHAR(10),
     GradeFinal DECIMAL(4,2),
     Schedule VARCHAR(100),
+	InstructorID CHAR(8),
     FOREIGN KEY (StudentID) REFERENCES Student(StudentID),
-    FOREIGN KEY (CourseID) REFERENCES Course(CourseID)
+    FOREIGN KEY (CourseID) REFERENCES Course(CourseID),
+	FOREIGN KEY (InstructorID) REFERENCES Instructor(InstructorID)
 ) ENGINE=InnoDB;
 
 -- 10. Assessment
@@ -309,25 +308,25 @@ INSERT INTO UserAccount(AccountID, UserID, Email, PasswordHash, Role) VALUES
 ('ACC008','USR015','hoangvantuan@hcmut.edu.vn','TuanHue2k5.','Student');
 
 -- 6. Courses
-INSERT INTO Course(CourseID, Name, Description, Credit, Duration, DeptID, InstructorID) VALUES
-('CRS001','Introduction to Programming','Lập trình cơ bản C/Python',3,45,'DEP005','USR004'),
-('CRS002','Data Structures & Algorithms','Cấu trúc dữ liệu và giải thuật',4,60,'DEP005','USR005'),
-('CRS003','Linear Algebra','Đại số tuyến tính',3,45,'DEP004','USR003'),
-('CRS004','Principles of Management','Nguyên lý quản trị học',3,45,'DEP011','USR007'),
-('CRS005','English for Engineering','Tiếng Anh kỹ thuật',2,30,'DEP004','USR008'),
-('CRS006','Thermodynamics','Nhiệt động lực học',4,60,'DEP001','USR008'),
-('CRS007','Material Science','Khoa học vật liệu',3,45,'DEP002','USR009'),
-('CRS008','Circuit Theory','Lý thuyết mạch điện',4,60,'DEP003','USR006'),
-('CRS009','Environmental Chemistry','Hóa học môi trường',3,45,'DEP010','USR010'),
-('CRS010','Structural Analysis','Phân tích kết cấu',4,60,'DEP009','USR005'),
-('CRS011','Transport Planning','Quy hoạch giao thông',3,45,'DEP007','USR004'),
-('CRS012','Organic Chemistry','Hóa học hữu cơ',4,60,'DEP008','USR010'),
-('CRS013','Database Systems','Hệ quản trị cơ sở dữ liệu',3,45,'DEP005','USR004'),
-('CRS014','Machine Learning Basics','Nhập môn học máy',3,45,'DEP005','USR005'),
-('CRS015','Fluid Mechanics','Cơ học chất lỏng',4,60,'DEP001','USR008'),
-('CRS016','Project Management','Quản lý dự án',3,45,'DEP011','USR007'),
-('CRS017','Water Resource Engineering','Kỹ thuật tài nguyên nước',3,45,'DEP010','USR010'),
-('CRS018','Construction Management','Quản lý xây dựng',3,45,'DEP009','USR005');
+INSERT INTO Course(CourseID, Name, Description, Credit, Duration, DeptID) VALUES
+('CRS001','Introduction to Programming','Lập trình cơ bản C/Python',3,45,'DEP005'),
+('CRS002','Data Structures & Algorithms','Cấu trúc dữ liệu và giải thuật',4,60,'DEP005'),
+('CRS003','Linear Algebra','Đại số tuyến tính',3,45,'DEP004'),
+('CRS004','Principles of Management','Nguyên lý quản trị học',3,45,'DEP011'),
+('CRS005','English for Engineering','Tiếng Anh kỹ thuật',2,30,'DEP004'),
+('CRS006','Thermodynamics','Nhiệt động lực học',4,60,'DEP001'),
+('CRS007','Material Science','Khoa học vật liệu',3,45,'DEP002'),
+('CRS008','Circuit Theory','Lý thuyết mạch điện',4,60,'DEP003'),
+('CRS009','Environmental Chemistry','Hóa học môi trường',3,45,'DEP010'),
+('CRS010','Structural Analysis','Phân tích kết cấu',4,60,'DEP009'),
+('CRS011','Transport Planning','Quy hoạch giao thông',3,45,'DEP007'),
+('CRS012','Organic Chemistry','Hóa học hữu cơ',4,60,'DEP008'),
+('CRS013','Database Systems','Hệ quản trị cơ sở dữ liệu',3,45,'DEP005'),
+('CRS014','Machine Learning Basics','Nhập môn học máy',3,45,'DEP005'),
+('CRS015','Fluid Mechanics','Cơ học chất lỏng',4,60,'DEP001'),
+('CRS016','Project Management','Quản lý dự án',3,45,'DEP011'),
+('CRS017','Water Resource Engineering','Kỹ thuật tài nguyên nước',3,45,'DEP010'),
+('CRS018','Construction Management','Quản lý xây dựng',3,45,'DEP009');
 
 -- 7. Modules
 INSERT INTO Module(ModuleID, Name, Description, Duration, CourseID) VALUES
@@ -368,27 +367,27 @@ INSERT INTO Assessment(AssessID, Title, Description, Deadline, MaxScore, CourseI
 ('ASG007','IELTS Writing Sample','Bài luận 250 từ','2025-10-30',30,'CRS005');
 
 -- 10. Enrollments
-INSERT INTO Enrollment(EnrollID, StudentID, CourseID, Status, Semester, GradeFinal, Schedule) VALUES
-('ENR001','USR011','CRS011','Completed','2025S1',8.4,'Mon-Wed 08:00-09:30'),
-('ENR002','USR011','CRS001','Enrolled','2025S1',NULL,'Mon-Wed 10:00-11:30'),
-('ENR003','USR012','CRS012','Enrolled','2025S1',NULL,'Tue-Thu 08:00-10:00'),
-('ENR004','USR012','CRS009','Enrolled','2025S1',NULL,'Fri 13:30-16:30'),
-('ENR005','USR013','CRS010','Enrolled','2025S1',NULL,'Mon-Wed 14:00-16:00'),
-('ENR006','USR014','CRS017','Enrolled','2025S1',NULL,'Tue-Thu 14:00-16:00'),
-('ENR007','USR015','CRS016','Completed','2025S1',7.8,'Fri 08:00-11:00'),
-('ENR008','USR016','CRS011','Enrolled','2025S1',NULL,'Mon 08:00-11:00'),
-('ENR009','USR017','CRS012','Enrolled','2025S1',NULL,'Wed 13:30-16:30'),
-('ENR010','USR018','CRS010','Enrolled','2025S1',NULL,'Tue 10:00-13:00'),
-('ENR011','USR019','CRS017','Enrolled','2025S1',NULL,'Thu 08:00-11:00'),
-('ENR012','USR020','CRS004','Completed','2025S1',9.1,'Fri 14:00-17:00'),
-('ENR013','USR021','CRS001','Enrolled','2025S1',NULL,'Mon-Wed 10:00-11:30'),
-('ENR014','USR022','CRS002','Enrolled','2025S1',NULL,'Tue-Thu 13:30-15:30'),
-('ENR015','USR023','CRS010','Enrolled','2025S1',NULL,'Mon 14:00-17:00'),
-('ENR016','USR026','CRS011','Enrolled','2025S1',NULL,'Wed 08:00-11:00'),
-('ENR017','USR027','CRS012','Enrolled','2025S1',NULL,'Tue 08:00-11:00'),
-('ENR018','USR028','CRS018','Enrolled','2025S1',NULL,'Thu 13:30-16:30'),
-('ENR019','USR029','CRS009','Enrolled','2025S1',NULL,'Fri 10:00-13:00'),
-('ENR020','USR030','CRS016','Enrolled','2025S1',NULL,'Mon 13:30-16:30');
+INSERT INTO Enrollment(EnrollID, StudentID, CourseID, Status, Semester, GradeFinal, Schedule, InstructorID) VALUES
+('ENR001','USR011','CRS011','Completed','2025S1',8.4,'Mon-Wed 08:00-09:30','USR004'),
+('ENR002','USR011','CRS001','Enrolled','2025S1',NULL,'Mon-Wed 10:00-11:30','USR005'),
+('ENR003','USR012','CRS012','Enrolled','2025S1',NULL,'Tue-Thu 08:00-10:00','USR003'),
+('ENR004','USR012','CRS009','Enrolled','2025S1',NULL,'Fri 13:30-16:30','USR004'),
+('ENR005','USR013','CRS010','Enrolled','2025S1',NULL,'Mon-Wed 14:00-16:00','USR006'),
+('ENR006','USR014','CRS017','Enrolled','2025S1',NULL,'Tue-Thu 14:00-16:00','USR006'),
+('ENR007','USR015','CRS016','Completed','2025S1',7.8,'Fri 08:00-11:00','USR008'),
+('ENR008','USR016','CRS011','Enrolled','2025S1',NULL,'Mon 08:00-11:00','USR007'),
+('ENR009','USR017','CRS012','Enrolled','2025S1',NULL,'Wed 13:30-16:30','USR004'),
+('ENR010','USR018','CRS010','Enrolled','2025S1',NULL,'Tue 10:00-13:00','USR005'),
+('ENR011','USR019','CRS017','Enrolled','2025S1',NULL,'Thu 08:00-11:00','USR006'),
+('ENR012','USR020','CRS004','Completed','2025S1',9.1,'Fri 14:00-17:00','USR009'),
+('ENR013','USR021','CRS001','Enrolled','2025S1',NULL,'Mon-Wed 10:00-11:30','USR010'),
+('ENR014','USR022','CRS002','Enrolled','2025S1',NULL,'Tue-Thu 13:30-15:30','USR009'),
+('ENR015','USR023','CRS010','Enrolled','2025S1',NULL,'Mon 14:00-17:00','USR009'),
+('ENR016','USR026','CRS011','Enrolled','2025S1',NULL,'Wed 08:00-11:00','USR008'),
+('ENR017','USR027','CRS012','Enrolled','2025S1',NULL,'Tue 08:00-11:00','USR006'),
+('ENR018','USR028','CRS018','Enrolled','2025S1',NULL,'Thu 13:30-16:30','USR006'),
+('ENR019','USR029','CRS009','Enrolled','2025S1',NULL,'Fri 10:00-13:00','USR007'),
+('ENR020','USR030','CRS016','Enrolled','2025S1',NULL,'Mon 13:30-16:30','USR007');
 
 -- 11. Grades
 INSERT INTO Grade(GradeID, StudentID, AssessID, Score, GradeLetter, DateRecorded) VALUES

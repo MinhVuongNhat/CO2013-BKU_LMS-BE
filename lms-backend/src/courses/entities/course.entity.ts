@@ -5,5 +5,4 @@ export class Course {
   Credit: number;
   Duration: number;
   DeptID?: string;
-  InstructorID?: string;
 }

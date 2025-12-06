@@ -6,4 +6,5 @@ export class Enrollment {
   Semester: string;
   GradeFinal?: number;
   Schedule?: string;
+  InstructorID?: string;
 }

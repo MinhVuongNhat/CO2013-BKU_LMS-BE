@@ -30,9 +30,4 @@ export class CreateCourseDto {
   @IsOptional()
   @IsString()
   DeptID?: string;
-
-  @ApiProperty({ example: 'TEA00001' })
-  @IsOptional()
-  @IsString()
-  InstructorID?: string;
 }
