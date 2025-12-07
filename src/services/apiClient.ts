@@ -2,6 +2,10 @@
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
+if (!BASE_URL) {
+  console.error("❌ LỖI: VITE_API_URL chưa được cấu hình trong file .env");
+}
+
 interface RequestOptions extends RequestInit {
   data?: any;
 }
@@ -9,13 +13,16 @@ interface RequestOptions extends RequestInit {
 async function request<T>(endpoint: string, options: RequestOptions = {}): Promise<T> {
   const { data, headers, ...customConfig } = options;
 
+  // Nếu BASE_URL null → cảnh báo
+  if (!BASE_URL) {
+    throw new Error("VITE_API_URL is not defined — kiểm tra file .env");
+  }
+
   const config: RequestInit = {
     ...customConfig,
     headers: {
       'Content-Type': 'application/json',
       ...headers,
-      // Nếu sau này có token auth thì thêm vào đây:
-      // 'Authorization': `Bearer ${localStorage.getItem('token')}`, 
     },
   };
 
@@ -23,7 +30,6 @@ async function request<T>(endpoint: string, options: RequestOptions = {}): Promi
     config.body = JSON.stringify(data);
   }
 
-  // Loại bỏ dấu / ở đầu endpoint nếu có để tránh lỗi double slash
   const cleanEndpoint = endpoint.startsWith('/') ? endpoint.slice(1) : endpoint;
 
   const response = await fetch(`${BASE_URL}/${cleanEndpoint}`, config);
@@ -33,7 +39,6 @@ async function request<T>(endpoint: string, options: RequestOptions = {}): Promi
     throw new Error(errorBody.message || `API Error: ${response.statusText}`);
   }
 
-  // Xử lý trường hợp response không có body (ví dụ DELETE thành công trả về 204)
   if (response.status === 204) {
     return {} as T;
   }

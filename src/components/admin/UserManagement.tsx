@@ -37,8 +37,8 @@ export function UserManagement() {
     role: 'Student' as 'Admin' | 'Instructor' | 'Student',
     password: '',
     phone: '',
-    studentId: '',
-    teacherId: ''
+    address: '',
+    id: ''
   });
 
   // 1. Hàm gọi API lấy danh sách User
@@ -63,8 +63,7 @@ export function UserManagement() {
   const filteredUsers = users.filter(user =>
     user.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
     user.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (user.studentId?.toLowerCase().includes(searchQuery.toLowerCase())) ||
-    (user.teacherId?.toLowerCase().includes(searchQuery.toLowerCase()))
+    (user.id?.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
   const getRoleBadge = (role: string) => {
@@ -86,7 +85,7 @@ export function UserManagement() {
 
   // Helper reset form
   const resetForm = () => {
-    setFormData({ name: '', email: '', role: 'Student', password: '', phone: '', studentId: '', teacherId: '' });
+    setFormData({ name: '', email: '', role: 'Student', password: '', phone: '', address: '', id: ''});
   };
 
   // --- HANDLERS MỞ DIALOG ---
@@ -109,8 +108,8 @@ export function UserManagement() {
       role: user.role,
       password: '',
       phone: user.phone || '',
-      studentId: user.studentId || '',
-      teacherId: user.teacherId || ''
+      address: user.address || '',
+      id: user.id
     });
     setEditDialogOpen(true);
   };
@@ -136,8 +135,7 @@ export function UserManagement() {
         password: formData.password,
         role: formData.role,
         phone: formData.phone || undefined,
-        studentId: formData.role === 'Student' ? formData.studentId : undefined,
-        teacherId: formData.role === 'Instructor' ? formData.teacherId : undefined
+        address: formData.address
       };
 
       await userService.createUser(payload);
@@ -255,21 +253,11 @@ export function UserManagement() {
               </div>
               {formData.role === 'Instructor' && (
                 <div className="space-y-2">
-                  <Label>Mã sinh viên</Label>
+                  <Label>Mã người dùng</Label>
                   <Input
                     placeholder="SV2024001"
-                    value={formData.studentId}
-                    onChange={(e) => setFormData({ ...formData, studentId: e.target.value })}
-                  />
-                </div>
-              )}
-              {formData.role === 'Instructor' && (
-                <div className="space-y-2">
-                  <Label>Mã giảng viên</Label>
-                  <Input
-                    placeholder="GV001"
-                    value={formData.teacherId}
-                    onChange={(e) => setFormData({ ...formData, teacherId: e.target.value })}
+                    value={formData.id}
+                    onChange={(e) => setFormData({ ...formData, id: e.target.value })}
                   />
                 </div>
               )}
@@ -468,7 +456,7 @@ export function UserManagement() {
                 <TableHead className="text-white font-bold ">Tên</TableHead>
                 <TableHead className="text-white font-bold">Email</TableHead>
                 <TableHead className="text-white font-bold">Vai trò</TableHead>
-                <TableHead className="text-white font-bold">Mã SV/GV</TableHead>
+                <TableHead className="text-white font-bold">Mã người dùng</TableHead>
                 <TableHead className="text-right text-white font-bold">Thao tác</TableHead>
               </TableRow>
             </TableHeader>
@@ -493,7 +481,7 @@ export function UserManagement() {
                       <TableCell>
                         <Badge variant={roleInfo.variant as any}>{roleInfo.label}</Badge>
                       </TableCell>
-                      <TableCell className="font-semibold">{user.studentId || user.teacherId || '-'}</TableCell>
+                      <TableCell className="font-semibold">{user.id || '-'}</TableCell>
                       <TableCell className="text-right">
                         <div className="flex justify-end gap-2">
                           <Button 
