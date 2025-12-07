@@ -387,7 +387,17 @@ INSERT INTO Enrollment(EnrollID, StudentID, CourseID, Status, Semester, GradeFin
 ('ENR017','USR027','CRS012','Enrolled','2025S1',NULL,'Tue 08:00-11:00','USR006'),
 ('ENR018','USR028','CRS018','Enrolled','2025S1',NULL,'Thu 13:30-16:30','USR006'),
 ('ENR019','USR029','CRS009','Enrolled','2025S1',NULL,'Fri 10:00-13:00','USR007'),
-('ENR020','USR030','CRS016','Enrolled','2025S1',NULL,'Mon 13:30-16:30','USR007');
+('ENR020','USR030','CRS016','Enrolled','2025S1',NULL,'Mon 13:30-16:30','USR007'),
+('ENR021','USR011','CRS003','Enrolled','2025S1',NULL,'Tue-Thu 09:00-11:00','USR005'),
+('ENR022','USR012','CRS005','Enrolled','2025S1',NULL,'Mon 13:00-16:00','USR004'),
+('ENR023','USR023','CRS006','Enrolled','2025S1',NULL,'Wed 08:00-11:00','USR003'),
+('ENR024','USR024','CRS007','Enrolled','2025S1',NULL,'Fri 09:00-12:00','USR008'),
+('ENR025','USR015','CRS008','Completed','2025S1',8.7,'Tue-Thu 14:00-16:00','USR006'),
+('ENR026','USR026','CRS013','Enrolled','2025S1',NULL,'Mon-Wed 15:00-17:00','USR009'),
+('ENR027','USR017','CRS014','Enrolled','2025S1',NULL,'Thu 10:00-13:00','USR010'),
+('ENR028','USR018','CRS015','Enrolled','2025S1',NULL,'Wed 14:00-17:00','USR007'),
+('ENR029','USR029','CRS003','Enrolled','2025S1',NULL,'Mon-Wed 09:00-10:30','USR005'),
+('ENR030','USR019','CRS014','Enrolled','2025S1',NULL,'Fri 13:00-16:00','USR010');
 
 -- 11. Grades
 INSERT INTO Grade(GradeID, StudentID, AssessID, Score, GradeLetter, DateRecorded) VALUES
