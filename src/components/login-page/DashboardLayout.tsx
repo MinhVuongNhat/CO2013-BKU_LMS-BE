@@ -63,6 +63,7 @@ export function DashboardLayout({ user, children, currentPage, onNavigate, onLog
       return [
         { id: 'dashboard', label: 'Tổng quan', icon: BarChart3 },
         { id: 'users', label: 'Quản lý người dùng', icon: Users },
+        // { id: 'students', label: 'Quản lý sinh viên', icon: Users },
         { id: 'courses', label: 'Quản lý lớp học', icon: BookOpen },
         { id: 'reports', label: 'Thống kê hệ thống', icon: BarChart3 },
         { id: 'settings', label: 'Cài đặt', icon: Settings }
