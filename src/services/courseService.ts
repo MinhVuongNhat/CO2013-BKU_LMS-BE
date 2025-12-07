@@ -2,11 +2,11 @@
 import { apiClient } from './apiClient';
 import { Course, Enrollment } from '../types';
 
-// Interface trả về từ API (Raw Data)
+// Interface trả về từ API (Raw Data từ Backend)
 interface ApiCourseResponse {
   CourseID: string;
-  Name: string;
-  Description: string;
+  Name: string;        // Tên Tiếng Anh
+  Description: string; // Tên Tiếng Việt
   Credit: number;
   Duration: number;
   DeptID: string;
@@ -34,14 +34,12 @@ export const courseService = {
     return rawData.map(item => ({
       id: item.CourseID,
       code: item.CourseID,
-      // Yêu cầu: Dùng Description làm tên môn học
-      name: item.Description, 
-      // Lưu lại tên gốc (tiếng Anh) để hiển thị phụ
-      originalName: item.Name, 
+      name: item.Description, // Map Description -> Tên hiển thị (Tiếng Việt)
+      originalName: item.Name, // Map Name -> Tên gốc (Tiếng Anh)
       credit: item.Credit,
       duration: item.Duration,
       deptId: item.DeptID,
-      studentCount: 0 // Sẽ tính toán sau khi lấy enrollment
+      studentCount: 0 
     }));
   },
 
@@ -49,21 +47,33 @@ export const courseService = {
     return await apiClient.get<ApiCourseResponse>(`courses/${id}`);
   },
 
+  // --- FIX LỖI TẠO MỚI TẠI ĐÂY ---
   createCourse: async (data: any) => {
-    // Map ngược lại khi tạo mới
+    // data chính là formData từ AdminCourses.tsx
     const payload = {
-        // CourseID: backend tự sinh hoặc frontend nhập
+        CourseID: data.id,       // <--- Quan trọng: Map data.id thành CourseID
+        Name: data.originalName, // Tên Tiếng Anh
+        Description: data.name,  // Tên Tiếng Việt
+        Credit: Number(data.credit),   // Đảm bảo là số
+        Duration: Number(data.duration), // Đảm bảo là số
+        DeptID: data.deptId
+    };
+    // POST /courses
+    return await apiClient.post('courses', payload);
+  },
+
+  // --- FIX LỖI CẬP NHẬT TẠI ĐÂY ---
+  updateCourse: async (id: string, data: any) => {
+    const payload = {
+        // Khi update thường không gửi lại CourseID nếu đó là khóa chính
         Name: data.originalName,
         Description: data.name,
         Credit: Number(data.credit),
         Duration: Number(data.duration),
         DeptID: data.deptId
     };
-    return await apiClient.post('courses', payload);
-  },
-
-  updateCourse: async (id: string, data: any) => {
-    return await apiClient.patch(`courses/${id}`, data);
+    // PATCH /courses/:id
+    return await apiClient.patch(`courses/${id}`, payload);
   },
 
   deleteCourse: async (id: string) => {

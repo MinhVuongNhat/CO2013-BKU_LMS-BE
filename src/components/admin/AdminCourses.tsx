@@ -6,49 +6,42 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
 import { Badge } from '../ui/badge';
-import { Search, Trash2, Eye, Users, BookOpen, GraduationCap, Plus, Edit, Save,Calendar,Clock} from 'lucide-react';
+import { Search, Trash2, Eye, Users, BookOpen, GraduationCap, Plus, Edit, Save, Calendar, Clock } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from '../ui/dialog';
 import { Label } from '../ui/label';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '../ui/alert-dialog';
 import { toast } from 'sonner';
 
-// Import Services & Types
 import { courseService } from '../../services/courseService';
 import { Course, Enrollment } from '../../types';
 
 export function AdminCourses() {
-  // Data States
   const [courses, setCourses] = useState<Course[]>([]);
   const [enrollments, setEnrollments] = useState<Enrollment[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-
-  // UI States
   const [searchQuery, setSearchQuery] = useState('');
-  
-  // Dialog States
-  const [courseDetailOpen, setCourseDetailOpen] = useState(false); // Danh sách enrollment
-  const [enrollmentDetailOpen, setEnrollmentDetailOpen] = useState(false); // Chi tiết 1 enrollment
-  
-  // CRUD States
-  const [formDialogOpen, setFormDialogOpen] = useState(false); // Dialog Tạo/Sửa
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false); // Dialog Xóa
+  const [enrollmentSearchQuery, setEnrollmentSearchQuery] = useState('');
+
+
+  const [courseDetailOpen, setCourseDetailOpen] = useState(false);
+  const [enrollmentDetailOpen, setEnrollmentDetailOpen] = useState(false);
+
+  const [formDialogOpen, setFormDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
-  // Selection States
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const [selectedEnrollment, setSelectedEnrollment] = useState<Enrollment | null>(null);
 
-  // Form Data State
   const [formData, setFormData] = useState({
-    id: '',           // CourseID
-    name: '',         // Description (VN)
-    originalName: '', // Name (EN)
+    id: '',
+    name: '',
+    originalName: '',
     deptId: '',
     credit: 0,
     duration: 0
   });
 
-  // 1. Fetch Data
   const fetchData = async () => {
     try {
       const [coursesData, enrollmentsData] = await Promise.all([
@@ -75,18 +68,28 @@ export function AdminCourses() {
     fetchData();
   }, []);
 
-  // Filter logic
   const filteredCourses = courses.filter(course =>
     course.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    course.id.toLowerCase().includes(searchQuery.toLowerCase()) || // ID chính là Code
+    course.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
     course.originalName.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const courseEnrollments = selectedCourse 
+  
+
+  const courseEnrollments = selectedCourse
     ? enrollments.filter(e => e.courseId === selectedCourse.id)
     : [];
 
-  // --- CRUD HANDLERS ---
+  // Logic Filter cho Enrollment (MỚI)
+  const filteredEnrollments = courseEnrollments.filter(enrollment => 
+    enrollment.studentName.toLowerCase().includes(enrollmentSearchQuery.toLowerCase()) ||
+    enrollment.studentId.toLowerCase().includes(enrollmentSearchQuery.toLowerCase()) ||
+    enrollment.id.toLowerCase().includes(enrollmentSearchQuery.toLowerCase()) ||
+    enrollment.semester.toLowerCase().includes(enrollmentSearchQuery.toLowerCase()) ||
+    enrollment.instructorName.toLowerCase().includes(enrollmentSearchQuery.toLowerCase()) ||
+    enrollment.instructorId.toLowerCase().includes(enrollmentSearchQuery.toLowerCase()) ||
+    enrollment.schedule.toLowerCase().includes(enrollmentSearchQuery.toLowerCase())
+  );
 
   const resetForm = () => {
     setFormData({
@@ -99,14 +102,12 @@ export function AdminCourses() {
     });
   };
 
-  // Mở form tạo mới
   const handleOpenCreate = () => {
     resetForm();
     setIsEditing(false);
     setFormDialogOpen(true);
   };
 
-  // Mở form chỉnh sửa
   const handleOpenEdit = (course: Course) => {
     setFormData({
       id: course.id,
@@ -120,13 +121,11 @@ export function AdminCourses() {
     setFormDialogOpen(true);
   };
 
-  // Mở dialog xác nhận xóa
   const handleOpenDelete = (course: Course) => {
     setSelectedCourse(course);
     setDeleteDialogOpen(true);
   };
 
-  // Xử lý Lưu (Tạo hoặc Sửa)
   const handleSaveCourse = async () => {
     if (!formData.id || !formData.name || !formData.deptId) {
       toast.error("Vui lòng nhập các trường bắt buộc (Mã, Tên, Khoa)");
@@ -135,24 +134,21 @@ export function AdminCourses() {
 
     try {
       if (isEditing) {
-        // Cập nhật
         await courseService.updateCourse(formData.id, formData);
         toast.success("Cập nhật khóa học thành công!");
       } else {
-        // Tạo mới
         await courseService.createCourse(formData);
         toast.success("Tạo khóa học mới thành công!");
       }
-      
+
       setFormDialogOpen(false);
-      fetchData(); // Refresh data
+      fetchData();
     } catch (error: any) {
       console.error(error);
       toast.error("Có lỗi xảy ra: " + (error.message || "Lỗi server"));
     }
   };
 
-  // Xử lý Xóa
   const handleDeleteCourse = async () => {
     if (!selectedCourse) return;
     try {
@@ -160,14 +156,12 @@ export function AdminCourses() {
       toast.success("Đã xóa khóa học thành công!");
       setDeleteDialogOpen(false);
       setSelectedCourse(null);
-      fetchData(); // Refresh data
+      fetchData();
     } catch (error: any) {
       console.error(error);
       toast.error("Lỗi khi xóa: " + (error.message || "Có thể khóa học đang có lớp học"));
     }
   };
-
-  // --- VIEW DETAILS HANDLERS ---
 
   const handleViewCourse = (course: Course) => {
     setSelectedCourse(course);
@@ -198,15 +192,13 @@ export function AdminCourses() {
           <h1 className="uppercase text-primary text-3xl font-bold">Quản lý môn học</h1>
           <p className="text-muted-foreground mt-1 italic">Xem và quản lý tất cả môn học trong hệ thống</p>
         </div>
-        
-        {/* CREATE BUTTON */}
+
         <Button className="bg-primary hover:bg-primary/90" onClick={handleOpenCreate}>
           <Plus className="w-5 h-5 mr-2" />
           <div className="font-bold">Tạo môn học</div>
         </Button>
       </div>
 
-      {/* Stats Cards */}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         <Card className="border-2 items-center hover:border-primary">
           <CardHeader className="pb-3">
@@ -236,7 +228,6 @@ export function AdminCourses() {
         </Card>
       </div>
 
-      {/* Search */}
       <div className="relative">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-primary" />
         <Input
@@ -247,7 +238,6 @@ export function AdminCourses() {
         />
       </div>
 
-      {/* Courses Table */}
       <Card className="border-2">
         <CardHeader>
           <CardTitle className="text-primary font-bold text-lg">Danh sách môn học</CardTitle>
@@ -257,8 +247,8 @@ export function AdminCourses() {
             <TableHeader>
               <TableRow className="bg-primary">
                 <TableHead className="text-white font-bold w-[100px]">Mã MH</TableHead>
-                <TableHead className="text-white font-bold">Tên Tiếng Việt</TableHead>
-                <TableHead className="text-white font-bold">Tên Tiếng Anh</TableHead>
+                <TableHead className="text-white font-bold">Tên Môn học</TableHead>
+                <TableHead className="text-white font-bold">Mô tả</TableHead>
                 <TableHead className="text-white font-bold">Khoa</TableHead>
                 <TableHead className="text-white font-bold text-center">Tín chỉ</TableHead>
                 <TableHead className="text-white font-bold text-center">Số lớp</TableHead>
@@ -267,15 +257,15 @@ export function AdminCourses() {
             </TableHeader>
             <TableBody>
               {filteredCourses.map(course => (
-                <TableRow 
+                <TableRow
                   key={course.id}
                   className="even:bg-blue-50 hover:bg-blue-100 transition-colors duration-200 cursor-pointer"
                   onClick={() => handleViewCourse(course)}
                 >
                   <TableCell className="text-destructive font-bold">{course.id}</TableCell>
-                  <TableCell className="font-semibold text-primary">{course.name}</TableCell>
-                  <TableCell className="italic text-muted-foreground">{course.originalName}</TableCell>
-                  <TableCell>{course.deptId}</TableCell>
+                  <TableCell className="font-semibold text-primary" >{course.originalName}</TableCell>
+                  <TableCell className="italic text-muted-foreground" >{course.name}</TableCell>
+                  <TableCell className="font-semibold">{course.deptId}</TableCell>
                   <TableCell className="text-center">
                     <Badge variant="outline" className="border-primary text-primary">{course.credit}</Badge>
                   </TableCell>
@@ -320,7 +310,6 @@ export function AdminCourses() {
         </CardContent>
       </Card>
 
-      {/* DIALOG 3: Create / Edit Course Form */}
       <Dialog open={formDialogOpen} onOpenChange={setFormDialogOpen}>
         <DialogContent className="max-w-[1000px] sm:max-w-[800px] max-h-[600px]">
           <DialogHeader>
@@ -331,81 +320,80 @@ export function AdminCourses() {
               Nhập thông tin chi tiết cho môn học.
             </DialogDescription>
           </DialogHeader>
-          
+
           <div className="grid grid-cols-2 gap-4 py-4">
             <div className="col-span-2 space-y-2">
               <Label>Mã môn học (Course ID) *</Label>
-              <Input 
-                placeholder="VD: CO2013" 
-                value={formData.id} 
-                onChange={(e) => setFormData({...formData, id: e.target.value})}
-                disabled={isEditing} // Không cho sửa ID
+              <Input
+                placeholder="VD: CO2013"
+                value={formData.id}
+                onChange={(e) => setFormData({ ...formData, id: e.target.value })}
+                disabled={isEditing}
               />
             </div>
 
             <div className="col-span-2 space-y-2">
-              <Label>Tên Môn học</Label>
-              <Input 
-                placeholder="VD: Database Systems" 
-                value={formData.originalName} 
-                onChange={(e) => setFormData({...formData, originalName: e.target.value})}
+              <Label>Tên Môn học *</Label>
+              <Input
+                placeholder="VD: Database Systems"
+                value={formData.originalName}
+                onChange={(e) => setFormData({ ...formData, originalName: e.target.value })}
               />
             </div>
             <div className="col-span-2 space-y-2">
               <Label>Mô tả*</Label>
-              <Input 
-                placeholder="VD: Hệ cơ sở dữ liệu" 
-                value={formData.name} 
-                onChange={(e) => setFormData({...formData, name: e.target.value})}
+              <Input
+                placeholder="VD: Hệ cơ sở dữ liệu"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               />
             </div>
 
             <div className="space-y-2">
               <Label>Khoa (Dept ID) *</Label>
-              <Input 
-                placeholder="VD: CSE" 
-                value={formData.deptId} 
-                onChange={(e) => setFormData({...formData, deptId: e.target.value})}
+              <Input
+                placeholder="VD: CSE"
+                value={formData.deptId}
+                onChange={(e) => setFormData({ ...formData, deptId: e.target.value })}
               />
             </div>
 
             <div className="grid grid-cols-2 gap-2">
-                <div className="space-y-2">
+              <div className="space-y-2">
                 <Label>Tín chỉ</Label>
-                <Input 
-                    type="number"
-                    value={formData.credit} 
-                    onChange={(e) => setFormData({...formData, credit: Number(e.target.value)})}
+                <Input
+                  type="number"
+                  value={formData.credit}
+                  onChange={(e) => setFormData({ ...formData, credit: Number(e.target.value) })}
                 />
-                </div>
-                <div className="space-y-2">
+              </div>
+              <div className="space-y-2">
                 <Label>Thời lượng (Tiết)</Label>
-                <Input 
-                    type="number"
-                    value={formData.duration} 
-                    onChange={(e) => setFormData({...formData, duration: Number(e.target.value)})}
+                <Input
+                  type="number"
+                  value={formData.duration}
+                  onChange={(e) => setFormData({ ...formData, duration: Number(e.target.value) })}
                 />
-                </div>
+              </div>
             </div>
           </div>
 
           <DialogFooter>
             <Button variant="outline" onClick={() => setFormDialogOpen(false)}>Hủy</Button>
             <Button className="bg-primary" onClick={handleSaveCourse}>
-               <Save className="w-4 h-4 mr-2" /> Lưu
+              <Save className="w-4 h-4 mr-2" /> Lưu
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
 
-      {/* DIALOG 4: Delete Confirmation */}
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Xác nhận xóa môn học</AlertDialogTitle>
             <AlertDialogDescription>
               Bạn có chắc chắn muốn xóa môn học <span className="font-bold text-destructive">{selectedCourse?.name}</span> ({selectedCourse?.id})?
-              <br/>
+              <br />
               Hành động này không thể hoàn tác và có thể ảnh hưởng đến các lớp học liên quan.
             </AlertDialogDescription>
           </AlertDialogHeader>
@@ -418,7 +406,7 @@ export function AdminCourses() {
         </AlertDialogContent>
       </AlertDialog>
 
-      {/* DIALOG 1: Danh sách Enrollment của Course */}
+      {/* DIALOG: Danh sách Enrollment của Course (ĐÃ THÊM TÌM KIẾM) */}
       <Dialog open={courseDetailOpen} onOpenChange={setCourseDetailOpen}>
         <DialogContent className="max-w-[1000px] sm:max-w-[1000px] max-h-[700px] overflow-y-auto">
           <DialogHeader>
@@ -438,10 +426,23 @@ export function AdminCourses() {
           </DialogHeader>
 
           <div className="mt-4">
-            <h3 className="font-bold text-lg mb-3 flex items-center gap-2">
-              <Users className="w-5 h-5 text-primary" />
-              Danh sách lớp học (Enrollments)
-            </h3>
+            <div className="flex justify-between items-center mb-3">
+              <h3 className="font-bold text-lg flex items-center gap-2">
+                <Users className="w-5 h-5 text-primary" />
+                Danh sách tham gia ({filteredEnrollments.length})
+              </h3>
+              
+              {/* Enrollment Search Input */}
+              <div className="relative w-64">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
+                <Input 
+                  placeholder="Tìm SV, Mã lớp, Học kỳ..." 
+                  className="pl-9 h-9 text-sm"
+                  value={enrollmentSearchQuery}
+                  onChange={(e) => setEnrollmentSearchQuery(e.target.value)}
+                />
+              </div>
+            </div>
             
             <div className="rounded-md border">
               <Table>
@@ -456,8 +457,8 @@ export function AdminCourses() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {courseEnrollments.length > 0 ? (
-                    courseEnrollments.map((enrollment) => (
+                  {filteredEnrollments.length > 0 ? (
+                    filteredEnrollments.map((enrollment) => (
                       <TableRow 
                         key={enrollment.id} 
                         className="cursor-pointer hover:bg-gray-100"
@@ -479,7 +480,9 @@ export function AdminCourses() {
                   ) : (
                     <TableRow>
                       <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
-                        Chưa có lớp học nào được mở cho môn này.
+                        {enrollmentSearchQuery 
+                          ? 'Không tìm thấy kết quả phù hợp.' 
+                          : 'Chưa có lớp học nào được mở cho môn này.'}
                       </TableCell>
                     </TableRow>
                   )}
@@ -494,7 +497,6 @@ export function AdminCourses() {
         </DialogContent>
       </Dialog>
 
-      {/* DIALOG 2: Chi tiết Enrollment */}
       <Dialog open={enrollmentDetailOpen} onOpenChange={setEnrollmentDetailOpen}>
         <DialogContent className="max-w-[800px] sm:max-w-[800px] max-h-[700px]">
           <DialogHeader>

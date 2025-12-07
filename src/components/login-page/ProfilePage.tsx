@@ -41,7 +41,6 @@ export function ProfilePage({ user }: ProfilePageProps) {
   const getRoleLabel = (role: string) => {
     const labels: { [key: string]: string } = {
       admin: 'Quản trị viên',
-      teacher: 'Giảng viên',
       student: 'Sinh viên'
     };
     return labels[role] || role;
@@ -131,11 +130,6 @@ export function ProfilePage({ user }: ProfilePageProps) {
                 {user.studentId && (
                   <div className="bg-muted/50 p-2 rounded text-center text-sm">
                     <span className="font-semibold text-primary">MSSV:</span> {user.studentId}
-                  </div>
-                )}
-                {user.teacherId && (
-                  <div className="bg-muted/50 p-2 rounded text-center text-sm">
-                    <span className="font-semibold text-primary">MSGV:</span> {user.teacherId}
                   </div>
                 )}
               </div>
@@ -335,34 +329,6 @@ export function ProfilePage({ user }: ProfilePageProps) {
               <div className="text-center p-4 bg-orange-50 rounded-lg">
                 <div className="text-destructive text-3xl font-bold">3.45</div>
                 <div className="text-primary font-bold">GPA</div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      {user.role === 'Instructor' && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-primary font-bold">Thống kê giảng dạy</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="text-center p-4 bg-blue-50 rounded-lg">
-                <div className="text-destructive text-3xl font-bold">3</div>
-                <div className="text-sm text-muted-foreground font-semibold">Lớp học</div>
-              </div>
-              <div className="text-center p-4 bg-green-50 rounded-lg">
-                <div className="text-destructive text-3xl font-bold">21</div>
-                <div className="text-sm text-muted-foreground font-semibold">Sinh viên</div>
-              </div>
-              <div className="text-center p-4 bg-purple-50 rounded-lg">
-                <div className="text-destructive text-3xl font-bold">5</div>
-                <div className="text-sm text-muted-foreground font-semibold">Bài tập đã giao</div>
-              </div>
-              <div className="text-center p-4 bg-orange-50 rounded-lg">
-                <div className="text-destructive text-3xl font-bold">4</div>
-                <div className="text-sm text-muted-foreground font-semibold">Tài liệu đã upload</div>
               </div>
             </div>
           </CardContent>
