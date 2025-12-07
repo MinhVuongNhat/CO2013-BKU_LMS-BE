@@ -218,7 +218,7 @@ export function AdminCourses() {
 
       {/* DIALOG 1: Danh sách Enrollment của Course */}
       <Dialog open={courseDetailOpen} onOpenChange={setCourseDetailOpen}>
-        <DialogContent className="max-w-[1000px] sm:max-w-[1000px] max-h-[700px]  max-w-4xl overflow-y-auto">
+        <DialogContent className="max-w-[1000px] sm:max-w-[1000px] max-h-[700px] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="text-primary font-bold text-xl flex items-center gap-2">
               <BookOpen className="w-6 h-6" />
@@ -292,7 +292,7 @@ export function AdminCourses() {
 
       {/* DIALOG 2: Chi tiết Enrollment */}
       <Dialog open={enrollmentDetailOpen} onOpenChange={setEnrollmentDetailOpen}>
-        <DialogContent className="max-w-[800px] sm:max-w-[800px] max-h-[700px]  max-w-4xl ">
+        <DialogContent className="max-w-[800px] sm:max-w-[800px] max-h-[700px]">
           <DialogHeader>
             <DialogTitle className="text-primary font-bold text-xl flex items-center gap-2">
               <GraduationCap className="w-6 h-6" />

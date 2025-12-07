@@ -86,7 +86,7 @@ export function UserManagement() {
 
   // Helper reset form
   const resetForm = () => {
-    setFormData({ name: '', email: '', role: 'student', password: '', phone: '', studentId: '', teacherId: '' });
+    setFormData({ name: '', email: '', role: 'Student', password: '', phone: '', studentId: '', teacherId: '' });
   };
 
   // --- HANDLERS MỞ DIALOG ---
@@ -136,8 +136,8 @@ export function UserManagement() {
         password: formData.password,
         role: formData.role,
         phone: formData.phone || undefined,
-        studentId: formData.role === 'student' ? formData.studentId : undefined,
-        teacherId: formData.role === 'teacher' ? formData.teacherId : undefined
+        studentId: formData.role === 'Student' ? formData.studentId : undefined,
+        teacherId: formData.role === 'Instructor' ? formData.teacherId : undefined
       };
 
       await userService.createUser(payload);
@@ -381,8 +381,8 @@ export function UserManagement() {
                 <div>
                   <h3 className="font-bold text-lg text-primary">{selectedUser.name}</h3>
                   <div className="flex gap-2 mt-1">
-                    <Badge variant={selectedUser.role === 'admin' ? 'destructive' : 'default'}>
-                      {selectedUser.role === 'admin' ? 'Quản trị viên' : selectedUser.role === 'teacher' ? 'Giảng viên' : 'Sinh viên'}
+                    <Badge variant={selectedUser.role === 'Admin' ? 'destructive' : 'default'}>
+                      {selectedUser.role === 'Admin' ? 'Quản trị viên' : selectedUser.role === 'Instructor' ? 'Giảng viên' : 'Sinh viên'}
                     </Badge>
                     <Badge variant="outline">{selectedUser.id}</Badge>
                   </div>
