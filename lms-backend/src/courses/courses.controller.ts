@@ -7,6 +7,7 @@ import {
   Query,
   Put,
   Delete,
+  Patch,
 } from '@nestjs/common';
 import { CourseService } from './courses.service';
 import { CreateCourseDto } from './dto/create-course.dto';
@@ -31,7 +32,7 @@ export class CourseController {
     return this.courseService.create(dto);
   }
 
-  @Put(':id')
+  @Patch(':id')
   update(@Param('id') id: string, @Body() dto: UpdateCourseDto) {
     return this.courseService.update(id, dto);
   }
@@ -40,4 +41,5 @@ export class CourseController {
   remove(@Param('id') id: string) {
     return this.courseService.remove(id);
   }
+
 }

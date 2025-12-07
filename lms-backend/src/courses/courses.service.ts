@@ -18,6 +18,8 @@ export class CourseService {
       search = '',
       sort = 'Name',
       order = 'ASC',
+      page = 1,
+      limit = 100,
     } = query;
 
     const [rows] = await this.pool.query(
@@ -60,7 +62,7 @@ export class CourseService {
     await this.pool.query(
       `
       INSERT INTO Course (CourseID, Name, Description, Credit, Duration, DeptID)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
+      VALUES (?, ?, ?, ?, ?, ?)
       `,
       [
         dto.CourseID,

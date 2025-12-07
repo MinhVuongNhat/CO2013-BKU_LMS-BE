@@ -17,7 +17,7 @@ export class EnrollmentService {
       sort = 'EnrollID',
       order = 'ASC',
       page = 1,
-      limit = 10,
+      limit = 200,
     } = query;
 
     const offset = (page - 1) * limit;
