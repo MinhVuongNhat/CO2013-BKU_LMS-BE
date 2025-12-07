@@ -18,11 +18,7 @@ export class CourseService {
       search = '',
       sort = 'Name',
       order = 'ASC',
-      page = 1,
-      limit = 10,
     } = query;
-
-    const offset = (page - 1) * limit;
 
     const [rows] = await this.pool.query(
       `
@@ -32,7 +28,6 @@ export class CourseService {
       ORDER BY ${sort} ${order}
       LIMIT ? OFFSET ?
       `,
-      [`%${search}%`, Number(limit), Number(offset)],
     );
 
     return rows;
