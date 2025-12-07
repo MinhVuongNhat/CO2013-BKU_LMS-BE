@@ -313,7 +313,7 @@ export function ProfilePage({ user }: ProfilePageProps) {
       </div>
 
       {/* Additional Stats */}
-      {user.role === 'student' && (
+      {user.role === 'Student' && (
         <Card>
           <CardHeader>
             <CardTitle className="text-primary font-bold">Thống kê học tập</CardTitle>
@@ -341,7 +341,7 @@ export function ProfilePage({ user }: ProfilePageProps) {
         </Card>
       )}
 
-      {user.role === 'teacher' && (
+      {user.role === 'Instructor' && (
         <Card>
           <CardHeader>
             <CardTitle className="text-primary font-bold">Thống kê giảng dạy</CardTitle>

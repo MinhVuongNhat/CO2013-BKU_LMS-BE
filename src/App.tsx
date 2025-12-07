@@ -38,12 +38,10 @@ function AppContent() {
 
   if (!user) {
     switch (authPage) {
-      case 'register':
-        return <RegisterPage onRegister={register} onNavigateToLogin={() => setAuthPage('login')} />;
       case 'forgot-password':
         return <ForgotPasswordPage onNavigateToLogin={() => setAuthPage('login')} />;
       default:
-        return <LoginPage onLogin={login} onNavigateToRegister={() => setAuthPage('register')} onNavigateToForgotPassword={() => setAuthPage('forgot-password')} />;
+        return <LoginPage onNavigateToRegister={() => setAuthPage('register')} onNavigateToForgotPassword={() => setAuthPage('forgot-password')} />;
     }
   }
 
@@ -75,8 +73,8 @@ function AppContent() {
     };
 
     let currentRoutes = {};
-    if (user.role === 'student') currentRoutes = studentRoutes;
-    else if (user.role === 'admin') currentRoutes = adminRoutes;
+    if (user.role === 'Student') currentRoutes = studentRoutes;
+    else if (user.role === 'Admin') currentRoutes = adminRoutes;
 
     return currentRoutes[currentPage as keyof typeof currentRoutes] || 
            <div className="p-8 text-center text-red-500">Trang không tồn tại (404)</div>;

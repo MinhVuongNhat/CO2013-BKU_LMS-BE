@@ -5,7 +5,7 @@ export interface User {
   email: string;
   password: string;
   name: string;
-  role: 'admin' | 'teacher' | 'student';
+  role: 'Admin' | 'Instructor' | 'Student';
   avatar?: string;
   phone?: string;
   studentId?: string;
@@ -87,7 +87,7 @@ export const DEMO_USERS: User[] = [
     email: 'admin@bkedu.vn',
     password: 'admin123',
     name: 'Nguyễn Văn Admin',
-    role: 'admin',
+    role: 'Admin',
     phone: '0901234567'
   },
   {
@@ -95,7 +95,7 @@ export const DEMO_USERS: User[] = [
     email: 'teacher1@bkedu.vn',
     password: 'teacher123',
     name: 'Trần Thị Hương',
-    role: 'teacher',
+    role: 'Instructor',
     teacherId: 'GV001',
     phone: '0902345678'
   },
@@ -104,7 +104,7 @@ export const DEMO_USERS: User[] = [
     email: 'teacher2@bkedu.vn',
     password: 'teacher123',
     name: 'Lê Văn Minh',
-    role: 'teacher',
+    role: 'Instructor',
     teacherId: 'GV002',
     phone: '0903456789'
   },
@@ -113,7 +113,7 @@ export const DEMO_USERS: User[] = [
     email: 'student1@bkedu.vn',
     password: 'student123',
     name: 'Phạm Minh Tuấn',
-    role: 'student',
+    role: 'Student',
     studentId: 'SV2021001',
     phone: '0904567890'
   },
@@ -122,7 +122,7 @@ export const DEMO_USERS: User[] = [
     email: 'student2@bkedu.vn',
     password: 'student123',
     name: 'Hoàng Thị Lan',
-    role: 'student',
+    role: 'Student',
     studentId: 'SV2021002'
   },
   {
@@ -130,7 +130,7 @@ export const DEMO_USERS: User[] = [
     email: 'student3@bkedu.vn',
     password: 'student123',
     name: 'Đỗ Văn Hùng',
-    role: 'student',
+    role: 'Student',
     studentId: 'SV2021003'
   },
   {
@@ -138,7 +138,7 @@ export const DEMO_USERS: User[] = [
     email: 'student4@bkedu.vn',
     password: 'student123',
     name: 'Nguyễn Thị Mai',
-    role: 'student',
+    role: 'Student',
     studentId: 'SV2021004'
   },
   {
@@ -146,7 +146,7 @@ export const DEMO_USERS: User[] = [
     email: 'student5@bkedu.vn',
     password: 'student123',
     name: 'Vũ Văn Nam',
-    role: 'student',
+    role: 'Student',
     studentId: 'SV2021005'
   },
   {
@@ -154,7 +154,7 @@ export const DEMO_USERS: User[] = [
     email: 'student6@bkedu.vn',
     password: 'student123',
     name: 'Bùi Thị Hoa',
-    role: 'student',
+    role: 'Student',
     studentId: 'SV2021006'
   },
   {
@@ -162,7 +162,7 @@ export const DEMO_USERS: User[] = [
     email: 'student7@bkedu.vn',
     password: 'student123',
     name: 'Trịnh Văn Đức',
-    role: 'student',
+    role: 'Student',
     studentId: 'SV2021007'
   },
   {
@@ -170,7 +170,7 @@ export const DEMO_USERS: User[] = [
     email: 'student8@bkedu.vn',
     password: 'student123',
     name: 'Lý Thị Ngọc',
-    role: 'student',
+    role: 'Student',
     studentId: 'SV2021008'
   },
   {
@@ -178,7 +178,7 @@ export const DEMO_USERS: User[] = [
     email: 'student9@bkedu.vn',
     password: 'student123',
     name: 'Phan Văn Sơn',
-    role: 'student',
+    role: 'Student',
     studentId: 'SV2021009'
   },
   {
@@ -186,7 +186,7 @@ export const DEMO_USERS: User[] = [
     email: 'student10@bkedu.vn',
     password: 'student123',
     name: 'Đinh Thị Thảo',
-    role: 'student',
+    role: 'Student',
     studentId: 'SV2021010'
   }
 ];

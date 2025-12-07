@@ -34,7 +34,7 @@ export function UserManagement() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    role: 'student' as 'admin' | 'teacher' | 'student',
+    role: 'Student' as 'Admin' | 'Instructor' | 'Student',
     password: '',
     phone: '',
     studentId: '',
@@ -247,13 +247,13 @@ export function UserManagement() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="student">Sinh viên</SelectItem>
-                    <SelectItem value="teacher">Giảng viên</SelectItem>
-                    <SelectItem value="admin">Quản trị viên</SelectItem>
+                    <SelectItem value="Student">Sinh viên</SelectItem>
+                    <SelectItem value="Instructor">Giảng viên</SelectItem>
+                    <SelectItem value="Admin">Quản trị viên</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
-              {formData.role === 'student' && (
+              {formData.role === 'Instructor' && (
                 <div className="space-y-2">
                   <Label>Mã sinh viên</Label>
                   <Input
@@ -263,7 +263,7 @@ export function UserManagement() {
                   />
                 </div>
               )}
-              {formData.role === 'teacher' && (
+              {formData.role === 'Instructor' && (
                 <div className="space-y-2">
                   <Label>Mã giảng viên</Label>
                   <Input
