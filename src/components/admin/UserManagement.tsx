@@ -1,3 +1,5 @@
+// src/components/admin/UserManagement.tsx
+
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
@@ -9,7 +11,7 @@ import { Label } from '../ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { toast } from 'sonner';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '../ui/alert-dialog';
-import { Search, Plus, Lock, Trash2, Edit, Loader2, Eye, Calendar, MapPin, User as UserIcon, Mail, Phone } from 'lucide-react';
+import { Search, Plus, Trash2, Edit, Loader2, Eye, Calendar, MapPin, User as UserIcon, Mail, Phone } from 'lucide-react';
 
 // Import Types và Service
 import { User } from '../../types';
@@ -26,7 +28,7 @@ export function UserManagement() {
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [viewDialogOpen, setViewDialogOpen] = useState(false); // State cho dialog xem chi tiết
+  const [viewDialogOpen, setViewDialogOpen] = useState(false); 
 
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
@@ -38,7 +40,8 @@ export function UserManagement() {
     password: '',
     phone: '',
     address: '',
-    id: ''
+    dob: '', // Thêm ngày sinh
+    id: ''   // Dùng để chứa StudentID/TeacherID
   });
 
   // 1. Hàm gọi API lấy danh sách User
@@ -54,7 +57,6 @@ export function UserManagement() {
     }
   };
 
-  // Gọi API lần đầu khi vào trang
   useEffect(() => {
     fetchUsers();
   }, []);
@@ -63,29 +65,51 @@ export function UserManagement() {
   const filteredUsers = users.filter(user =>
     user.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
     user.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (user.id?.toLowerCase().includes(searchQuery.toLowerCase()))
+    (user.id?.toLowerCase().includes(searchQuery.toLowerCase())) ||
+    (user.phone?.includes(searchQuery))
   );
 
   const getRoleBadge = (role: string) => {
+    const roleLower = role?.toLowerCase() || '';
     const variants: { [key: string]: { variant: any; label: string } } = {
       admin: { variant: 'destructive', label: 'Quản trị viên' },
+      instructor: { variant: 'default', label: 'Giảng viên' },
       teacher: { variant: 'default', label: 'Giảng viên' },
       student: { variant: 'secondary', label: 'Sinh viên' }
     };
-    return variants[role] || variants.student;
+    return variants[roleLower] || variants.student;
   };
 
-  // Helper format ngày tháng
-  const formatDate = (dateString?: string) => {
+  // Helper: Hiển thị ngày (DD/MM/YYYY) cho người dùng xem
+  const formatDateDisplay = (dateString?: string) => {
     if (!dateString) return 'Chưa cập nhật';
     return new Date(dateString).toLocaleDateString('vi-VN', {
       day: '2-digit', month: '2-digit', year: 'numeric'
     });
   };
 
+  // Helper: Chuyển ngày sang format YYYY-MM-DD cho input type="date"
+  const formatDateForInput = (dateString?: string) => {
+    if (!dateString) return '';
+    try {
+      return new Date(dateString).toISOString().split('T')[0];
+    } catch {
+      return '';
+    }
+  };
+
   // Helper reset form
   const resetForm = () => {
-    setFormData({ name: '', email: '', role: 'Student', password: '', phone: '', address: '', id: ''});
+    setFormData({ 
+      name: '', 
+      email: '', 
+      role: 'Student', 
+      password: '', 
+      phone: '', 
+      address: '', 
+      dob: '',
+      id: ''
+    });
   };
 
   // --- HANDLERS MỞ DIALOG ---
@@ -102,14 +126,16 @@ export function UserManagement() {
 
   const openEditDialog = (user: User) => {
     setSelectedUser(user);
+    // Map dữ liệu từ user đang chọn vào form
     setFormData({
       name: user.name,
       email: user.email,
       role: user.role,
-      password: '',
+      password: '', // Không hiển thị password cũ
       phone: user.phone || '',
       address: user.address || '',
-      id: user.id
+      dob: formatDateForInput(user.dob), // Chuyển đổi ngày
+      id: user.studentId || user.teacherId || '' // Lấy ID riêng nếu có
     });
     setEditDialogOpen(true);
   };
@@ -123,7 +149,7 @@ export function UserManagement() {
 
   // 2. Tạo User mới
   const handleCreateUser = async () => {
-    if (!formData.name || !formData.email || !formData.password) {
+    if (!formData.name || !formData.email) {
       toast.error('Vui lòng điền đầy đủ thông tin bắt buộc');
       return;
     }
@@ -132,10 +158,11 @@ export function UserManagement() {
       const payload = {
         name: formData.name,
         email: formData.email,
-        password: formData.password,
-        role: formData.role,
         phone: formData.phone || undefined,
-        address: formData.address
+        address: formData.address || undefined,
+        dob: formData.dob || undefined,
+        // Map ID riêng dựa trên role
+        studentId: formData.role === 'Student' ? formData.id : undefined,
       };
 
       await userService.createUser(payload);
@@ -154,10 +181,14 @@ export function UserManagement() {
     if (!selectedUser) return;
 
     try {
+      // Chuẩn bị payload đầy đủ các trường cần sửa
       const payload = {
         name: formData.name,
         email: formData.email,
-        phone: formData.phone
+        phone: formData.phone,
+        address: formData.address,
+        dob: formData.dob,
+        role: formData.role // Gửi role để userService xử lý logic (nếu cần)
       };
 
       await userService.updateUser(selectedUser.id, payload);
@@ -210,18 +241,18 @@ export function UserManagement() {
           <DialogTrigger asChild>
             <Button className="bg-primary hover:bg-primary/90" onClick={openCreateDialog}>
               <Plus className="w-5 h-5 mr-2" />
-              <div className="font-bold">Tạo người dùng mới</div>
+              <div className="font-bold ">Tạo người dùng mới</div>
             </Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="max-w-2xl"> {/* Tăng chiều rộng để đẹp hơn */}
             <DialogHeader>
-              <DialogTitle>Tạo người dùng mới</DialogTitle>
+              <DialogTitle className="font-bold text-primary text-2xl">Tạo người dùng mới</DialogTitle>
               <DialogDescription>
                 Nhập thông tin để tạo tài khoản mới vào cơ sở dữ liệu
               </DialogDescription>
             </DialogHeader>
-            <div className="space-y-4 py-4">
-              <div className="space-y-2">
+            <div className="grid grid-cols-2 gap-4 py-4">
+              <div className="space-y-2 col-span-2">
                 <Label>Họ và tên *</Label>
                 <Input
                   placeholder="Nguyễn Văn A"
@@ -233,34 +264,24 @@ export function UserManagement() {
                 <Label>Email *</Label>
                 <Input
                   type="email"
-                  placeholder="example@bkedu.vn"
+                  placeholder="example@hcmut.edu.vn"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 />
               </div>
-              <div className="space-y-2">
-                <Label>Vai trò *</Label>
-                <Select value={formData.role} onValueChange={(value: any) => setFormData({ ...formData, role: value })}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Student">Sinh viên</SelectItem>
-                    <SelectItem value="Instructor">Giảng viên</SelectItem>
-                    <SelectItem value="Admin">Quản trị viên</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              {formData.role === 'Instructor' && (
+
+              {/* ID riêng cho Student/Instructor */}
+              {(formData.role === 'Student' || formData.role === 'Instructor') && (
                 <div className="space-y-2">
-                  <Label>Mã người dùng</Label>
+                  <Label>{formData.role === 'Student' ? 'Mã sinh viên' : 'Mã giảng viên'}</Label>
                   <Input
-                    placeholder="SV2024001"
+                    placeholder={formData.role === 'Student' ? 'SV2024...' : 'GV...'}
                     value={formData.id}
                     onChange={(e) => setFormData({ ...formData, id: e.target.value })}
                   />
                 </div>
               )}
+
               <div className="space-y-2">
                 <Label>Số điện thoại</Label>
                 <Input
@@ -269,13 +290,22 @@ export function UserManagement() {
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                 />
               </div>
+
               <div className="space-y-2">
-                <Label>Mật khẩu *</Label>
+                 <Label>Ngày sinh</Label>
+                 <Input 
+                    type="date"
+                    value={formData.dob}
+                    onChange={(e) => setFormData({ ...formData, dob: e.target.value })}
+                 />
+              </div>
+
+              <div className="space-y-2 col-span-2">
+                <Label>Địa chỉ</Label>
                 <Input
-                  type="password"
-                  placeholder="••••••••"
-                  value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  placeholder="Số nhà, đường, quận/huyện..."
+                  value={formData.address}
+                  onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                 />
               </div>
             </div>
@@ -304,15 +334,17 @@ export function UserManagement() {
 
       {/* Edit User Dialog */}
       <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
-        <DialogContent>
+        <DialogContent className="max-w-2xl">
           <DialogHeader>
             <DialogTitle className="text-primary font-bold">Chỉnh sửa thông tin</DialogTitle>
             <DialogDescription>
-              <div className="text-muted-foreground mt-1 italic">Cập nhật thông tin tài khoản ID: {selectedUser?.id}</div>
+              <span className="block text-muted-foreground mt-1 italic">
+                Cập nhật thông tin tài khoản ID: {selectedUser?.id}
+              </span>
             </DialogDescription>
           </DialogHeader>
-          <div className="space-y-4 py-4">
-            <div className="space-y-2">
+          <div className="grid grid-cols-2 gap-4 py-4">
+            <div className="space-y-2 col-span-2">
               <Label className="font-semibold">Họ và tên</Label>
               <Input
                 value={formData.name}
@@ -334,6 +366,23 @@ export function UserManagement() {
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
               />
             </div>
+
+            <div className="space-y-2">
+               <Label className="font-semibold">Ngày sinh</Label>
+               <Input 
+                  type="date"
+                  value={formData.dob}
+                  onChange={(e) => setFormData({ ...formData, dob: e.target.value })}
+               />
+            </div>
+
+            <div className="space-y-2 col-span-2">
+               <Label className="font-semibold">Địa chỉ</Label>
+               <Input 
+                  value={formData.address}
+                  onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+               />
+            </div>
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setEditDialogOpen(false)}>
@@ -346,7 +395,7 @@ export function UserManagement() {
         </DialogContent>
       </Dialog>
 
-      {/* View User Detail Dialog (Mới thêm) */}
+      {/* View User Detail Dialog */}
       <Dialog open={viewDialogOpen} onOpenChange={setViewDialogOpen}>
         <DialogContent className="max-w-lg">
           <DialogHeader>
@@ -363,14 +412,14 @@ export function UserManagement() {
             <div className="grid gap-6 py-4">
               {/* Avatar & Basic Info */}
               <div className="flex items-center gap-4 p-4 bg-muted/50 rounded-lg border">
-                <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-2xl">
+                <div className="h-16 w-16 rounded-full bg-primary flex items-center justify-center text-white font-bold text-3xl">
                   {selectedUser.name?.charAt(0) || 'U'}
                 </div>
                 <div>
                   <h3 className="font-bold text-lg text-primary">{selectedUser.name}</h3>
                   <div className="flex gap-2 mt-1">
-                    <Badge variant={selectedUser.role === 'Admin' ? 'destructive' : 'default'}>
-                      {selectedUser.role === 'Admin' ? 'Quản trị viên' : selectedUser.role === 'Instructor' ? 'Giảng viên' : 'Sinh viên'}
+                    <Badge variant={getRoleBadge(selectedUser.role).variant as any}>
+                      {getRoleBadge(selectedUser.role).label}
                     </Badge>
                     <Badge variant="outline">{selectedUser.id}</Badge>
                   </div>
@@ -397,7 +446,7 @@ export function UserManagement() {
                   <Label className="text-muted-foreground text-xs uppercase flex items-center gap-1">
                     <Calendar className="w-3 h-3" /> Ngày sinh
                   </Label>
-                  <div className="font-medium text-sm">{formatDate(selectedUser.dob)}</div>
+                  <div className="font-medium text-sm">{formatDateDisplay(selectedUser.dob)}</div>
                 </div>
 
                 <div className="space-y-1">
@@ -484,6 +533,16 @@ export function UserManagement() {
                       <TableCell className="font-semibold">{user.id || '-'}</TableCell>
                       <TableCell className="text-right">
                         <div className="flex justify-end gap-2">
+                          <Button 
+                            size="sm" 
+                            variant="ghost" 
+                            onClick={(e) => {
+                              e.stopPropagation(); // Ngăn click row
+                              openViewDialog(user);
+                            }}
+                          >
+                            <Eye className="w-4 h-4 text-blue-600" />
+                          </Button>
                           <Button 
                             size="sm" 
                             variant="ghost" 

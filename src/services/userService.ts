@@ -19,81 +19,102 @@ interface ApiUserResponse {
 export const userService = {
   // GET /user - Lấy danh sách và Mapping lại tên trường
   getAllUsers: async (): Promise<User[]> => {
-    // Gọi API lấy dữ liệu thô
     const rawData = await apiClient.get<ApiUserResponse[]>('user');
 
-    // Map (chuyển đổi) sang cấu trúc Frontend mong đợi
     return rawData.map((item) => {
+      // Lấy số index từ UserID, ví dụ: "USR007" -> 7
+      const numericID = parseInt(item.UserID.replace("USR", ""), 10);
+
       let mappedRole: 'admin' | 'teacher' | 'student' = 'student';
-      if (item.UserID === 'USR000') mappedRole = 'admin';
+
+      if (numericID < 4) mappedRole = 'admin';          // USR000 → USR003
+      else if (numericID < 11) mappedRole = 'teacher';  // USR004 → USR010
 
       return {
-        id: item.UserID,                                // Map UserID -> id
-        name: `${item.LastName} ${item.FirstName}`.trim(), // Gộp họ tên -> name
-        email: item.Email,                              // Giữ nguyên
-        role: mappedRole,                               // Gán role giả lập
-        phone: item.Phone,                              // Giữ nguyên
-        // Các trường bổ sung nếu cần lưu lại để hiển thị chi tiết
+        id: item.UserID,
+        name: `${item.LastName} ${item.FirstName}`.trim(),
+        email: item.Email,
+        role: mappedRole,
+        phone: item.Phone,
         address: item.Address,
         dob: item.DoB,
         age: item.Age
-      } as unknown as User; // Ép kiểu về User của frontend
+      } as unknown as User;
     });
   },
 
   // GET /user/:id
   getUserById: async (id: string) => {
     const item = await apiClient.get<ApiUserResponse>(`user/${id}`);
-    
+
     // Cũng phải map cho api này
     return {
-        id: item.UserID,
-        name: `${item.LastName} ${item.FirstName}`.trim(),
-        email: item.Email,
-        role: 'student', // Tạm thời để student
-        phone: item.Phone,
+      id: item.UserID,
+      name: `${item.LastName} ${item.FirstName}`.trim(),
+      email: item.Email,
+      role: 'student', // Tạm thời để student
+      phone: item.Phone,
     } as unknown as User;
   },
 
   // POST /user - Khi tạo mới, cần chuyển đổi ngược từ Frontend -> Backend format
   createUser: async (data: any) => {
-    // Tách name thành FirstName/LastName nếu backend yêu cầu
-    // Ở đây giả sử backend chấp nhận format nào đó, bạn cần check lại API tạo user yêu cầu field gì
-    // Dưới đây là ví dụ gửi đúng format backend có vẻ mong đợi:
-    
-    const names = data.name.split(' ');
-    const firstName = names.pop() || data.name;
-    const lastName = names.join(' ');
+    // 1. Xử lý tách Họ và Tên an toàn
+    const names = data.name.trim().split(' ');
+    let firstName = data.name;
+    let lastName = '';
 
+    if (names.length > 1) {
+      firstName = names.pop();    // Lấy từ cuối cùng làm Tên
+      lastName = names.join(' '); // Các từ còn lại là Họ & Đệm
+    }
+
+    let calculatedAge = null;
+    if (data.dob) {
+      const birthDate = new Date(data.dob);
+      const today = new Date();
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const m = today.getMonth() - birthDate.getMonth();
+      // Điều chỉnh nếu chưa tới sinh nhật trong năm nay
+      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      calculatedAge = age;
+    }
+
+    // 2. Tạo Payload chuẩn PascalCase theo Backend
     const payload = {
-      // UserID: data.id, // Thường backend tự sinh ID
+      // UserID: Thường Backend tự sinh, không gửi từ đây
       FirstName: firstName,
       LastName: lastName,
       Email: data.email,
       Phone: data.phone,
-      // Mật khẩu, Role hiện tại API JSON trả về không thấy có, 
-      // nhưng khi tạo user thường sẽ cần gửi Password.
-      // Password: data.password 
+      Address: data.address,
+      DoB: data.dob,
+      Age: calculatedAge,
+
+      // Logic gửi ID riêng: Chỉ gửi ID tương ứng với Role, ngược lại là null
+      StudentID: data.role === 'Student' ? data.studentId : null,
+      TeacherID: data.role === 'Instructor' ? data.teacherId : null
     };
 
     return await apiClient.post('user', payload);
   },
-
   // PATCH /user/:id
   updateUser: async (id: string, data: any) => {
     // Tương tự, nếu sửa tên thì phải tách ra
     const payload: any = { ...data };
-    
+
     if (data.name) {
-        const names = data.name.split(' ');
-        payload.FirstName = names.pop();
-        payload.LastName = names.join(' ');
-        delete payload.name; // Xóa trường name thừa
+      const names = data.name.split(' ');
+      payload.FirstName = names.pop();
+      payload.LastName = names.join(' ');
+      delete payload.name; // Xóa trường name thừa
     }
-    
+
     if (data.phone) {
-        payload.Phone = data.phone;
-        delete payload.phone;
+      payload.Phone = data.phone;
+      delete payload.phone;
     }
 
     return await apiClient.patch(`user/${id}`, payload);
