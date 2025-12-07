@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import logo from '../../assets/01_logobachkhoasang.png';
-import { User } from '../../lib/mockData';
+import { User } from '../../types';
+
 import { 
   BookOpen, 
   FileText, 
@@ -64,7 +65,7 @@ export function DashboardLayout({ user, children, currentPage, onNavigate, onLog
         { id: 'dashboard', label: 'Tổng quan', icon: BarChart3 },
         { id: 'users', label: 'Quản lý người dùng', icon: Users },
         // { id: 'students', label: 'Quản lý sinh viên', icon: Users },
-        { id: 'courses', label: 'Quản lý lớp học', icon: BookOpen },
+        { id: 'courses', label: 'Quản lý môn học', icon: BookOpen },
         { id: 'reports', label: 'Thống kê hệ thống', icon: BarChart3 },
         { id: 'settings', label: 'Cài đặt', icon: Settings }
       ];
@@ -74,20 +75,19 @@ export function DashboardLayout({ user, children, currentPage, onNavigate, onLog
   const menuItems = getMenuItems();
 
   function getInitials(user: any) {
-    if (!user) return "";
+  if (!user) return "";
 
-    const first = user.FirstName || "";
-    const last = user.LastName || "";
-    const full = `${first} ${last}`.trim();
+  const first = user.FirstName || "";
+  const last = user.LastName || "";
+  const full = `${first} ${last}`.trim();
 
-    if (!full) return "";
+  if (!full) return "";
 
-    return full
-      .split(" ")
-      .map(w => w[0])
-      .join("")
-      .toUpperCase();
-  }
+  const parts = full.split(" ").filter(Boolean);
+  const lastName = parts[parts.length - 1]; // lấy tên cuối cùng
+
+  return lastName[0].toUpperCase();
+}
 
   const getRoleLabel = (role: string) => {
     const labels: { [key: string]: string } = {
@@ -146,8 +146,8 @@ export function DashboardLayout({ user, children, currentPage, onNavigate, onLog
           <div className="border-t border-gray-200 p-4 space-y-3">
             <div className="flex items-center gap-3">
               <Avatar>
-                <AvatarFallback className="bg-primary text-white">
-                  {getInitials(user)}
+                <AvatarFallback className="bg-primary text-white font-bold">
+                  A
                 </AvatarFallback>
               </Avatar>
               <div className="flex-1 min-w-0">
@@ -196,7 +196,7 @@ export function DashboardLayout({ user, children, currentPage, onNavigate, onLog
                 <Button className="gap-3 relative rounded-sm p-2">
                   <Avatar className="w-9 h-9">
                     <AvatarFallback className="bg-white text-primary font-bold">
-                      {getInitials(user)}
+                      AV
                     </AvatarFallback>
                   </Avatar>
                   <div className="text-left hidden md:block">

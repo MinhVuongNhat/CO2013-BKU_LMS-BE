@@ -1,31 +1,38 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Avatar, AvatarFallback } from '../ui/avatar';
-import { User } from '../../types'; // Sử dụng User từ types chung
-import { Camera, Save, Loader2, Calendar, MapPin, User as UserIcon } from 'lucide-react';
+import { User } from '../../types';
+import { Camera, Save, Loader2, Calendar, MapPin, User as UserIcon, RefreshCw } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { userService } from '../../services/userService';
 import { toast } from 'sonner';
+import { useAuth } from '../../lib/authContext';
 
 interface ProfilePageProps {
   user: User;
 }
 
-export function ProfilePage({ user }: ProfilePageProps) {
+export function ProfilePage({ user: initialUser }: ProfilePageProps) {
+  const { updateUser } = useAuth(); // Lấy hàm updateUser từ context
+  
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isFetching, setIsFetching] = useState(true);
+  
+  // State lưu thông tin user hiện tại
+  const [currentUser, setCurrentUser] = useState<User>(initialUser);
 
-  // Khởi tạo form với dữ liệu từ user prop
+  // Form data cho editing
   const [formData, setFormData] = useState({
-    name: user.name || '',
-    email: user.email || '',
-    phone: user.phone || '',
-    address: user.address || '',
-    dob: user.dob || '',
-    age: user.age || 0,
+    name: '',
+    email: '',
+    phone: '',
+    address: '',
+    dob: '',
+    age: 0,
   });
 
   const [passwordData, setPasswordData] = useState({
@@ -34,51 +41,149 @@ export function ProfilePage({ user }: ProfilePageProps) {
     confirmPassword: ''
   });
 
+  // Hàm fetch thông tin user từ API
+  const fetchUserData = async () => {
+    // Fix: Dùng userId nếu không có id
+    const userIdToFetch = initialUser?.id || (initialUser as any)?.userId;
+    
+    if (!userIdToFetch) {
+      console.error('❌ No valid user ID found:', initialUser);
+      toast.error('Không tìm thấy thông tin người dùng');
+      setIsFetching(false);
+      return;
+    }
+
+    setIsFetching(true);
+    try {
+      const userData = await userService.getUserById(userIdToFetch);
+    
+      const mergedUser = {
+        ...userData,
+        role: initialUser.role || userData.role, 
+      };
+      
+      
+      setCurrentUser(mergedUser);
+      updateUser(mergedUser);
+      
+      setFormData({
+        name: userData.name || '',
+        email: userData.email || '',
+        phone: userData.phone || '',
+        address: userData.address || '',
+        dob: userData.dob || '',
+        age: userData.age || 0,
+      });
+    } catch (error: any) {
+      toast.error('Không thể tải thông tin người dùng');
+      
+      setCurrentUser(initialUser);
+      setFormData({
+        name: initialUser.name || '',
+        email: initialUser.email || '',
+        phone: initialUser.phone || '',
+        address: initialUser.address || '',
+        dob: initialUser.dob || '',
+        age: initialUser.age || 0,
+      });
+    } finally {
+      setIsFetching(false);
+    }
+  };
+
+  // Fetch data khi component mount hoặc khi user ID thay đổi
+  useEffect(() => {
+    const userIdToCheck = initialUser?.id || (initialUser as any)?.userId;
+    
+    if (userIdToCheck) {
+      fetchUserData();
+    } else {
+      // Nếu không có ID, dùng data từ props
+      setCurrentUser(initialUser);
+      setFormData({
+        name: initialUser.name || '',
+        email: initialUser.email || '',
+        phone: initialUser.phone || '',
+        address: initialUser.address || '',
+        dob: initialUser.dob || '',
+        age: initialUser.age || 0,
+      });
+      setIsFetching(false);
+    }
+  }, [initialUser?.id, (initialUser as any)?.userId]);
+
   const getInitials = (name: string) => {
     return name ? name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) : 'U';
   };
 
   const getRoleLabel = (role: string) => {
     const labels: { [key: string]: string } = {
+      Admin: 'Quản trị viên',
+      Instructor: 'Giảng viên',
+      Student: 'Sinh viên',
       admin: 'Quản trị viên',
-      student: 'Sinh viên'
+      student: 'Sinh viên',
+      instructor: 'Giảng viên',
+      teacher: 'Giảng viên'
     };
     return labels[role] || role;
   };
 
-  // Helper: Chuyển đổi ISO date string sang YYYY-MM-DD cho input date
+
   const formatDateForInput = (isoDateString: string) => {
     if (!isoDateString) return '';
-    const date = new Date(isoDateString);
-    return date.toISOString().split('T')[0];
+    try {
+      const date = new Date(isoDateString);
+      return date.toISOString().split('T')[0];
+    } catch {
+      return '';
+    }
   };
 
   // Helper: Hiển thị ngày tháng đẹp (DD/MM/YYYY)
   const formatDateDisplay = (isoDateString: string) => {
     if (!isoDateString) return 'Chưa cập nhật';
-    return new Date(isoDateString).toLocaleDateString('vi-VN');
+    try {
+      return new Date(isoDateString).toLocaleDateString('vi-VN');
+    } catch {
+      return 'Chưa cập nhật';
+    }
   };
 
   // Xử lý lưu thông tin cá nhân
   const handleSaveProfile = async () => {
+    // Fix: Dùng userId nếu không có id
+    const userIdToUse = currentUser?.id || (currentUser as any)?.userId;
+    console.log('🆔 Using ID:', userIdToUse);
+    
+    if (!userIdToUse) {
+      console.error('currentUser:', JSON.stringify(currentUser, null, 2));
+      toast.error('Lỗi: Không tìm thấy ID người dùng');
+      return;
+    }
+
+    if (!formData.name?.trim()) {
+      toast.error('Vui lòng nhập họ tên');
+      return;
+    }
+
     setIsLoading(true);
     try {
       const payload = {
-        name: formData.name,
-        email: formData.email, // Thường email ít khi cho sửa, tùy logic backend
-        phone: formData.phone,
-        address: formData.address,
-        dob: formData.dob, // Gửi lên định dạng YYYY-MM-DD hoặc ISO tùy backend
-        // age thường được tính toán tự động từ dob ở backend, nhưng nếu cần gửi thì gửi
+        name: formData.name.trim(),
+        email: formData.email,
+        phone: formData.phone || '',
+        address: formData.address || '',
+        dob: formData.dob || '',
       };
 
-      await userService.updateUser(user.id, payload);
+      await userService.updateUser(userIdToUse, payload);
       
       toast.success('Cập nhật hồ sơ thành công!');
       setIsEditing(false);
       
-      // Lưu ý: Trong thực tế, bạn nên gọi một hàm refreshUser() từ Context 
-      // để cập nhật lại data toàn cục. Ở đây ta tạm thời giữ UI theo state local.
+      await fetchUserData();
+      
     } catch (error: any) {
       toast.error('Lỗi cập nhật: ' + (error.message || 'Vui lòng thử lại sau'));
     } finally {
@@ -87,11 +192,22 @@ export function ProfilePage({ user }: ProfilePageProps) {
   };
 
   const handleChangePassword = () => {
+    if (!passwordData.currentPassword || !passwordData.newPassword || !passwordData.confirmPassword) {
+      toast.error('Vui lòng điền đầy đủ thông tin');
+      return;
+    }
+
     if (passwordData.newPassword !== passwordData.confirmPassword) {
       toast.error('Mật khẩu xác nhận không khớp');
       return;
     }
-    // Gọi API đổi mật khẩu (cần implement thêm trong userService nếu có)
+
+    if (passwordData.newPassword.length < 6) {
+      toast.error('Mật khẩu mới phải có ít nhất 6 ký tự');
+      return;
+    }
+
+    // TODO: Gọi API đổi mật khẩu
     toast.info('Chức năng đổi mật khẩu đang phát triển');
     
     setPasswordData({
@@ -101,11 +217,63 @@ export function ProfilePage({ user }: ProfilePageProps) {
     });
   };
 
+  const handleCancelEdit = () => {
+    // Reset form data về giá trị hiện tại
+    setFormData({
+      name: currentUser.name || '',
+      email: currentUser.email || '',
+      phone: currentUser.phone || '',
+      address: currentUser.address || '',
+      dob: currentUser.dob || '',
+      age: currentUser.age || 0,
+    });
+    setIsEditing(false);
+  };
+
+  // Show loading skeleton khi đang fetch data
+  if (isFetching) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-primary text-3xl font-bold uppercase">Hồ sơ cá nhân</h1>
+          <p className="text-muted-foreground">Đang tải thông tin...</p>
+        </div>
+        <div className="flex items-center justify-center h-64">
+          <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        </div>
+      </div>
+    );
+  }
+
+  // Kiểm tra nếu không có user data
+  if (!currentUser) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-primary text-3xl font-bold uppercase">Hồ sơ cá nhân</h1>
+          <p className="text-destructive">Không tìm thấy thông tin người dùng</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-primary text-3xl font-bold uppercase">Hồ sơ cá nhân</h1>
-        <p className="text-muted-foreground">Quản lý thông tin cá nhân và cài đặt tài khoản</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-primary text-3xl font-bold uppercase">Hồ sơ cá nhân</h1>
+          <p className="text-muted-foreground">Quản lý thông tin cá nhân và cài đặt tài khoản</p>
+        </div>
+        <Button
+          onClick={fetchUserData}
+          variant="outline"
+          size="sm"
+          className="gap-2"
+          disabled={isFetching || (!currentUser?.id && !(currentUser as any)?.userId)}
+        >
+          <RefreshCw className={`w-4 h-4 ${isFetching ? 'animate-spin' : ''}`} />
+          Làm mới
+        </Button>
       </div>
 
       <div className="grid md:grid-cols-3 gap-6">
@@ -116,20 +284,30 @@ export function ProfilePage({ user }: ProfilePageProps) {
               <div className="relative group cursor-pointer">
                 <Avatar className="w-32 h-32 border-4 border-white shadow-lg">
                   <AvatarFallback className="bg-primary text-white text-3xl font-bold">
-                    {getInitials(formData.name)}
+                    {getInitials(currentUser.name)}
                   </AvatarFallback>
                 </Avatar>
                 <div className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Camera className="w-8 h-8 text-white" />
+                  <Camera className="w-8 h-8 text-white" />
                 </div>
               </div>
-              <h2 className="mt-4 font-semibold text-primary text-xl text-center">{formData.name}</h2>
-              <p className="text-muted-foreground font-medium">{getRoleLabel(user.role)}</p>
+              <h2 className="mt-4 font-semibold text-primary text-xl text-center">{currentUser.name}</h2>
+              <p className="text-muted-foreground font-medium">{getRoleLabel(currentUser.role)}</p>
               
               <div className="mt-4 w-full space-y-2">
-                {user.studentId && (
+                {currentUser.studentId && (
                   <div className="bg-muted/50 p-2 rounded text-center text-sm">
-                    <span className="font-semibold text-primary">MSSV:</span> {user.studentId}
+                    <span className="font-semibold text-primary">MSSV:</span> {currentUser.studentId}
+                  </div>
+                )}
+                {currentUser.teacherId && (
+                  <div className="bg-muted/50 p-2 rounded text-center text-sm">
+                    <span className="font-semibold text-primary">Mã GV:</span> {currentUser.teacherId}
+                  </div>
+                )}
+                {(currentUser.id || (currentUser as any).userId) && (
+                  <div className="bg-muted/50 p-2 rounded text-center text-sm">
+                    <span className="font-semibold text-primary">ID:</span> {currentUser.id || (currentUser as any).userId}
                   </div>
                 )}
               </div>
@@ -148,7 +326,7 @@ export function ProfilePage({ user }: ProfilePageProps) {
                 </Button>
               ) : (
                 <div className="flex gap-2">
-                  <Button onClick={() => setIsEditing(false)} variant="outline" className="font-semibold border-destructive text-destructive hover:bg-destructive/10">
+                  <Button onClick={handleCancelEdit} variant="outline" className="font-semibold border-destructive text-destructive hover:bg-destructive/10">
                     Hủy
                   </Button>
                   <Button onClick={handleSaveProfile} disabled={isLoading} className="bg-primary text-white font-semibold border-2 border-primary">
@@ -191,7 +369,7 @@ export function ProfilePage({ user }: ProfilePageProps) {
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         className="bg-white"
-                        disabled // Thường email là định danh, không cho sửa tùy tiện
+                        disabled
                       />
                     ) : (
                       <div className="p-2 bg-muted/30 rounded border border-transparent font-medium">{formData.email}</div>
@@ -216,7 +394,7 @@ export function ProfilePage({ user }: ProfilePageProps) {
                   {/* Ngày sinh */}
                   <div className="space-y-2">
                     <Label className="font-semibold text-primary flex items-center gap-2">
-                        <Calendar className="w-4 h-4" /> Ngày sinh
+                      <Calendar className="w-4 h-4" /> Ngày sinh
                     </Label>
                     {isEditing ? (
                       <Input
@@ -232,21 +410,20 @@ export function ProfilePage({ user }: ProfilePageProps) {
                     )}
                   </div>
 
-                  {/* Tuổi (Thường là Read-only hoặc tự tính) */}
+                  {/* Tuổi */}
                   <div className="space-y-2">
                     <Label className="font-semibold text-primary flex items-center gap-2">
-                        <UserIcon className="w-4 h-4" /> Tuổi
+                      <UserIcon className="w-4 h-4" /> Tuổi
                     </Label>
                     <div className="p-2 bg-muted/30 rounded border border-transparent font-medium text-gray-500">
-                        {/* Hiển thị tuổi từ DB hoặc tính từ DOB */}
-                        {formData.age || (formData.dob ? new Date().getFullYear() - new Date(formData.dob).getFullYear() : '---')}
+                      {currentUser.age || (formData.dob ? new Date().getFullYear() - new Date(formData.dob).getFullYear() : '---')}
                     </div>
                   </div>
 
                   {/* Địa chỉ */}
                   <div className="space-y-2 md:col-span-2">
                     <Label className="font-semibold text-primary flex items-center gap-2">
-                        <MapPin className="w-4 h-4" /> Địa chỉ
+                      <MapPin className="w-4 h-4" /> Địa chỉ
                     </Label>
                     {isEditing ? (
                       <Input
@@ -306,8 +483,8 @@ export function ProfilePage({ user }: ProfilePageProps) {
         </Card>
       </div>
 
-      {/* Additional Stats */}
-      {user.role === 'Student' && (
+      {/* Additional Stats - Chỉ hiển thị cho Sinh viên */}
+      {currentUser.role === 'Student' && (
         <Card>
           <CardHeader>
             <CardTitle className="text-primary font-bold">Thống kê học tập</CardTitle>
