@@ -3,7 +3,7 @@
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 if (!BASE_URL) {
-  console.error("❌ LỖI: VITE_API_URL chưa được cấu hình trong file .env");
+  console.error("LỖI: VITE_API_URL chưa được cấu hình trong file .env");
 }
 
 interface RequestOptions extends RequestInit {
@@ -13,7 +13,6 @@ interface RequestOptions extends RequestInit {
 async function request<T>(endpoint: string, options: RequestOptions = {}): Promise<T> {
   const { data, headers, ...customConfig } = options;
 
-  // Nếu BASE_URL null → cảnh báo
   if (!BASE_URL) {
     throw new Error("VITE_API_URL is not defined — kiểm tra file .env");
   }

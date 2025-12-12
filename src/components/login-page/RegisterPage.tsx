@@ -28,8 +28,7 @@ export function RegisterPage({ onRegister, onNavigateToLogin }: RegisterPageProp
     e.preventDefault();
     setError('');
     setSuccess(false);
-
-    // Validation
+    
     if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword) {
       setError('Vui lòng nhập đầy đủ thông tin');
       return;

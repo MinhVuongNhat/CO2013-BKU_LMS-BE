@@ -84,7 +84,7 @@ export function DashboardLayout({ user, children, currentPage, onNavigate, onLog
   if (!full) return "";
 
   const parts = full.split(" ").filter(Boolean);
-  const lastName = parts[parts.length - 1]; // lấy tên cuối cùng
+  const lastName = parts[parts.length - 1];
 
   return lastName[0].toUpperCase();
 }

@@ -44,11 +44,8 @@ export function LoginPage({ onNavigateToRegister, onNavigateToForgotPassword }: 
         return;
       }
 
-      // Lưu token để sử dụng cho API tiếp theo
       localStorage.setItem("token", data.access_token);
       localStorage.setItem("user", JSON.stringify(data.user));
-
-      // Điều hướng vào dashboard
       login(data.user);
 
       if (data.user?.Role === "Admin") {

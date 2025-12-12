@@ -9,7 +9,7 @@ interface LoginResponse {
     accountId: string;
     userId: string;
     email: string;
-    role: string; // "Admin", "Teacher", "Student"
+    role: string;
   };
 }
 
@@ -19,11 +19,9 @@ export const authService = {
   },
   
   logout: () => {
-    // Xóa các key mà hệ thống đã lưu
-    // Lưu ý: Cần khớp với key đã lưu trong LoginPage và AuthContext
     localStorage.removeItem('access_token');
     localStorage.removeItem('user'); 
-    localStorage.removeItem('token'); // Xóa dự phòng nếu code cũ còn dùng
+    localStorage.removeItem('token');
   },
 
   register: async (email: string, password: string, name: string, role: string): Promise<any> => {

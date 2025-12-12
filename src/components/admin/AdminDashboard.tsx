@@ -13,12 +13,10 @@ interface AdminDashboardProps {
 }
 
 export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
-  // States cho dữ liệu từ API
   const [users, setUsers] = useState<User[]>([]);
   const [courses, setCourses] = useState<Course[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Fetch data từ API
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -30,7 +28,6 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
         setCourses(coursesData);
       } catch (error) {
         console.error("Lỗi tải dữ liệu dashboard:", error);
-        // Có thể thêm toast error nếu cần
       } finally {
         setIsLoading(false);
       }
@@ -39,14 +36,10 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
     fetchData();
   }, []);
 
-  // Tính toán stats từ users (role mapping: admin, teacher, student)
   const totalUsers = users.length;
   const admins = 4;
   const teachers = 7;
-
-  // Student = tổng - admin - teacher
   const students = Math.max(users.length - admins - teachers, 0);
-  // Dữ liệu cho chart phân bố role (dựa trên stats thực)
   const userRoleData = [
     { name: 'Sinh viên', value: students, color: '#2F80ED' },
     { name: 'Giảng viên', value: teachers, color: '#27AE60' },

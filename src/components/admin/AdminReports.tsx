@@ -267,32 +267,6 @@ export function AdminReports() {
             </div>
           </CardContent>
         </Card>
-
-        {/* <Card className="border-2">
-          <CardHeader>
-            <CardTitle className="text-primary font-bold text-lg">Hiệu suất hệ thống</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Uptime</span>
-                <span className="text-green-600">98.5%</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Response time</span>
-                <span className="text-green-600">145ms</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Active users</span>
-                <span className="text-green-600">92</span>
-              </div>
-              <div className="flex justify-between pt-2 border-t">
-                <span className="text-primary font-semibold">Trạng thái</span>
-                <span className="text-destructive text-xl font-bold">Hoạt động tốt</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card> */}
       </div>
     </div>
   );

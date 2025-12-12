@@ -16,16 +16,12 @@ interface ProfilePageProps {
 }
 
 export function ProfilePage({ user: initialUser }: ProfilePageProps) {
-  const { updateUser } = useAuth(); // Lấy hàm updateUser từ context
+  const { updateUser } = useAuth();
   
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isFetching, setIsFetching] = useState(true);
-  
-  // State lưu thông tin user hiện tại
   const [currentUser, setCurrentUser] = useState<User>(initialUser);
-
-  // Form data cho editing
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -41,13 +37,11 @@ export function ProfilePage({ user: initialUser }: ProfilePageProps) {
     confirmPassword: ''
   });
 
-  // Hàm fetch thông tin user từ API
   const fetchUserData = async () => {
-    // Fix: Dùng userId nếu không có id
     const userIdToFetch = initialUser?.id || (initialUser as any)?.userId;
     
     if (!userIdToFetch) {
-      console.error('❌ No valid user ID found:', initialUser);
+      console.error('No valid user ID found:', initialUser);
       toast.error('Không tìm thấy thông tin người dùng');
       setIsFetching(false);
       return;
@@ -91,14 +85,12 @@ export function ProfilePage({ user: initialUser }: ProfilePageProps) {
     }
   };
 
-  // Fetch data khi component mount hoặc khi user ID thay đổi
   useEffect(() => {
     const userIdToCheck = initialUser?.id || (initialUser as any)?.userId;
     
     if (userIdToCheck) {
       fetchUserData();
     } else {
-      // Nếu không có ID, dùng data từ props
       setCurrentUser(initialUser);
       setFormData({
         name: initialUser.name || '',
@@ -140,7 +132,6 @@ export function ProfilePage({ user: initialUser }: ProfilePageProps) {
     }
   };
 
-  // Helper: Hiển thị ngày tháng đẹp (DD/MM/YYYY)
   const formatDateDisplay = (isoDateString: string) => {
     if (!isoDateString) return 'Chưa cập nhật';
     try {
@@ -150,9 +141,7 @@ export function ProfilePage({ user: initialUser }: ProfilePageProps) {
     }
   };
 
-  // Xử lý lưu thông tin cá nhân
   const handleSaveProfile = async () => {
-    // Fix: Dùng userId nếu không có id
     const userIdToUse = currentUser?.id || (currentUser as any)?.userId;
     console.log('🆔 Using ID:', userIdToUse);
     
@@ -207,7 +196,6 @@ export function ProfilePage({ user: initialUser }: ProfilePageProps) {
       return;
     }
 
-    // TODO: Gọi API đổi mật khẩu
     toast.info('Chức năng đổi mật khẩu đang phát triển');
     
     setPasswordData({
@@ -218,7 +206,6 @@ export function ProfilePage({ user: initialUser }: ProfilePageProps) {
   };
 
   const handleCancelEdit = () => {
-    // Reset form data về giá trị hiện tại
     setFormData({
       name: currentUser.name || '',
       email: currentUser.email || '',
@@ -230,7 +217,6 @@ export function ProfilePage({ user: initialUser }: ProfilePageProps) {
     setIsEditing(false);
   };
 
-  // Show loading skeleton khi đang fetch data
   if (isFetching) {
     return (
       <div className="space-y-6">
@@ -245,7 +231,6 @@ export function ProfilePage({ user: initialUser }: ProfilePageProps) {
     );
   }
 
-  // Kiểm tra nếu không có user data
   if (!currentUser) {
     return (
       <div className="space-y-6">

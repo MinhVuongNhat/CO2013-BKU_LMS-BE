@@ -6,7 +6,6 @@ import { ForgotPasswordPage } from './components/login-page/ForgotPasswordPage';
 import { DashboardLayout } from './components/login-page/DashboardLayout';
 import { Toaster } from './components/ui/sonner';
 
-// Import components (Giữ nguyên các import của bạn)
 import { StudentDashboard } from './components/student/StudentDashboard';
 import { StudentCourses } from './components/student/StudentCourses';
 import { CourseDetail } from './components/student/CourseDetail';
@@ -45,7 +44,6 @@ function AppContent() {
     }
   }
 
-  // Mỗi role sẽ có một object định nghĩa các page
   const renderContent = () => {
     const commonProps = { user, onNavigate: handleNavigate };
     

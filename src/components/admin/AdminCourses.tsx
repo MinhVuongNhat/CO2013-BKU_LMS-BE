@@ -80,7 +80,7 @@ export function AdminCourses() {
     ? enrollments.filter(e => e.courseId === selectedCourse.id)
     : [];
 
-  // Logic Filter cho Enrollment (MỚI)
+  // Logic Filter cho Enrollment
   const filteredEnrollments = courseEnrollments.filter(enrollment => 
     enrollment.studentName.toLowerCase().includes(enrollmentSearchQuery.toLowerCase()) ||
     enrollment.studentId.toLowerCase().includes(enrollmentSearchQuery.toLowerCase()) ||

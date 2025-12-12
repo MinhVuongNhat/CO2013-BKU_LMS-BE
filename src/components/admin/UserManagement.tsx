@@ -12,27 +12,18 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { toast } from 'sonner';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '../ui/alert-dialog';
 import { Search, Plus, Trash2, Edit, Loader2, Eye, Calendar, MapPin, User as UserIcon, Mail, Phone } from 'lucide-react';
-
-// Import Types và Service
 import { User } from '../../types';
 import { userService } from '../../services/userService';
 
 export function UserManagement() {
   const [searchQuery, setSearchQuery] = useState('');
-  
-  // State quản lý dữ liệu và loading
   const [users, setUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-
-  // State cho các Dialog
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [viewDialogOpen, setViewDialogOpen] = useState(false); 
-
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
-
-  // Form state
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -40,11 +31,10 @@ export function UserManagement() {
     password: '',
     phone: '',
     address: '',
-    dob: '', // Thêm ngày sinh
-    id: ''   // Dùng để chứa StudentID/TeacherID
+    dob: '',
+    id: ''
   });
 
-  // 1. Hàm gọi API lấy danh sách User
   const fetchUsers = async () => {
     try {
       const data = await userService.getAllUsers();
@@ -61,7 +51,6 @@ export function UserManagement() {
     fetchUsers();
   }, []);
 
-  // Filter ở Client
   const filteredUsers = users.filter(user =>
     user.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
     user.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -80,7 +69,6 @@ export function UserManagement() {
     return variants[roleLower] || variants.student;
   };
 
-  // Helper: Hiển thị ngày (DD/MM/YYYY) cho người dùng xem
   const formatDateDisplay = (dateString?: string) => {
     if (!dateString) return 'Chưa cập nhật';
     return new Date(dateString).toLocaleDateString('vi-VN', {
@@ -88,7 +76,6 @@ export function UserManagement() {
     });
   };
 
-  // Helper: Chuyển ngày sang format YYYY-MM-DD cho input type="date"
   const formatDateForInput = (dateString?: string) => {
     if (!dateString) return '';
     try {
@@ -98,7 +85,6 @@ export function UserManagement() {
     }
   };
 
-  // Helper reset form
   const resetForm = () => {
     setFormData({ 
       name: '', 
@@ -112,8 +98,6 @@ export function UserManagement() {
     });
   };
 
-  // --- HANDLERS MỞ DIALOG ---
-
   const openCreateDialog = () => {
     resetForm();
     setCreateDialogOpen(true);
@@ -126,16 +110,15 @@ export function UserManagement() {
 
   const openEditDialog = (user: User) => {
     setSelectedUser(user);
-    // Map dữ liệu từ user đang chọn vào form
     setFormData({
       name: user.name,
       email: user.email,
       role: user.role,
-      password: '', // Không hiển thị password cũ
+      password: '',
       phone: user.phone || '',
       address: user.address || '',
-      dob: formatDateForInput(user.dob), // Chuyển đổi ngày
-      id: user.studentId || user.teacherId || '' // Lấy ID riêng nếu có
+      dob: formatDateForInput(user.dob),
+      id: user.studentId || user.teacherId || ''
     });
     setEditDialogOpen(true);
   };
@@ -145,9 +128,6 @@ export function UserManagement() {
     setDeleteDialogOpen(true);
   };
 
-  // --- HANDLERS GỌI API ---
-
-  // 2. Tạo User mới
   const handleCreateUser = async () => {
     if (!formData.name || !formData.email) {
       toast.error('Vui lòng điền đầy đủ thông tin bắt buộc');
@@ -161,7 +141,6 @@ export function UserManagement() {
         phone: formData.phone || undefined,
         address: formData.address || undefined,
         dob: formData.dob || undefined,
-        // Map ID riêng dựa trên role
         studentId: formData.role === 'Student' ? formData.id : undefined,
       };
 
@@ -176,19 +155,17 @@ export function UserManagement() {
     }
   };
 
-  // 3. Cập nhật User
   const handleEditUser = async () => {
     if (!selectedUser) return;
 
     try {
-      // Chuẩn bị payload đầy đủ các trường cần sửa
       const payload = {
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
         address: formData.address,
         dob: formData.dob,
-        role: formData.role // Gửi role để userService xử lý logic (nếu cần)
+        role: formData.role
       };
 
       await userService.updateUser(selectedUser.id, payload);
@@ -202,7 +179,6 @@ export function UserManagement() {
     }
   };
 
-  // 4. Xóa User
   const handleDeleteUser = async () => {
     if (!selectedUser) return;
 
@@ -218,7 +194,6 @@ export function UserManagement() {
     }
   };
 
-  // Render Loading
   if (isLoading) {
     return (
       <div className="flex h-[50vh] w-full items-center justify-center">
@@ -244,7 +219,7 @@ export function UserManagement() {
               <div className="font-bold ">Tạo người dùng mới</div>
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-2xl"> {/* Tăng chiều rộng để đẹp hơn */}
+          <DialogContent className="max-w-2xl">
             <DialogHeader>
               <DialogTitle className="font-bold text-primary text-2xl">Tạo người dùng mới</DialogTitle>
               <DialogDescription>
@@ -523,7 +498,7 @@ export function UserManagement() {
                     <TableRow 
                       key={user.id} 
                       className="even:bg-blue-50 hover:bg-blue-100 transition-colors duration-200 cursor-pointer"
-                      onClick={() => openViewDialog(user)} // Click hàng để xem chi tiết
+                      onClick={() => openViewDialog(user)}
                     >
                       <TableCell className="text-destructive font-bold">{user.name}</TableCell>
                       <TableCell className="font-semibold italic">{user.email}</TableCell>
@@ -537,7 +512,7 @@ export function UserManagement() {
                             size="sm" 
                             variant="ghost" 
                             onClick={(e) => {
-                              e.stopPropagation(); // Ngăn click row
+                              e.stopPropagation();
                               openViewDialog(user);
                             }}
                           >
@@ -547,7 +522,7 @@ export function UserManagement() {
                             size="sm" 
                             variant="ghost" 
                             onClick={(e) => {
-                              e.stopPropagation(); // Ngăn click row
+                              e.stopPropagation();
                               openEditDialog(user);
                             }}
                           >
@@ -558,7 +533,7 @@ export function UserManagement() {
                             variant="ghost"
                             className="text-destructive"
                             onClick={(e) => {
-                              e.stopPropagation(); // Ngăn click row
+                              e.stopPropagation();
                               openDeleteDialog(user);
                             }}
                           >

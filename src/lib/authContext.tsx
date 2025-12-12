@@ -6,7 +6,7 @@ interface AuthContextType {
   login: (userData: any) => void;
   logout: () => void;
   register: (data: any) => void;
-  updateUser: (userData: User) => void; // Thêm hàm update user
+  updateUser: (userData: User) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -14,7 +14,6 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
 
-  // Load user từ localStorage nếu có
   useEffect(() => {
     const savedUser = localStorage.getItem("user");
     if (savedUser) {
@@ -28,8 +27,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = (userData: any) => {
-    
-    // Map userData từ login response sang User type
+
     const mappedUser: User = {
       id: userData.userId || userData.id || userData.UserID,
       email: userData.email,
@@ -72,7 +70,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.setItem("user", JSON.stringify(mappedUser));
   };
 
-  // Hàm cập nhật user trong context (sau khi edit profile)
   const updateUser = (userData: User) => {
     setUser(userData);
     localStorage.setItem("user", JSON.stringify(userData));

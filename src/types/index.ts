@@ -8,31 +8,29 @@ export interface User {
   phone?: string;
   studentId?: string;
   teacherId?: string;
-  // Bổ sung các trường từ API
   address?: string;
   age?: number;
-  dob?: string; // Date of Birth
+  dob?: string;
 }
 
 export interface Course {
-  id: string;           // Map từ CourseID
-  name: string;         // Map từ Description (Theo yêu cầu của bạn)
-  originalName: string; // Map từ Name (Tên tiếng Anh)
-  code: string;         // Map từ CourseID để hiển thị mã
+  id: string;
+  name: string;
+  originalName: string;
+  code: string;
   credit: number;
   duration: number;
   deptId: string;
-  // Các trường tính toán ở frontend
   studentCount?: number; 
 }
 
 export interface Enrollment {
-  id: string;           // Map từ EnrollID
+  id: string;
   studentId: string;
   courseId: string;
   status: string;
   semester: string;
-  grade: string;        // GradeFinal
+  grade: string;
   schedule: string;
   instructorId: string;
   studentName: string;
